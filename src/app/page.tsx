@@ -4,25 +4,20 @@
 import { useState, useEffect, useRef } from "react";
 import { PresentationSection } from "@/components/PresentationSection";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, Info, Zap, Shield, Users, Trophy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 export default function Home() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
-  const totalSections = 5;
+  const totalSections = 8;
 
-  /**
-   * Next.js serves files in the /public directory from the root path.
-   * Since the 'videos' folder is now in 'public/', we use paths starting with /videos/.
-   */
   const videos = [
-    "/videos/Sunrise_over_Stockholm_202604071643.mp4",
-    "/videos/Modern_tech_office_202604071647.mp4",
-    "/videos/AI_agents_collaborating_202604071648.mp4",
-    "/videos/Digital_documents_sorted_202604071650.mp4",
-    "/videos/Sunrise_over_Stockholm_202604071643.mp4",
+    "/videos/Sunrise_over_Stockholm_202604071643.mp4", // 0: Intro/Outro
+    "/videos/Modern_tech_office_202604071647.mp4",    // 1: The Goal / Lessons
+    "/videos/AI_agents_collaborating_202604071648.mp4", // 2: Teams / Collaboration
+    "/videos/Digital_documents_sorted_202604071650.mp4", // 3: Data / Analysis
   ];
 
   const scrollToSection = (index: number) => {
@@ -56,7 +51,7 @@ export default function Home() {
       const scrollY = container.scrollTop;
       const height = window.innerHeight;
       const newIndex = Math.round(scrollY / height);
-      if (newIndex !== currentIndex) {
+      if (newIndex !== currentIndex && newIndex < totalSections) {
         setCurrentIndex(newIndex);
       }
     };
@@ -110,67 +105,130 @@ export default function Home() {
         fallbackImageUrl={PlaceHolderImages.find(img => img.id === "hero-bg")?.imageUrl || ""}
       >
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-headline font-bold tracking-tight text-white max-w-4xl leading-tight">
-          Hackathon. <span className="text-accent">Two days.</span> Three teams. Fifteen brains.
+          Hackathon. <span className="text-accent">Two days.</span> <br/> Three teams. Fifteen brains.
         </h1>
+        <p className="text-white/60 text-lg md:text-xl font-light tracking-widest uppercase mt-4">
+          A Journey into Agentic AI
+        </p>
       </PresentationSection>
 
-      {/* Section 2: The Challenge */}
+      {/* Section 2: The Quest */}
       <PresentationSection 
         videoUrl={videos[1]} 
         fallbackImageUrl={PlaceHolderImages.find(img => img.id === "tax-agency-bg")?.imageUrl || ""}
       >
-        <p className="text-2xl md:text-4xl lg:text-5xl font-body font-light text-white max-w-5xl leading-relaxed">
-          Could we, in just two days - without prior preparation - build solutions where <span className="text-accent font-semibold">multiple AI agents</span> collaborate to solve real problems at the Swedish Tax Agency?
-        </p>
-      </PresentationSection>
-
-      {/* Section 3: Team Alpha */}
-      <PresentationSection 
-        videoUrl={videos[2]} 
-        fallbackImageUrl={PlaceHolderImages.find(img => img.id === "team-bg")?.imageUrl || ""}
-      >
-        <div className="space-y-8">
-          <h2 className="text-3xl md:text-5xl font-headline font-bold text-accent uppercase tracking-widest">
-            Team Alpha: Influencer Risk
-          </h2>
-          <p className="text-xl md:text-3xl font-body text-white/90 max-w-3xl mx-auto leading-relaxed">
-            One agent scrapes the web and collects social media data. <br className="hidden md:block" />
-            A valuation agent estimates the value of products and gifts.
+        <div className="space-y-6 max-w-5xl">
+          <Info className="h-12 w-12 text-accent mx-auto mb-4" />
+          <h2 className="text-3xl md:text-5xl font-headline font-bold text-white">The Bold Mission</h2>
+          <p className="text-xl md:text-3xl font-body font-light text-white/90 leading-relaxed">
+            Could we build solutions where <span className="text-accent font-semibold">multiple AI agents</span> collaborate to solve real problems at the Swedish Tax Agency?
           </p>
         </div>
       </PresentationSection>
 
-      {/* Section 4: Takeaways */}
+      {/* Section 3: Team Alpha (Influencer Risk) */}
       <PresentationSection 
-        videoUrl={videos[3]} 
+        videoUrl={videos[2]} 
         fallbackImageUrl={PlaceHolderImages.find(img => img.id === "agent-bg")?.imageUrl || ""}
       >
-        <div className="space-y-12">
-          <div className="space-y-4">
-            <h3 className="text-accent text-sm md:text-lg font-bold uppercase tracking-[0.3em]">Key Takeaways</h3>
-            <p className="text-2xl md:text-4xl font-body text-white max-w-4xl italic">
-              "More agents are more powerful - when agents are given roles, responsibilities, and peers, one plus one can become three."
-            </p>
+        <div className="space-y-8">
+          <div className="inline-block px-4 py-1 bg-accent/20 border border-accent/30 rounded-full text-accent text-sm font-bold uppercase tracking-widest">
+            The Swarm Approach
           </div>
-          <div className="h-px w-24 bg-accent/30 mx-auto" />
-          <p className="text-xl md:text-3xl font-body text-white/80 font-medium">
+          <h2 className="text-3xl md:text-5xl font-headline font-bold text-white">Team Alpha: Influencer Risk</h2>
+          <div className="grid md:grid-cols-2 gap-8 text-left max-w-4xl mx-auto">
+            <div className="p-6 bg-white/5 rounded-xl border border-white/10 backdrop-blur-md">
+              <h4 className="text-accent font-bold mb-2">Scraping Agent</h4>
+              <p className="text-white/80 text-sm">Collects social media data and brand deals at scale.</p>
+            </div>
+            <div className="p-6 bg-white/5 rounded-xl border border-white/10 backdrop-blur-md">
+              <h4 className="text-accent font-bold mb-2">Valuation Agent</h4>
+              <p className="text-white/80 text-sm">Estimates gift values and compares with declared income.</p>
+            </div>
+          </div>
+        </div>
+      </PresentationSection>
+
+      {/* Section 4: Team Bravo (Skatti 2.0) */}
+      <PresentationSection 
+        videoUrl={videos[3]} 
+        fallbackImageUrl={PlaceHolderImages.find(img => img.id === "bravo-bg")?.imageUrl || ""}
+      >
+        <div className="space-y-8 max-w-4xl">
+          <Zap className="h-12 w-12 text-accent mx-auto" />
+          <h2 className="text-3xl md:text-5xl font-headline font-bold text-white">Team Bravo: Skatti 2.0</h2>
+          <p className="text-xl md:text-2xl text-white/90 italic">
+            "Answering 'how' is very different from 'what'."
+          </p>
+          <p className="text-lg text-white/70">
+            A lesson in precision: For legal answers, LLMs aren't enough. <br className="hidden md:block" /> 
+            For <span className="text-white font-semibold">reasoning and pedagogy</span>, they are brilliant colleagues.
+          </p>
+        </div>
+      </PresentationSection>
+
+      {/* Section 5: Team Delta (Holistic Risk) */}
+      <PresentationSection 
+        videoUrl={videos[3]} 
+        fallbackImageUrl={PlaceHolderImages.find(img => img.id === "delta-bg")?.imageUrl || ""}
+      >
+        <div className="space-y-8 max-w-4xl">
+          <Shield className="h-12 w-12 text-accent mx-auto" />
+          <h2 className="text-3xl md:text-5xl font-headline font-bold text-white">Team Delta: Holistic View</h2>
+          <p className="text-xl md:text-2xl text-white/90">
+            Drowning in data? <span className="text-accent">Delta automated the compile.</span>
+          </p>
+          <div className="flex flex-wrap justify-center gap-4 mt-6">
+            <span className="px-3 py-1 bg-white/10 rounded border border-white/20 text-xs">Annual Reports</span>
+            <span className="px-3 py-1 bg-white/10 rounded border border-white/20 text-xs">Registry Data</span>
+            <span className="px-3 py-1 bg-white/10 rounded border border-white/20 text-xs">Statistics Sweden</span>
+          </div>
+        </div>
+      </PresentationSection>
+
+      {/* Section 6: The Verdict */}
+      <PresentationSection 
+        videoUrl={videos[1]} 
+        fallbackImageUrl={PlaceHolderImages.find(img => img.id === "winner-bg")?.imageUrl || ""}
+      >
+        <Trophy className="h-16 w-16 text-accent mx-auto mb-6" />
+        <h2 className="text-3xl md:text-5xl font-headline font-bold text-white mb-4">The Winner: Team Alpha</h2>
+        <p className="text-xl md:text-3xl font-body text-white/80 max-w-4xl mx-auto leading-relaxed">
+          Dynamic orchestration. Real agents, not just API calls. <br className="hidden md:block" />
+          They showed how <span className="text-accent font-bold">1 + 1 can become 3</span> when agents are given roles and peers.
+        </p>
+      </PresentationSection>
+
+      {/* Section 7: The Core Lesson */}
+      <PresentationSection 
+        videoUrl={videos[2]} 
+        fallbackImageUrl={PlaceHolderImages.find(img => img.id === "takeaway-bg")?.imageUrl || ""}
+      >
+        <div className="space-y-12 max-w-5xl">
+          <h3 className="text-accent text-sm md:text-lg font-bold uppercase tracking-[0.4em]">The Digital Team Philosophy</h3>
+          <p className="text-2xl md:text-4xl font-body text-white italic leading-snug">
+            "Agents are like developers with total world knowledge and <span className="text-accent">zero judgment.</span> They need boundaries, structure, and peers."
+          </p>
+          <div className="h-px w-32 bg-accent/30 mx-auto" />
+          <p className="text-xl md:text-2xl font-body text-white/70">
             Structure is more complex than technology.
           </p>
         </div>
       </PresentationSection>
 
-      {/* Section 5: Conclusion */}
+      {/* Section 8: The Future */}
       <PresentationSection 
-        videoUrl={videos[4]} 
-        fallbackImageUrl={PlaceHolderImages.find(img => img.id === "takeaway-bg")?.imageUrl || ""}
+        videoUrl={videos[0]} 
+        fallbackImageUrl={PlaceHolderImages.find(img => img.id === "hero-bg")?.imageUrl || ""}
       >
-        <p className="text-xl md:text-3xl lg:text-4xl font-body font-light text-white max-w-4xl leading-relaxed">
-          Because agents are not just technology. <br className="hidden md:block" />
-          They're <span className="text-accent font-semibold underline underline-offset-8">teammates without judgment.</span> <br className="hidden md:block" />
-          They need boundaries, orchestration, and patience.
+        <Users className="h-12 w-12 text-accent mx-auto mb-6" />
+        <p className="text-xl md:text-3xl lg:text-4xl font-body font-light text-white max-w-4xl leading-relaxed mb-12">
+          The future is here. Agents are no longer science fiction. <br className="hidden md:block" />
+          They're <span className="text-accent font-semibold underline underline-offset-8 italic">teammates without judgment.</span>
         </p>
-        <div className="mt-16 animate-bounce">
-          <div className="text-accent/50 text-xs uppercase tracking-widest">NarrativeFlow Presentation</div>
+        <div className="space-y-4">
+          <div className="text-accent/50 text-xs uppercase tracking-widest">NarrativeFlow: The Journey Continues</div>
+          <p className="text-white/40 text-sm">Thank You for Watching</p>
         </div>
       </PresentationSection>
     </main>

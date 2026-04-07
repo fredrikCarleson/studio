@@ -30,6 +30,24 @@
       "description": "Complex structure and connections",
       "imageUrl": "https://picsum.photos/seed/structure/1920/1080",
       "imageHint": "structure complexity"
+    },
+    {
+      "id": "bravo-bg",
+      "description": "Customer service digital assistant",
+      "imageUrl": "https://picsum.photos/seed/customer/1920/1080",
+      "imageHint": "digital assistant"
+    },
+    {
+      "id": "delta-bg",
+      "description": "Financial reports and analysis",
+      "imageUrl": "https://picsum.photos/seed/finance/1920/1080",
+      "imageHint": "data analysis"
+    },
+    {
+      "id": "winner-bg",
+      "description": "Success and celebration abstract",
+      "imageUrl": "https://picsum.photos/seed/success/1920/1080",
+      "imageHint": "success light"
     }
   ]
 }
