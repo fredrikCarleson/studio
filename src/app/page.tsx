@@ -4,7 +4,7 @@
 import { useState, useEffect, useRef } from "react";
 import { PresentationSection } from "@/components/PresentationSection";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { ChevronUp, ChevronDown, ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -13,12 +13,13 @@ export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
   const totalSections = 5;
 
+  // These paths assume you have placed your MP4 files in public/videos/
   const videos = [
-    "https://joy1.videvo.net/videvo_files/video/free/video0467/large_watermarked/_import_615307779b5030.76863773_preview.mp4",
-    "https://joy1.videvo.net/videvo_files/video/free/video0467/large_watermarked/_import_61530d1d60f4b3.56441467_preview.mp4",
-    "https://joy1.videvo.net/videvo_files/video/free/2014-12/large_watermarked/Raindrops_And_Puddle_preview.mp4",
-    "https://joy1.videvo.net/videvo_files/video/free/2019-11/large_watermarked/190828_27_Supernova_06_preview.mp4",
-    "https://joy1.videvo.net/videvo_files/video/free/2014-12/large_watermarked/Network_preview.mp4",
+    "/videos/Sunrise_over_Stockholm_202604071643.mp4",
+    "/videos/Modern_tech_office_202604071647.mp4",
+    "/videos/AI_agents_collaborating_202604071648.mp4",
+    "/videos/Digital_documents_sorted_202604071650.mp4",
+    "/videos/Sunrise_over_Stockholm_202604071643.mp4", // Loop back to the beautiful Stockholm view for the conclusion
   ];
 
   const scrollToSection = (index: number) => {
@@ -44,7 +45,6 @@ export default function Home() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [currentIndex]);
 
-  // Update index based on scroll position to keep UI buttons in sync with manual scrolling
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -114,7 +114,7 @@ export default function Home() {
       {/* Section 2: The Challenge */}
       <PresentationSection 
         videoUrl={videos[1]} 
-        fallbackImageUrl={PlaceHolderImages.find(img => img.id === "team-bg")?.imageUrl || ""}
+        fallbackImageUrl={PlaceHolderImages.find(img => img.id === "tax-agency-bg")?.imageUrl || ""}
       >
         <p className="text-2xl md:text-4xl lg:text-5xl font-body font-light text-white max-w-5xl leading-relaxed">
           Could we, in just two days - without prior preparation - build solutions where <span className="text-accent font-semibold">multiple AI agents</span> collaborate to solve real problems at the Swedish Tax Agency?
@@ -124,7 +124,7 @@ export default function Home() {
       {/* Section 3: Team Alpha */}
       <PresentationSection 
         videoUrl={videos[2]} 
-        fallbackImageUrl={PlaceHolderImages.find(img => img.id === "tax-agency-bg")?.imageUrl || ""}
+        fallbackImageUrl={PlaceHolderImages.find(img => img.id === "team-bg")?.imageUrl || ""}
       >
         <div className="space-y-8">
           <h2 className="text-3xl md:text-5xl font-headline font-bold text-accent uppercase tracking-widest">
