@@ -16,6 +16,7 @@ export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
   const totalSections = 8;
 
+  // Paths assume videos are in public/videos/
   const videos = [
     "/videos/video_intro.mp4",    // 0: Intro
     "/videos/video_mission.mp4",  // 1: The Quest

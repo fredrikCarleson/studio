@@ -22,20 +22,32 @@ export const PresentationSection: React.FC<PresentationSectionProps> = ({
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    // Ensure the video is properly muted and configured for autoplay
+    video.muted = true;
+    video.defaultMuted = true;
+    video.playsInline = true;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
-          // Force play on visibility to handle mobile/browser power saving
-          if (videoRef.current) {
-            videoRef.current.play().catch(() => {
-              // Handle potential silent play blocking
+          // Attempt to play the video when it comes into view
+          const playPromise = video.play();
+          if (playPromise !== undefined) {
+            playPromise.catch((error) => {
+              console.warn("Autoplay was prevented, or video failed to load:", error);
             });
           }
+        } else {
+          // Pause when not in view to save resources
+          video.pause();
         }
       },
       {
-        threshold: 0.2, // Lower threshold for more reliable trigger
+        threshold: 0.1, // Trigger as soon as the section is 10% visible
       }
     );
 
@@ -44,30 +56,29 @@ export const PresentationSection: React.FC<PresentationSectionProps> = ({
     }
 
     return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
+      observer.disconnect();
     };
-  }, []);
+  }, [videoUrl]);
 
   return (
     <section
       ref={sectionRef}
       className={cn("snap-section flex items-center justify-center relative overflow-hidden", className)}
     >
-      {/* Background Video - Using key to force refresh on source change */}
+      {/* Background Video */}
       <video
         ref={videoRef}
         key={videoUrl}
-        autoPlay
         loop
         muted
         playsInline
         preload="auto"
         poster={fallbackImageUrl}
-        src={videoUrl}
         className="absolute inset-0 w-full h-full object-cover z-0"
-      />
+      >
+        <source src={videoUrl} type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
 
       {/* Dark Overlay */}
       <div className="absolute inset-0 bg-black/60 z-10" />
