@@ -19,19 +19,23 @@ export const PresentationSection: React.FC<PresentationSectionProps> = ({
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
-        } else {
-          // Optional: reset visibility when scrolling away
-          // setIsVisible(false);
+          // Force play on visibility to handle mobile/browser power saving
+          if (videoRef.current) {
+            videoRef.current.play().catch(() => {
+              // Handle potential silent play blocking
+            });
+          }
         }
       },
       {
-        threshold: 0.5,
+        threshold: 0.2, // Lower threshold for more reliable trigger
       }
     );
 
@@ -51,17 +55,19 @@ export const PresentationSection: React.FC<PresentationSectionProps> = ({
       ref={sectionRef}
       className={cn("snap-section flex items-center justify-center relative overflow-hidden", className)}
     >
-      {/* Background Video */}
+      {/* Background Video - Using key to force refresh on source change */}
       <video
+        ref={videoRef}
+        key={videoUrl}
         autoPlay
         loop
         muted
         playsInline
+        preload="auto"
         poster={fallbackImageUrl}
+        src={videoUrl}
         className="absolute inset-0 w-full h-full object-cover z-0"
-      >
-        <source src={videoUrl} type="video/mp4" />
-      </video>
+      />
 
       {/* Dark Overlay */}
       <div className="absolute inset-0 bg-black/60 z-10" />

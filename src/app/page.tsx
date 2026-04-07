@@ -4,7 +4,7 @@
 import { useState, useEffect, useRef } from "react";
 import { PresentationSection } from "@/components/PresentationSection";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { ArrowLeft, ArrowRight, Info, Zap, Shield, Users, Trophy, Timer, Clock } from "lucide-react";
+import { ArrowLeft, ArrowRight, Info, Zap, Shield, Users, Trophy, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
@@ -73,6 +73,7 @@ export default function Home() {
     const handleScroll = () => {
       const scrollY = container.scrollTop;
       const height = window.innerHeight;
+      if (height === 0) return;
       const newIndex = Math.round(scrollY / height);
       if (newIndex !== currentIndex && newIndex < totalSections) {
         setCurrentIndex(newIndex);
