@@ -13,13 +13,17 @@ export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
   const totalSections = 5;
 
-  // These paths assume you have placed your MP4 files in public/videos/
+  /**
+   * IMPORTANT: In Next.js, static assets like videos are typically served from the /public directory.
+   * If these videos are not playing, consider moving the 'videos' folder from 'src/' to 'public/'.
+   * The paths below have been updated to reflect your current structure in src/videos.
+   */
   const videos = [
-    "/videos/Sunrise_over_Stockholm_202604071643.mp4",
-    "/videos/Modern_tech_office_202604071647.mp4",
-    "/videos/AI_agents_collaborating_202604071648.mp4",
-    "/videos/Digital_documents_sorted_202604071650.mp4",
-    "/videos/Sunrise_over_Stockholm_202604071643.mp4", // Loop back to the beautiful Stockholm view for the conclusion
+    "/src/videos/Sunrise_over_Stockholm_202604071643.mp4",
+    "/src/videos/Modern_tech_office_202604071647.mp4",
+    "/src/videos/AI_agents_collaborating_202604071648.mp4",
+    "/src/videos/Digital_documents_sorted_202604071650.mp4",
+    "/src/videos/Sunrise_over_Stockholm_202604071643.mp4",
   ];
 
   const scrollToSection = (index: number) => {
