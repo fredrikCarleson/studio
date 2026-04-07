@@ -16,16 +16,16 @@ export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
   const totalSections = 8;
 
-  // Paths assume videos are in public/videos/
+  // Exact filenames from the user's public/videos folder
   const videos = [
-    "/videos/video_intro.mp4",    // 0: Intro
-    "/videos/video_mission.mp4",  // 1: The Quest
-    "/videos/video_alpha.mp4",    // 2: Team Alpha
-    "/videos/video_bravo.mp4",    // 3: Team Bravo
-    "/videos/video_delta.mp4",    // 4: Team Delta
-    "/videos/video_winner.mp4",   // 5: The Winner
-    "/videos/video_lesson.mp4",   // 6: The Philosophy
-    "/videos/video_future.mp4",   // 7: The Future
+    "/videos/Sunrise_over_Stockholm_202604071643.mp4",    // 0: Intro
+    "/videos/Modern_tech_office_202604071647.mp4",        // 1: The Quest
+    "/videos/AI_agents_collaborating_202604071648.mp4",    // 2: Team Alpha
+    "/videos/Digital_documents_sorted_202604071650.mp4",   // 3: Team Bravo
+    "/videos/Digital_reports_financial_202604071757.mp4",  // 4: Team Delta
+    "/videos/Golden_particles_converging_202604071759.mp4",// 5: The Verdict
+    "/videos/Geometric_shapes_moving_202604071759.mp4",    // 6: The Philosophy
+    "/videos/Digital_horizon_leading_202604071800.mp4",    // 7: The Future
   ];
 
   const scrollToSection = (index: number) => {
