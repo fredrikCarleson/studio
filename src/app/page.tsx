@@ -14,16 +14,15 @@ export default function Home() {
   const totalSections = 5;
 
   /**
-   * IMPORTANT: In Next.js, static assets like videos are typically served from the /public directory.
-   * If these videos are not playing, consider moving the 'videos' folder from 'src/' to 'public/'.
-   * The paths below have been updated to reflect your current structure in src/videos.
+   * Next.js serves files in the /public directory from the root path.
+   * Since the 'videos' folder is now in 'public/', we use paths starting with /videos/.
    */
   const videos = [
-    "/src/videos/Sunrise_over_Stockholm_202604071643.mp4",
-    "/src/videos/Modern_tech_office_202604071647.mp4",
-    "/src/videos/AI_agents_collaborating_202604071648.mp4",
-    "/src/videos/Digital_documents_sorted_202604071650.mp4",
-    "/src/videos/Sunrise_over_Stockholm_202604071643.mp4",
+    "/videos/Sunrise_over_Stockholm_202604071643.mp4",
+    "/videos/Modern_tech_office_202604071647.mp4",
+    "/videos/AI_agents_collaborating_202604071648.mp4",
+    "/videos/Digital_documents_sorted_202604071650.mp4",
+    "/videos/Sunrise_over_Stockholm_202604071643.mp4",
   ];
 
   const scrollToSection = (index: number) => {
