@@ -1,0 +1,35 @@
+
+{
+  "placeholderImages": [
+    {
+      "id": "hero-bg",
+      "description": "Dark cinematic abstract technology background",
+      "imageUrl": "https://picsum.photos/seed/tech1/1920/1080",
+      "imageHint": "technology abstract"
+    },
+    {
+      "id": "team-bg",
+      "description": "Collaboration and brains abstract",
+      "imageUrl": "https://picsum.photos/seed/brains/1920/1080",
+      "imageHint": "neural network"
+    },
+    {
+      "id": "tax-agency-bg",
+      "description": "Modern office architecture",
+      "imageUrl": "https://picsum.photos/seed/office/1920/1080",
+      "imageHint": "modern architecture"
+    },
+    {
+      "id": "agent-bg",
+      "description": "Digital agents and social media risk",
+      "imageUrl": "https://picsum.photos/seed/digital/1920/1080",
+      "imageHint": "digital data"
+    },
+    {
+      "id": "takeaway-bg",
+      "description": "Complex structure and connections",
+      "imageUrl": "https://picsum.photos/seed/structure/1920/1080",
+      "imageHint": "structure complexity"
+    }
+  ]
+}
