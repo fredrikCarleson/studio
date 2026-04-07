@@ -4,37 +4,25 @@
 
 @layer base {
   :root {
-    /* Background: #16161C (240, 20%, 10%) */
     --background: 240 20% 10%;
     --foreground: 0 0% 100%;
-    
     --card: 240 20% 12%;
     --card-foreground: 0 0% 100%;
-    
     --popover: 240 20% 10%;
     --popover-foreground: 0 0% 100%;
-    
-    /* Primary: #2E2E66 (240, 38%, 29%) */
     --primary: 240 38% 29%;
     --primary-foreground: 0 0% 100%;
-    
     --secondary: 240 20% 15%;
     --secondary-foreground: 0 0% 100%;
-    
     --muted: 240 10% 20%;
     --muted-foreground: 240 5% 70%;
-    
-    /* Accent: #66B2CC (196, 53%, 60%) */
     --accent: 196 53% 60%;
     --accent-foreground: 240 20% 10%;
-    
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    
     --border: 240 20% 20%;
     --input: 240 20% 20%;
     --ring: 196 53% 60%;
-    
     --radius: 0.75rem;
   }
 }
@@ -44,7 +32,7 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground overflow-x-hidden;
+    @apply bg-background text-foreground overflow-hidden antialiased;
     scroll-behavior: smooth;
   }
 }
@@ -55,6 +43,7 @@
     height: 100vh;
     overflow-y: scroll;
     scrollbar-width: none;
+    -ms-overflow-style: none;
   }
   .snap-container::-webkit-scrollbar {
     display: none;
@@ -66,13 +55,22 @@
     width: 100%;
     position: relative;
   }
-  .fade-in-up {
+  .film-grain {
+    pointer-events: none;
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    opacity: 0.03;
+    background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+  }
+  .fade-in-stagger > * {
     opacity: 0;
     transform: translateY(20px);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
   }
-  .fade-in-up.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  .fade-in-stagger.visible > *:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0.1s; }
+  .fade-in-stagger.visible > *:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 0.3s; }
+  .fade-in-stagger.visible > *:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 0.5s; }
+  .fade-in-stagger.visible > *:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 0.7s; }
+  .fade-in-stagger.visible > *:nth-child(5) { opacity: 1; transform: translateY(0); transition-delay: 0.9s; }
 }

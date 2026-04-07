@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
@@ -25,47 +24,31 @@ export const PresentationSection: React.FC<PresentationSectionProps> = ({
     const video = videoRef.current;
     if (!video) return;
 
-    // Ensure the video is properly muted and configured for autoplay
-    video.muted = true;
-    video.defaultMuted = true;
-    video.playsInline = true;
-
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
-          // Attempt to play the video when it comes into view
-          const playPromise = video.play();
-          if (playPromise !== undefined) {
-            playPromise.catch((error) => {
-              console.warn("Autoplay was prevented, or video failed to load:", error);
-            });
-          }
+          video.play().catch(() => {});
         } else {
-          // Pause when not in view to save resources
+          setIsVisible(false);
           video.pause();
         }
       },
-      {
-        threshold: 0.1, // Trigger as soon as the section is 10% visible
-      }
+      { threshold: 0.5 }
     );
 
     if (sectionRef.current) {
       observer.observe(sectionRef.current);
     }
 
-    return () => {
-      observer.disconnect();
-    };
-  }, [videoUrl]);
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <section
       ref={sectionRef}
       className={cn("snap-section flex items-center justify-center relative overflow-hidden", className)}
     >
-      {/* Background Video */}
       <video
         ref={videoRef}
         key={videoUrl}
@@ -74,23 +57,18 @@ export const PresentationSection: React.FC<PresentationSectionProps> = ({
         playsInline
         preload="auto"
         poster={fallbackImageUrl}
-        className="absolute inset-0 w-full h-full object-cover z-0"
+        className={cn(
+          "absolute inset-0 w-full h-full object-cover transition-transform duration-[3000ms] ease-out z-0",
+          isVisible ? "scale-105" : "scale-100"
+        )}
       >
         <source src={videoUrl} type="video/mp4" />
-        Your browser does not support the video tag.
       </video>
 
-      {/* Dark Overlay */}
-      <div className="absolute inset-0 bg-black/60 z-10" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/60 to-black/80 z-10" />
 
-      {/* Content */}
-      <div className="relative z-20 container mx-auto px-6 text-center">
-        <div
-          className={cn(
-            "fade-in-up flex flex-col items-center justify-center space-y-6",
-            isVisible && "visible"
-          )}
-        >
+      <div className="relative z-20 container mx-auto px-6">
+        <div className={cn("fade-in-stagger flex flex-col items-center justify-center text-center", isVisible && "visible")}>
           {children}
         </div>
       </div>
