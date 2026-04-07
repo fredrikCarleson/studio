@@ -4,7 +4,7 @@
 import { useState, useEffect, useRef } from "react";
 import { PresentationSection } from "@/components/PresentationSection";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { ArrowLeft, ArrowRight, Info, Zap, Shield, Users, Trophy } from "lucide-react";
+import { ArrowLeft, ArrowRight, Info, Zap, Shield, Users, Trophy, Lightbulb } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -14,10 +14,14 @@ export default function Home() {
   const totalSections = 8;
 
   const videos = [
-    "/videos/Sunrise_over_Stockholm_202604071643.mp4", // 0: Intro/Outro
-    "/videos/Modern_tech_office_202604071647.mp4",    // 1: The Goal / Lessons
-    "/videos/AI_agents_collaborating_202604071648.mp4", // 2: Teams / Collaboration
-    "/videos/Digital_documents_sorted_202604071650.mp4", // 3: Data / Analysis
+    "/videos/video_intro.mp4",    // 0: Intro
+    "/videos/video_mission.mp4",  // 1: The Quest
+    "/videos/video_alpha.mp4",    // 2: Team Alpha
+    "/videos/video_bravo.mp4",    // 3: Team Bravo
+    "/videos/video_delta.mp4",    // 4: Team Delta
+    "/videos/video_winner.mp4",   // 5: The Winner
+    "/videos/video_lesson.mp4",   // 6: The Philosophy
+    "/videos/video_future.mp4",   // 7: The Future
   ];
 
   const scrollToSection = (index: number) => {
@@ -169,7 +173,7 @@ export default function Home() {
 
       {/* Section 5: Team Delta (Holistic Risk) */}
       <PresentationSection 
-        videoUrl={videos[3]} 
+        videoUrl={videos[4]} 
         fallbackImageUrl={PlaceHolderImages.find(img => img.id === "delta-bg")?.imageUrl || ""}
       >
         <div className="space-y-8 max-w-4xl">
@@ -188,7 +192,7 @@ export default function Home() {
 
       {/* Section 6: The Verdict */}
       <PresentationSection 
-        videoUrl={videos[1]} 
+        videoUrl={videos[5]} 
         fallbackImageUrl={PlaceHolderImages.find(img => img.id === "winner-bg")?.imageUrl || ""}
       >
         <Trophy className="h-16 w-16 text-accent mx-auto mb-6" />
@@ -201,7 +205,7 @@ export default function Home() {
 
       {/* Section 7: The Core Lesson */}
       <PresentationSection 
-        videoUrl={videos[2]} 
+        videoUrl={videos[6]} 
         fallbackImageUrl={PlaceHolderImages.find(img => img.id === "takeaway-bg")?.imageUrl || ""}
       >
         <div className="space-y-12 max-w-5xl">
@@ -218,7 +222,7 @@ export default function Home() {
 
       {/* Section 8: The Future */}
       <PresentationSection 
-        videoUrl={videos[0]} 
+        videoUrl={videos[7]} 
         fallbackImageUrl={PlaceHolderImages.find(img => img.id === "hero-bg")?.imageUrl || ""}
       >
         <Users className="h-12 w-12 text-accent mx-auto mb-6" />
