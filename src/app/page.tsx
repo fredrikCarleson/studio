@@ -925,9 +925,9 @@ export default function Home() {
         {/* The three hard questions — each lands as the speaker speaks */}
         <div className="space-y-4 w-full border-l-2 border-accent/30 pl-8">
           {[
-            "Who is accountable when an agent makes a bad call — the developer, the business, or "the system"?",
+            "Who is accountable when an agent makes a bad call — the developer, the business, or \u201cthe system\u201d?",
             "Where do we draw the line between automation and decision-making?",
-            "What does "good enough" mean when the output affects real people?",
+            "What does \u201cgood enough\u201d mean when the output affects real people?",
           ].map((q, i) => (
             <p
               key={i}
