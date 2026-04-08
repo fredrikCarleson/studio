@@ -1,7 +1,8 @@
 
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, memo } from "react";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 interface PresentationSectionProps {
@@ -9,13 +10,15 @@ interface PresentationSectionProps {
   fallbackImageUrl: string;
   children: React.ReactNode;
   className?: string;
+  priority?: boolean;
 }
 
-export const PresentationSection: React.FC<PresentationSectionProps> = ({
+const PresentationSectionBase: React.FC<PresentationSectionProps> = ({
   videoUrl,
   fallbackImageUrl,
   children,
   className,
+  priority = false,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
@@ -39,7 +42,7 @@ export const PresentationSection: React.FC<PresentationSectionProps> = ({
           }
         }
       },
-      { threshold: 0.1, rootMargin: "100px" }
+      { threshold: 0.15, rootMargin: "50px" }
     );
 
     if (sectionRef.current) {
@@ -68,10 +71,10 @@ export const PresentationSection: React.FC<PresentationSectionProps> = ({
             loop
             muted
             playsInline
-            preload="metadata"
+            preload="none"
             onLoadedData={() => setIsVideoLoaded(true)}
             className={cn(
-              "w-full h-full object-cover transition-transform duration-[5000ms] ease-out",
+              "w-full h-full object-cover transition-transform duration-[8000ms] ease-out will-change-transform",
               isVisible ? "scale-110" : "scale-100"
             )}
           >
@@ -80,25 +83,28 @@ export const PresentationSection: React.FC<PresentationSectionProps> = ({
         )}
       </div>
 
-      {/* Fallback Image Layer (visible until video loads) */}
+      {/* Optimized Fallback Image */}
       {!isVideoLoaded && (
-        <div 
-          className="absolute inset-0 bg-cover bg-center z-0 opacity-40 grayscale"
-          style={{ backgroundImage: `url(${fallbackImageUrl})` }}
-          role="img"
-          aria-label="Slide background placeholder"
-        />
+        <div className="absolute inset-0 z-0">
+          <Image
+            src={fallbackImageUrl}
+            alt=""
+            fill
+            priority={priority}
+            className="object-cover opacity-40 grayscale"
+            sizes="100vw"
+          />
+        </div>
       )}
 
-      {/* Global Overlay Gradients */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/80 z-10" />
-      <div className="absolute inset-0 bg-black/20 backdrop-blur-[1px] z-10" />
+      {/* Optimized Overlay Gradients */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/90 z-10 pointer-events-none" />
 
       {/* Content Container */}
       <div className="relative z-20 container mx-auto px-6">
         <div className={cn(
           "fade-in-stagger flex flex-col items-center justify-center text-center transition-all duration-1000", 
-          isVisible ? "visible opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+          isVisible ? "visible opacity-100 translate-y-0" : "opacity-0 translate-y-8"
         )}>
           {children}
         </div>
@@ -106,3 +112,5 @@ export const PresentationSection: React.FC<PresentationSectionProps> = ({
     </section>
   );
 };
+
+export const PresentationSection = memo(PresentationSectionBase);

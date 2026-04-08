@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useEffect, useRef, useCallback, useMemo } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo, memo } from "react";
 import { PresentationSection } from "@/components/PresentationSection";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { Cpu, MessageSquare, Workflow, Trophy, Users, AlertTriangle, FileText, Database, Clock, X, Info, Volume2, Sparkles, Rocket, ArrowRight } from "lucide-react";
@@ -33,6 +33,96 @@ const LOCAL_VIDEOS = [
 ];
 
 const ARCHITECTURE_EXPLANATION = "This is our agentic swarm architecture. Phase 1 begins with a parallel multi-modal scraper. In phase 2, we fan out to specialized evaluation agents. Phase 3 uses a JSON task plan to dynamically spawn workers. Finally, phase 5 converges into a structured Swedish compliance report.";
+
+// Sub-components to prevent full page re-renders
+const PresentationHUD = memo(({ 
+  currentIndex, 
+  progressValue, 
+  isUIHidden, 
+  isDeepDiveActive, 
+  timeLeft, 
+  isTimerRunning, 
+  setIsTimerRunning 
+}: any) => {
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  return (
+    <div className={cn(
+      "fixed top-0 left-0 w-full z-[80] p-8 flex justify-between items-start transition-all duration-700 will-change-transform",
+      (isUIHidden || isDeepDiveActive) ? "opacity-0 pointer-events-none -translate-y-4" : "opacity-100 translate-y-0"
+    )}>
+      <div className="flex flex-col gap-2 w-72">
+        <div className="flex justify-between items-end mb-1">
+          <div className="flex flex-col">
+            <span className="text-[10px] font-mono uppercase tracking-[0.4em] text-accent/60">Chapter {currentIndex + 1}</span>
+            <span className="text-sm font-bold tracking-tight text-white uppercase">{CHAPTERS[currentIndex]}</span>
+          </div>
+          <span className="text-[10px] font-mono text-white/40">{Math.round(progressValue)}%</span>
+        </div>
+        <Progress value={progressValue} className="h-[1px] bg-white/10" aria-label="Presentation progress" />
+      </div>
+
+      <div className="flex flex-col items-end gap-3">
+        <div className="flex items-center gap-6 px-6 py-3 bg-black/60 backdrop-blur-xl rounded-sm border border-white/10 shadow-2xl">
+          <div className="flex flex-col items-end border-r border-white/10 pr-6 mr-1">
+            <span className="text-[8px] font-mono uppercase tracking-[0.3em] text-white/30">Session Timer</span>
+            <span className={cn("font-mono text-2xl font-light tracking-tighter", timeLeft < 300 ? "text-red-500 animate-pulse" : "text-white")}>
+              {formatTime(timeLeft)}
+            </span>
+          </div>
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            onClick={() => setIsTimerRunning(!isTimerRunning)}
+            className="h-10 w-10 rounded-full border border-white/10 p-0 text-white/40 hover:text-accent transition-all"
+            aria-label={isTimerRunning ? "Pause timer" : "Start timer"}
+          >
+            {isTimerRunning ? "||" : "▶"}
+          </Button>
+        </div>
+        <div className="px-4 py-1.5 bg-accent/10 border border-accent/30 rounded-sm">
+          <span className="text-[9px] font-bold tracking-[0.5em] text-accent uppercase">BETA 1.0</span>
+        </div>
+      </div>
+    </div>
+  );
+});
+PresentationHUD.displayName = "PresentationHUD";
+
+const NavigationTimeline = memo(({ currentIndex, scrollToSection, isUIHidden, isDeepDiveActive }: any) => (
+  <nav className={cn(
+    "fixed left-12 top-1/2 -translate-y-1/2 z-[80] flex flex-col gap-8 transition-all duration-700 will-change-transform",
+    (isUIHidden || isDeepDiveActive) ? "opacity-0 pointer-events-none -translate-x-8" : "opacity-100 translate-x-0"
+  )} aria-label="Slide navigation">
+    {CHAPTERS.map((name, i) => (
+      <button
+        key={i}
+        onClick={() => scrollToSection(i)}
+        className="group relative flex items-center"
+        aria-label={`Go to ${name}`}
+        aria-current={currentIndex === i ? "step" : undefined}
+      >
+        <div className={cn(
+          "w-px transition-all duration-700",
+          currentIndex === i ? "h-12 bg-accent" : "h-6 bg-white/10 group-hover:bg-white/30"
+        )} />
+        <div className={cn(
+          "absolute left-4 px-2 py-1 transition-all duration-500 rounded-sm",
+          currentIndex === i ? "opacity-100 translate-x-0 bg-accent/10 border-l-2 border-accent" : "opacity-0 -translate-x-4 pointer-events-none"
+        )}>
+          <span className="text-[9px] uppercase tracking-[0.4em] text-accent whitespace-nowrap font-bold">
+            {name}
+          </span>
+        </div>
+      </button>
+    ))}
+  </nav>
+));
+NavigationTimeline.displayName = "NavigationTimeline";
 
 export default function Home() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -69,7 +159,6 @@ export default function Home() {
       const index = Math.round(container.scrollTop / window.innerHeight);
       if (index !== currentIndex) {
         setCurrentIndex(index);
-        
         if (index === 1 && !isTimerRunning) setIsTimerRunning(true);
         setIsDeepDiveActive(false);
         if (index === 2) {
@@ -113,126 +202,44 @@ export default function Home() {
     const handleMouseMove = () => {
       setIsUIHidden(false);
       if (uiTimerRef.current) clearTimeout(uiTimerRef.current);
-      uiTimerRef.current = setTimeout(() => setIsUIHidden(true), 4000);
+      uiTimerRef.current = setTimeout(() => setIsUIHidden(true), 5000);
     };
-    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
       if (uiTimerRef.current) clearTimeout(uiTimerRef.current);
     };
   }, []);
 
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (isDeepDiveActive) {
-        if (e.key === "Escape") {
-          setIsDeepDiveActive(false);
-          if (audioRef.current) {
-            audioRef.current.pause();
-            setIsSpeaking(false);
-          }
-        }
-        return;
-      }
-
-      if (e.key === "ArrowRight" || e.key === "ArrowDown" || e.key === " ") {
-        e.preventDefault();
-        scrollToSection(currentIndex + 1);
-      } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
-        e.preventDefault();
-        scrollToSection(currentIndex - 1);
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [currentIndex, isDeepDiveActive, scrollToSection]);
-
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
-  };
-
   const progressValue = useMemo(() => ((currentIndex + 1) / totalSections) * 100, [currentIndex, totalSections]);
 
   return (
-    <main ref={containerRef} className="snap-container relative bg-black" role="presentation">
+    <main ref={containerRef} className="snap-container relative bg-black selection:bg-accent/30" role="presentation">
       <div className="film-grain" aria-hidden="true" />
       <audio ref={audioRef} hidden />
 
-      {/* Global Presentation HUD */}
-      <div className={cn(
-        "fixed top-0 left-0 w-full z-[80] p-8 flex justify-between items-start transition-all duration-700",
-        (isUIHidden || isDeepDiveActive) ? "opacity-0 pointer-events-none translate-y-[-20px]" : "opacity-100 translate-y-0"
-      )}>
-        <div className="flex flex-col gap-2 w-72">
-          <div className="flex justify-between items-end mb-1">
-            <div className="flex flex-col">
-              <span className="text-[10px] font-mono uppercase tracking-[0.4em] text-accent/60">Chapter {currentIndex + 1}</span>
-              <span className="text-sm font-bold tracking-tight text-white uppercase">{CHAPTERS[currentIndex]}</span>
-            </div>
-            <span className="text-[10px] font-mono text-white/40">{Math.round(progressValue)}%</span>
-          </div>
-          <Progress value={progressValue} className="h-[2px] bg-white/10" aria-label="Presentation progress" />
-        </div>
+      <PresentationHUD 
+        currentIndex={currentIndex}
+        progressValue={progressValue}
+        isUIHidden={isUIHidden}
+        isDeepDiveActive={isDeepDiveActive}
+        timeLeft={timeLeft}
+        isTimerRunning={isTimerRunning}
+        setIsTimerRunning={setIsTimerRunning}
+      />
 
-        <div className="flex flex-col items-end gap-3">
-          <div className="flex items-center gap-6 px-6 py-3 bg-black/40 backdrop-blur-2xl rounded-sm border border-white/10 shadow-2xl">
-            <div className="flex flex-col items-end border-r border-white/10 pr-6 mr-1">
-              <span className="text-[8px] font-mono uppercase tracking-[0.3em] text-white/30">Session Timer</span>
-              <span className={cn("font-mono text-2xl font-light tracking-tighter", timeLeft < 300 ? "text-red-500 animate-pulse" : "text-white")}>
-                {formatTime(timeLeft)}
-              </span>
-            </div>
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              onClick={() => setIsTimerRunning(!isTimerRunning)}
-              className="h-10 w-10 rounded-full border border-white/10 p-0 text-white/40 hover:text-accent transition-all"
-              aria-label={isTimerRunning ? "Pause timer" : "Start timer"}
-            >
-              {isTimerRunning ? "||" : "▶"}
-            </Button>
-          </div>
-          <div className="px-4 py-1.5 bg-accent/10 border border-accent/30 rounded-sm">
-            <span className="text-[9px] font-bold tracking-[0.5em] text-accent uppercase">BETA 1.0</span>
-          </div>
-        </div>
-      </div>
-
-      {/* Navigation Timeline Sidebar */}
-      <nav className={cn(
-        "fixed left-12 top-1/2 -translate-y-1/2 z-[80] flex flex-col gap-8 transition-all duration-700",
-        (isUIHidden || isDeepDiveActive) ? "opacity-0 pointer-events-none -translate-x-12" : "opacity-100 translate-x-0"
-      )} aria-label="Slide navigation">
-        {CHAPTERS.map((name, i) => (
-          <button
-            key={i}
-            onClick={() => scrollToSection(i)}
-            className="group relative flex items-center"
-            aria-label={`Go to ${name}`}
-            aria-current={currentIndex === i ? "step" : undefined}
-          >
-            <div className={cn(
-              "w-px transition-all duration-700",
-              currentIndex === i ? "h-12 bg-accent" : "h-6 bg-white/10 group-hover:bg-white/30"
-            )} />
-            <div className={cn(
-              "absolute left-4 px-2 py-1 transition-all duration-500 rounded-sm",
-              currentIndex === i ? "opacity-100 translate-x-0 bg-accent/10 border-l-2 border-accent" : "opacity-0 -translate-x-4 pointer-events-none"
-            )}>
-              <span className="text-[9px] uppercase tracking-[0.4em] text-accent whitespace-nowrap font-bold">
-                {name}
-              </span>
-            </div>
-          </button>
-        ))}
-      </nav>
+      <NavigationTimeline 
+        currentIndex={currentIndex}
+        scrollToSection={scrollToSection}
+        isUIHidden={isUIHidden}
+        isDeepDiveActive={isDeepDiveActive}
+      />
 
       {/* Slide 1: Prologue */}
       <PresentationSection 
         videoUrl={LOCAL_VIDEOS[0]} 
         fallbackImageUrl={PlaceHolderImages.find(img => img.id === "hero-bg")?.imageUrl || ""}
+        priority
       >
         <h1 className="text-5xl md:text-8xl font-bold tracking-tighter text-white max-w-5xl leading-[0.9] mb-8">
           Hackathon. <br/>
@@ -286,15 +293,15 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto mt-12 px-6">
-            <div className="p-8 bg-white/5 border border-white/10 backdrop-blur-3xl text-left border-t-accent border-t-2 transition-all">
+            <div className="p-8 bg-white/5 border border-white/10 text-left border-t-accent border-t-2">
               <h3 className="text-white font-bold mb-2 tracking-widest uppercase text-xs">Multi-Modal Scraper</h3>
               <p className="text-white/60 text-xs leading-relaxed">Scanning feeds to identify "undeclared" collaborations and gifts.</p>
             </div>
-            <div className="p-8 bg-white/5 border border-white/10 backdrop-blur-3xl text-left border-t-white/20 border-t-2 transition-all">
+            <div className="p-8 bg-white/5 border border-white/10 text-left border-t-white/20 border-t-2">
               <h3 className="text-white font-bold mb-2 tracking-widest uppercase text-xs">Valuation Agent</h3>
               <p className="text-white/60 text-xs leading-relaxed">Identifying luxury items in YouTube videos and estimating market value.</p>
             </div>
-            <div className="p-8 bg-white/5 border border-white/10 backdrop-blur-3xl text-left border-t-white/20 border-t-2 transition-all">
+            <div className="p-8 bg-white/5 border border-white/10 text-left border-t-white/20 border-t-2">
               <h3 className="text-white font-bold mb-2 tracking-widest uppercase text-xs">Risk Profiler</h3>
               <p className="text-white/60 text-xs leading-relaxed">Consolidating social data, valuation, and registries into human-ready profiles.</p>
             </div>
@@ -454,7 +461,7 @@ export default function Home() {
                 { icon: Database, label: "SCB Statistics" },
                 { icon: Users, label: "Public Registry" }
               ].map((item, i) => (
-                <div key={i} className="p-6 bg-white/5 border border-white/10 rounded-sm backdrop-blur-xl transition-all text-center">
+                <div key={i} className="p-6 bg-white/5 border border-white/10 rounded-sm text-center">
                   <item.icon className="h-6 w-6 text-accent mb-4 mx-auto" aria-hidden="true" />
                   <span className="text-[10px] text-white/50 uppercase tracking-[0.3em] font-bold">{item.label}</span>
                 </div>
@@ -557,11 +564,6 @@ export default function Home() {
               "The future is already here - <br/>it's just not <span className="text-accent">evenly distributed.</span>"
              </h3>
              <p className="mt-6 text-white/30 font-mono text-xs tracking-[0.4em] uppercase">— William Gibson</p>
-          </div>
-
-          <div className="pt-8 opacity-30">
-            <div className="w-12 h-px bg-white/30 mx-auto" aria-hidden="true" />
-            <p className="text-white/40 text-[9px] uppercase tracking-[0.8em] font-mono mt-4">2024 Innovation Hack • Stockholm</p>
           </div>
         </div>
       </PresentationSection>
