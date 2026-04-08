@@ -33,7 +33,6 @@
   }
   body {
     @apply bg-background text-foreground overflow-hidden antialiased;
-    scroll-behavior: smooth;
   }
 }
 
@@ -41,9 +40,10 @@
   .snap-container {
     scroll-snap-type: y mandatory;
     height: 100vh;
-    overflow-y: scroll;
+    overflow-y: auto;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    -webkit-overflow-scrolling: touch;
   }
   .snap-container::-webkit-scrollbar {
     display: none;
@@ -62,6 +62,7 @@
     z-index: 40;
     opacity: 0.03;
     background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+    background-repeat: repeat;
   }
   .fade-in-stagger > * {
     opacity: 0;

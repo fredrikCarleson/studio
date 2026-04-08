@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { PresentationSection } from "@/components/PresentationSection";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { Cpu, MessageSquare, Workflow, Trophy, Users, AlertTriangle, FileText, Database, Clock, X, Info, Volume2, Sparkles, Rocket, ArrowRight } from "lucide-react";
@@ -20,6 +20,17 @@ const CHAPTERS = [
   "The Future"
 ];
 
+const LOCAL_VIDEOS = [
+  "/videos/Sunrise_over_Stockholm_202604071643.mp4",
+  "/videos/Modern_tech_office_202604071647.mp4",
+  "/videos/AI_agents_collaborating_202604071648.mp4",
+  "/videos/Digital_documents_sorted_202604071650.mp4",
+  "/videos/Digital_reports_financial_202604071757.mp4",
+  "/videos/Golden_particles_converging_202604071759.mp4",
+  "/videos/Geometric_shapes_moving_202604071759.mp4",
+  "/videos/Digital_horizon_leading_202604071800.mp4",
+];
+
 const ARCHITECTURE_EXPLANATION = "This is our agentic swarm architecture. Phase 1 begins with a parallel multi-modal scraper. In phase 2, we fan out to specialized evaluation agents. Phase 3 uses a JSON task plan to dynamically spawn workers. Finally, phase 5 converges into a structured Swedish compliance report.";
 
 export default function Home() {
@@ -30,24 +41,14 @@ export default function Home() {
   const [showEvidence, setShowEvidence] = useState(false);
   const [isDeepDiveActive, setIsDeepDiveActive] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
+  
   const containerRef = useRef<HTMLDivElement>(null);
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const uiTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const audioRef = useRef<HTMLAudioElement>(null);
+  
   const totalSections = CHAPTERS.length;
 
-  // Local videos from public/videos
-  const localVideos = [
-    "/videos/Sunrise_over_Stockholm_202604071643.mp4",
-    "/videos/Modern_tech_office_202604071647.mp4",
-    "/videos/AI_agents_collaborating_202604071648.mp4",
-    "/videos/Digital_documents_sorted_202604071650.mp4",
-    "/videos/Digital_reports_financial_202604071757.mp4",
-    "/videos/Golden_particles_converging_202604071759.mp4",
-    "/videos/Geometric_shapes_moving_202604071759.mp4",
-    "/videos/Digital_horizon_leading_202604071800.mp4",
-  ];
-
-  const scrollToSection = (index: number) => {
+  const scrollToSection = useCallback((index: number) => {
     if (index < 0 || index >= totalSections) return;
     const container = containerRef.current;
     if (container) {
@@ -56,16 +57,34 @@ export default function Home() {
         behavior: "smooth"
       });
       setCurrentIndex(index);
-      if (index === 1 && !isTimerRunning) setIsTimerRunning(true);
-      
-      setIsDeepDiveActive(false);
-      if (index === 2) {
-        setTimeout(() => setShowEvidence(true), 2500);
-      } else {
-        setShowEvidence(false);
-      }
     }
-  };
+  }, [totalSections]);
+
+  // Sync index with scroll position
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const handleScroll = () => {
+      const index = Math.round(container.scrollTop / window.innerHeight);
+      if (index !== currentIndex) {
+        setCurrentIndex(index);
+        
+        // Contextual UI triggers
+        if (index === 1 && !isTimerRunning) setIsTimerRunning(true);
+        setIsDeepDiveActive(false);
+        if (index === 2) {
+          const t = setTimeout(() => setShowEvidence(true), 2500);
+          return () => clearTimeout(t);
+        } else {
+          setShowEvidence(false);
+        }
+      }
+    };
+
+    container.addEventListener("scroll", handleScroll, { passive: true });
+    return () => container.removeEventListener("scroll", handleScroll);
+  }, [currentIndex, isTimerRunning]);
 
   const handleDeepDive = async () => {
     setIsDeepDiveActive(true);
@@ -83,34 +102,45 @@ export default function Home() {
     }
   };
 
+  // Optimized Timer
   useEffect(() => {
-    let interval: NodeJS.Timeout;
-    if (isTimerRunning && timeLeft > 0) {
-      interval = setInterval(() => setTimeLeft((prev) => prev - 1), 1000);
-    }
+    if (!isTimerRunning) return;
+    const interval = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev <= 0) {
+          clearInterval(interval);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
     return () => clearInterval(interval);
-  }, [isTimerRunning, timeLeft]);
+  }, [isTimerRunning]);
 
+  // UI Auto-hide logic
   useEffect(() => {
     const handleMouseMove = () => {
       setIsUIHidden(false);
-      if (timerRef.current) clearTimeout(timerRef.current);
-      timerRef.current = setTimeout(() => setIsUIHidden(true), 4000);
+      if (uiTimerRef.current) clearTimeout(uiTimerRef.current);
+      uiTimerRef.current = setTimeout(() => setIsUIHidden(true), 4000);
     };
     window.addEventListener("mousemove", handleMouseMove);
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
-      if (timerRef.current) clearTimeout(timerRef.current);
+      if (uiTimerRef.current) clearTimeout(uiTimerRef.current);
     };
   }, []);
 
+  // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (isDeepDiveActive && e.key === "Escape") {
-        setIsDeepDiveActive(false);
-        if (audioRef.current) {
-          audioRef.current.pause();
-          setIsSpeaking(false);
+      if (isDeepDiveActive) {
+        if (e.key === "Escape") {
+          setIsDeepDiveActive(false);
+          if (audioRef.current) {
+            audioRef.current.pause();
+            setIsSpeaking(false);
+          }
         }
         return;
       }
@@ -125,7 +155,7 @@ export default function Home() {
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [currentIndex, isDeepDiveActive]);
+  }, [currentIndex, isDeepDiveActive, scrollToSection]);
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
@@ -138,7 +168,7 @@ export default function Home() {
       <div className="film-grain" />
       <audio ref={audioRef} hidden />
 
-      {/* Global Presentation HUD - Hidden during Deep Dive */}
+      {/* Global Presentation HUD */}
       <div className={cn(
         "fixed top-0 left-0 w-full z-[80] p-8 flex justify-between items-start transition-all duration-700",
         (isUIHidden || isDeepDiveActive) ? "opacity-0 pointer-events-none translate-y-[-20px]" : "opacity-100 translate-y-0"
@@ -166,7 +196,7 @@ export default function Home() {
               variant="ghost" 
               size="sm" 
               onClick={() => setIsTimerRunning(!isTimerRunning)}
-              className="h-10 w-10 rounded-full border border-white/10 p-0 text-white/40 hover:text-accent transition-all hover:scale-110"
+              className="h-10 w-10 rounded-full border border-white/10 p-0 text-white/40 hover:text-accent transition-all"
             >
               {isTimerRunning ? "||" : "▶"}
             </Button>
@@ -177,7 +207,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Navigation Timeline Sidebar - Hidden during Deep Dive */}
+      {/* Navigation Timeline Sidebar */}
       <div className={cn(
         "fixed left-12 top-1/2 -translate-y-1/2 z-[80] flex flex-col gap-8 transition-all duration-700",
         (isUIHidden || isDeepDiveActive) ? "opacity-0 pointer-events-none -translate-x-12" : "opacity-100 translate-x-0"
@@ -206,7 +236,7 @@ export default function Home() {
 
       {/* Slide 1: Prologue */}
       <PresentationSection 
-        videoUrl={localVideos[0]} 
+        videoUrl={LOCAL_VIDEOS[0]} 
         fallbackImageUrl={PlaceHolderImages.find(img => img.id === "hero-bg")?.imageUrl || ""}
       >
         <h1 className="text-5xl md:text-8xl font-bold tracking-tighter text-white max-w-5xl leading-[0.9] mb-8">
@@ -222,7 +252,7 @@ export default function Home() {
 
       {/* Slide 2: Mission */}
       <PresentationSection 
-        videoUrl={localVideos[1]} 
+        videoUrl={LOCAL_VIDEOS[1]} 
         fallbackImageUrl={PlaceHolderImages.find(img => img.id === "tax-agency-bg")?.imageUrl || ""}
       >
         <div className="space-y-12">
@@ -239,7 +269,7 @@ export default function Home() {
 
       {/* Slide 3: Team Alpha - Swarm & Nudge */}
       <PresentationSection 
-        videoUrl={localVideos[2]} 
+        videoUrl={LOCAL_VIDEOS[2]} 
         fallbackImageUrl={PlaceHolderImages.find(img => img.id === "agent-bg")?.imageUrl || ""}
       >
         <div className="space-y-6 relative w-full">
@@ -261,15 +291,15 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto mt-12 px-6">
-            <div className="p-8 bg-white/5 border border-white/10 backdrop-blur-3xl text-left border-t-accent border-t-2 transition-all hover:bg-white/10">
+            <div className="p-8 bg-white/5 border border-white/10 backdrop-blur-3xl text-left border-t-accent border-t-2 transition-all">
               <h4 className="text-white font-bold mb-2 tracking-widest uppercase text-xs">Multi-Modal Scraper</h4>
               <p className="text-white/60 text-xs leading-relaxed">Scanning feeds to identify "undeclared" collaborations and gifts.</p>
             </div>
-            <div className="p-8 bg-white/5 border border-white/10 backdrop-blur-3xl text-left border-t-white/20 border-t-2 transition-all hover:bg-white/10">
+            <div className="p-8 bg-white/5 border border-white/10 backdrop-blur-3xl text-left border-t-white/20 border-t-2 transition-all">
               <h4 className="text-white font-bold mb-2 tracking-widest uppercase text-xs">Valuation Agent</h4>
               <p className="text-white/60 text-xs leading-relaxed">Identifying luxury items in YouTube videos and estimating market value.</p>
             </div>
-            <div className="p-8 bg-white/5 border border-white/10 backdrop-blur-3xl text-left border-t-white/20 border-t-2 transition-all hover:bg-white/10">
+            <div className="p-8 bg-white/5 border border-white/10 backdrop-blur-3xl text-left border-t-white/20 border-t-2 transition-all">
               <h4 className="text-white font-bold mb-2 tracking-widest uppercase text-xs">Risk Profiler</h4>
               <p className="text-white/60 text-xs leading-relaxed">Consolidating social data, valuation, and registries into human-ready profiles.</p>
             </div>
@@ -287,16 +317,16 @@ export default function Home() {
             </Button>
           </div>
 
-          {/* Floating Nudge Evidence Overlay - /images/influencerJail.png */}
+          {/* Floating Nudge Evidence Overlay */}
           <div className={cn(
             "fixed right-12 bottom-12 w-80 p-6 bg-card border border-white/10 rounded-sm shadow-2xl transition-all duration-1000 transform z-[50]",
             showEvidence && !isDeepDiveActive ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12 pointer-events-none"
           )}>
-            <div className="relative h-48 w-full bg-muted mb-4 overflow-hidden rounded-sm group">
+            <div className="relative h-48 w-full bg-muted mb-4 overflow-hidden rounded-sm">
               <img 
                 src="/images/influencerJail.png" 
                 alt="Case Evidence" 
-                className="w-full h-full object-cover transition-all duration-700"
+                className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
               <div className="absolute bottom-3 left-3 flex gap-2">
@@ -340,7 +370,7 @@ export default function Home() {
                     { title: "Compliance Output", desc: "Phase 5: Final human-readable Swedish reports" }
                   ].map((item, i) => (
                     <div key={i} className="flex items-start gap-6 group">
-                       <div className="w-10 h-10 rounded-full bg-accent/20 border border-accent/40 flex items-center justify-center text-accent font-mono text-sm group-hover:bg-accent group-hover:text-black transition-all">
+                       <div className="w-10 h-10 rounded-full bg-accent/20 border border-accent/40 flex items-center justify-center text-accent font-mono text-sm">
                          {i + 1}
                        </div>
                        <div>
@@ -378,7 +408,7 @@ export default function Home() {
 
       {/* Slide 4: Team Bravo - The Pedagogy */}
       <PresentationSection 
-        videoUrl={localVideos[3]} 
+        videoUrl={LOCAL_VIDEOS[3]} 
         fallbackImageUrl={PlaceHolderImages.find(img => img.id === "bravo-bg")?.imageUrl || ""}
       >
         <div className="space-y-12 w-full max-w-6xl mx-auto px-6">
@@ -409,7 +439,7 @@ export default function Home() {
 
       {/* Slide 5: Team Delta - Automation */}
       <PresentationSection 
-        videoUrl={localVideos[4]} 
+        videoUrl={LOCAL_VIDEOS[4]} 
         fallbackImageUrl={PlaceHolderImages.find(img => img.id === "delta-bg")?.imageUrl || ""}
       >
         <div className="space-y-12">
@@ -423,8 +453,8 @@ export default function Home() {
                 { icon: Database, label: "SCB Statistics" },
                 { icon: Users, label: "Public Registry" }
               ].map((item, i) => (
-                <div key={i} className="p-6 bg-white/5 border border-white/10 rounded-sm backdrop-blur-xl hover:bg-accent/10 transition-all text-center group">
-                  <item.icon className="h-6 w-6 text-accent mb-4 mx-auto group-hover:scale-110 transition-transform" />
+                <div key={i} className="p-6 bg-white/5 border border-white/10 rounded-sm backdrop-blur-xl transition-all text-center">
+                  <item.icon className="h-6 w-6 text-accent mb-4 mx-auto" />
                   <span className="text-[10px] text-white/50 uppercase tracking-[0.3em] font-bold">{item.label}</span>
                 </div>
               ))}
@@ -456,7 +486,7 @@ export default function Home() {
 
       {/* Slide 6: Verdict */}
       <PresentationSection 
-        videoUrl={localVideos[5]} 
+        videoUrl={LOCAL_VIDEOS[5]} 
         fallbackImageUrl={PlaceHolderImages.find(img => img.id === "winner-bg")?.imageUrl || ""}
       >
         <Trophy className="h-20 w-20 text-accent mx-auto mb-8 animate-bounce" />
@@ -472,7 +502,7 @@ export default function Home() {
 
       {/* Slide 7: Wisdom & Opportunity */}
       <PresentationSection 
-        videoUrl={localVideos[6]} 
+        videoUrl={LOCAL_VIDEOS[6]} 
         fallbackImageUrl={PlaceHolderImages.find(img => img.id === "takeaway-bg")?.imageUrl || ""}
       >
         <div className="space-y-12 max-w-6xl mx-auto px-6 text-center">
@@ -508,7 +538,7 @@ export default function Home() {
 
       {/* Slide 8: Horizon - The Final Message */}
       <PresentationSection 
-        videoUrl={localVideos[7]} 
+        videoUrl={LOCAL_VIDEOS[7]} 
         fallbackImageUrl={PlaceHolderImages.find(img => img.id === "hero-bg")?.imageUrl || ""}
       >
         <div className="max-w-5xl mx-auto space-y-12 px-6 text-center">
