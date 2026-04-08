@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect, useRef } from "react";
@@ -440,6 +441,7 @@ export default function Home() {
                   <span className="text-[9px] uppercase tracking-widest text-white/40 font-bold">Human Effort</span>
                   <span className="text-xs font-mono text-white/60 italic">~Hours of reading</span>
                 </div>
+                <div className="h-full w-full bg-white/20" />
                 <div className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
                   <div className="h-full w-full bg-white/20" />
                 </div>
