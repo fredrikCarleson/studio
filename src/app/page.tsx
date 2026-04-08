@@ -1,9 +1,10 @@
+
 "use client";
 
 import { useState, useEffect, useRef } from "react";
 import { PresentationSection } from "@/components/PresentationSection";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { ArrowLeft, ArrowRight, Cpu, MessageSquare, Workflow, Trophy, Users } from "lucide-react";
+import { ArrowLeft, ArrowRight, Cpu, MessageSquare, Workflow, Trophy, Users, AlertTriangle, FileText, Database, Clock } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -24,6 +25,7 @@ export default function Home() {
   const [timeLeft, setTimeLeft] = useState(1200); // 20 minutes
   const [isTimerRunning, setIsTimerRunning] = useState(false);
   const [isUIHidden, setIsUIHidden] = useState(false);
+  const [showEvidence, setShowEvidence] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const totalSections = CHAPTERS.length;
@@ -49,6 +51,13 @@ export default function Home() {
       });
       setCurrentIndex(index);
       if (index === 1 && !isTimerRunning) setIsTimerRunning(true);
+      
+      // Reset evidence state
+      if (index === 2) {
+        setTimeout(() => setShowEvidence(true), 3000);
+      } else {
+        setShowEvidence(false);
+      }
     }
   };
 
@@ -136,7 +145,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Navigation Timeline (Scrubber style) */}
+      {/* Navigation Timeline */}
       <div className={cn(
         "fixed left-12 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-8 transition-opacity duration-1000",
         isUIHidden ? "opacity-0" : "opacity-100"
@@ -161,31 +170,6 @@ export default function Home() {
             </div>
           </button>
         ))}
-      </div>
-
-      {/* Floating Controls */}
-      <div className={cn(
-        "fixed bottom-12 right-12 z-50 flex gap-4 transition-all duration-1000",
-        isUIHidden ? "opacity-0 translate-y-4" : "opacity-100 translate-y-0"
-      )}>
-        <Button 
-          variant="outline" 
-          size="icon"
-          onClick={() => scrollToSection(currentIndex - 1)}
-          disabled={currentIndex === 0}
-          className="w-12 h-12 rounded-full border-white/10 bg-black/20 backdrop-blur-xl hover:bg-accent hover:border-accent group transition-all"
-        >
-          <ArrowLeft className="h-5 w-5 text-white group-hover:scale-110" />
-        </Button>
-        <Button 
-          variant="outline" 
-          size="icon"
-          onClick={() => scrollToSection(currentIndex + 1)}
-          disabled={currentIndex === totalSections - 1}
-          className="w-12 h-12 rounded-full border-white/10 bg-black/20 backdrop-blur-xl hover:bg-accent hover:border-accent group transition-all"
-        >
-          <ArrowRight className="h-5 w-5 text-white group-hover:scale-110" />
-        </Button>
       </div>
 
       {/* Slide 1: Prologue */}
@@ -226,30 +210,61 @@ export default function Home() {
         videoUrl={videos[2]} 
         fallbackImageUrl={PlaceHolderImages.find(img => img.id === "agent-bg")?.imageUrl || ""}
       >
-        <div className="space-y-10">
+        <div className="space-y-6 relative">
           <div className="inline-block px-4 py-1 bg-white/5 border border-white/10 rounded-sm text-accent text-[10px] font-bold uppercase tracking-[0.4em]">
             Case Study: Team Alpha
           </div>
-          <h2 className="text-4xl md:text-7xl font-bold text-white tracking-tighter">Influencer Risk</h2>
-          <p className="text-lg text-white/50 max-w-2xl mx-auto italic">
-            Automating the detection of hidden economies through multi-modal analysis.
-          </p>
+          <h2 className="text-4xl md:text-7xl font-bold text-white tracking-tighter">The Influencer Swarm</h2>
+          
+          <div className="flex items-center justify-center gap-12 mt-4">
+            <div className="text-center">
+              <span className="block text-5xl font-bold text-accent">10,000+</span>
+              <span className="text-[10px] uppercase tracking-widest text-white/40">Market Size</span>
+            </div>
+            <div className="w-px h-12 bg-white/10" />
+            <div className="text-center">
+              <span className="block text-5xl font-bold text-white">48h</span>
+              <span className="text-[10px] uppercase tracking-widest text-white/40">Build Time</span>
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto mt-12 px-6">
-            <div className="p-8 bg-white/5 border border-white/10 backdrop-blur-3xl text-left border-t-accent border-t-2 group hover:bg-white/10 transition-all">
-              <span className="text-accent text-3xl font-bold mb-4 block">01</span>
-              <h4 className="text-white font-bold mb-2 tracking-widest uppercase text-xs">The Scraper</h4>
+            <div className="p-8 bg-white/5 border border-white/10 backdrop-blur-3xl text-left border-t-accent border-t-2">
+              <h4 className="text-white font-bold mb-2 tracking-widest uppercase text-xs">Multi-Modal Scraper</h4>
               <p className="text-white/60 text-xs leading-relaxed">Scanning feeds multimodally to identify "undeclared" collaborations and gifts.</p>
             </div>
-            <div className="p-8 bg-white/5 border border-white/10 backdrop-blur-3xl text-left border-t-white/20 border-t-2 group hover:bg-white/10 transition-all">
-              <span className="text-accent text-3xl font-bold mb-4 block">02</span>
-              <h4 className="text-white font-bold mb-2 tracking-widest uppercase text-xs">The Valuation</h4>
+            <div className="p-8 bg-white/5 border border-white/10 backdrop-blur-3xl text-left border-t-white/20 border-t-2">
+              <h4 className="text-white font-bold mb-2 tracking-widest uppercase text-xs">Valuation Agent</h4>
               <p className="text-white/60 text-xs leading-relaxed">Identifying luxury watches in YouTube videos and estimating market value instantly.</p>
             </div>
-            <div className="p-8 bg-white/5 border border-white/10 backdrop-blur-3xl text-left border-t-white/20 border-t-2 group hover:bg-white/10 transition-all">
-              <span className="text-accent text-3xl font-bold mb-4 block">03</span>
-              <h4 className="text-white font-bold mb-2 tracking-widest uppercase text-xs">The Swarm</h4>
-              <p className="text-white/60 text-xs leading-relaxed">Agents cross-referencing connections to flag high-risk anomalies for humans.</p>
+            <div className="p-8 bg-white/5 border border-white/10 backdrop-blur-3xl text-left border-t-white/20 border-t-2">
+              <h4 className="text-white font-bold mb-2 tracking-widest uppercase text-xs">Risk Profiler</h4>
+              <p className="text-white/60 text-xs leading-relaxed">Consolidating social data, valuation, and registries into a single human-ready profile.</p>
             </div>
+          </div>
+
+          {/* Floating Case Study Overlay */}
+          <div className={cn(
+            "absolute -right-4 top-0 w-80 p-6 bg-card border border-white/10 rounded-sm shadow-2xl transition-all duration-1000 transform",
+            showEvidence ? "opacity-100 translate-x-0" : "opacity-0 translate-x-12 pointer-events-none"
+          )}>
+            <div className="relative h-48 w-full bg-muted mb-4 overflow-hidden rounded-sm">
+              <img 
+                src="https://picsum.photos/seed/legal/600/400" 
+                alt="Case Evidence" 
+                className="w-full h-full object-cover opacity-50 grayscale hover:grayscale-0 transition-all cursor-crosshair"
+                data-ai-hint="news headline"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+              <div className="absolute bottom-3 left-3 flex gap-2">
+                <span className="bg-red-500 text-[8px] font-bold px-1.5 py-0.5 rounded-sm uppercase">Evidence</span>
+                <span className="bg-white/10 text-[8px] font-bold px-1.5 py-0.5 rounded-sm uppercase">Case #882</span>
+              </div>
+            </div>
+            <h5 className="text-white font-bold text-sm mb-2">The "Nudge" Strategy</h5>
+            <p className="text-white/50 text-[10px] leading-relaxed italic">
+              "Imagine if we nudged this influencer early. No jail time. Just compliance. Shifting from reactive to proactive."
+            </p>
           </div>
         </div>
       </PresentationSection>
@@ -259,27 +274,36 @@ export default function Home() {
         videoUrl={videos[3]} 
         fallbackImageUrl={PlaceHolderImages.find(img => img.id === "bravo-bg")?.imageUrl || ""}
       >
-        <div className="space-y-12">
+        <div className="space-y-12 w-full max-w-6xl mx-auto px-6">
           <MessageSquare className="h-16 w-16 text-accent mx-auto" />
-          <h2 className="text-4xl md:text-7xl font-bold text-white tracking-tight">Skatti 2.0</h2>
+          <h2 className="text-4xl md:text-7xl font-bold text-white tracking-tight">The Knowledge Split</h2>
           
-          <div className="relative py-12 px-6 bg-accent/5 border-y border-white/10">
-            <div className="absolute left-8 top-4 text-9xl text-accent/10 font-serif leading-none">"</div>
-            <blockquote className="text-2xl md:text-5xl text-white font-light italic max-w-4xl mx-auto leading-tight relative z-10">
-              Skatti… <br/>you're actually <span className="text-accent font-bold">making that up.</span>
-            </blockquote>
+          <div className="grid grid-cols-2 gap-1 px-1 bg-white/5 border border-white/10 rounded-sm">
+            <div className="p-12 text-center border-r border-white/10">
+              <span className="text-accent font-mono text-[10px] uppercase tracking-[0.4em] mb-4 block">The "What"</span>
+              <h3 className="text-2xl font-bold text-white mb-4">Official Regulations</h3>
+              <p className="text-white/40 text-sm italic">"Excellent accuracy. Pure facts. Static rules."</p>
+              <div className="mt-8 flex justify-center gap-2">
+                {[1,2,3,4,5].map(i => <div key={i} className="w-4 h-1 bg-accent/40 rounded-full" />)}
+              </div>
+            </div>
+            <div className="p-12 text-center relative overflow-hidden group">
+              <div className="absolute top-4 right-4 animate-pulse">
+                <AlertTriangle className="text-red-500 h-4 w-4" />
+              </div>
+              <span className="text-accent font-mono text-[10px] uppercase tracking-[0.4em] mb-4 block">The "How"</span>
+              <h3 className="text-2xl font-bold text-white mb-4">Practical Pedagogy</h3>
+              <p className="text-white/40 text-sm italic">"High risk of hallucination. Making things up."</p>
+              <div className="mt-8 flex justify-center gap-2">
+                {[1,2,3].map(i => <div key={i} className="w-4 h-1 bg-red-500/40 rounded-full" />)}
+                {[4,5].map(i => <div key={i} className="w-4 h-1 bg-white/10 rounded-full" />)}
+              </div>
+            </div>
           </div>
 
-          <div className="max-w-4xl mx-auto grid grid-cols-2 gap-16 mt-12 text-left">
-            <div className="space-y-4">
-              <p className="text-accent font-bold text-[10px] uppercase tracking-[0.4em] border-b border-accent/20 pb-2">The "What" Barrier</p>
-              <p className="text-white/70 text-sm leading-relaxed">Official sites explain regulations perfectly, but agents struggle to interpret the rigid 'officialese' for humans.</p>
-            </div>
-            <div className="space-y-4">
-              <p className="text-accent font-bold text-[10px] uppercase tracking-[0.4em] border-b border-accent/20 pb-2">The "How" Risk</p>
-              <p className="text-white/70 text-sm leading-relaxed">Unofficial sites explain logic better, but introduce hallucination risks. Human verification remains the anchor.</p>
-            </div>
-          </div>
+          <p className="text-2xl md:text-4xl font-light text-white italic max-w-4xl mx-auto">
+            "Skatti… <br/>you're actually <span className="text-accent font-bold">making that up.</span>"
+          </p>
         </div>
       </PresentationSection>
 
@@ -290,41 +314,47 @@ export default function Home() {
       >
         <div className="space-y-12">
           <Workflow className="h-16 w-16 text-accent mx-auto" />
-          <h2 className="text-4xl md:text-7xl font-bold text-white">Kraftsamling: Team Delta</h2>
+          <h2 className="text-4xl md:text-7xl font-bold text-white">Kraftsamling Analysis</h2>
           
           <div className="flex flex-col items-center gap-6 mt-8 max-w-5xl mx-auto w-full">
             <div className="grid grid-cols-3 gap-4 w-full">
-              {["Annual Reports", "SCB Statistics", "Public Registry"].map((item, i) => (
-                <div key={i} className="p-5 bg-white/5 border border-white/10 text-[10px] text-white/50 uppercase tracking-[0.3em] rounded-sm backdrop-blur-xl">
-                  {item}
-                </div>
-              ))}
-            </div>
-            
-            <div className="h-16 w-px bg-gradient-to-b from-white/20 to-accent" />
-            
-            <div className="flex gap-8 items-center bg-black/40 p-6 border border-white/10 rounded-sm">
-              <div className="flex flex-col items-center gap-2">
-                <div className="px-6 py-3 border border-accent bg-accent/10 rounded-sm text-accent font-bold text-xs tracking-[0.2em] animate-pulse">
-                  PARALLEL EXTRACTION
-                </div>
-                <span className="text-[8px] text-white/40 uppercase">Agents 1-4</span>
+              <div className="p-6 bg-white/5 border border-white/10 rounded-sm backdrop-blur-xl group hover:bg-accent/10 transition-all">
+                <FileText className="h-6 w-6 text-accent mb-4 mx-auto" />
+                <span className="text-[10px] text-white/50 uppercase tracking-[0.3em] font-bold">Annual Reports</span>
               </div>
-              <ArrowRight className="text-white/20" />
-              <div className="flex flex-col items-center gap-2">
-                <div className="px-6 py-3 border border-white/20 bg-white/5 rounded-sm text-white font-bold text-xs tracking-[0.2em]">
-                  SERIAL REASONING
-                </div>
-                <span className="text-[8px] text-white/40 uppercase">Lead Analyst</span>
+              <div className="p-6 bg-white/5 border border-white/10 rounded-sm backdrop-blur-xl group hover:bg-accent/10 transition-all">
+                <Database className="h-6 w-6 text-accent mb-4 mx-auto" />
+                <span className="text-[10px] text-white/50 uppercase tracking-[0.3em] font-bold">SCB Statistics</span>
+              </div>
+              <div className="p-6 bg-white/5 border border-white/10 rounded-sm backdrop-blur-xl group hover:bg-accent/10 transition-all">
+                <Users className="h-6 w-6 text-accent mb-4 mx-auto" />
+                <span className="text-[10px] text-white/50 uppercase tracking-[0.3em] font-bold">Public Registry</span>
               </div>
             </div>
             
-            <div className="h-16 w-px bg-gradient-to-b from-accent to-white/20" />
-            
-            <div className="p-10 bg-white/10 backdrop-blur-3xl border border-white/10 rounded-lg w-full text-center relative overflow-hidden group">
-              <div className="absolute top-0 left-0 w-full h-1 bg-accent/30" />
-              <h4 className="text-white font-bold mb-4 tracking-[0.5em] uppercase text-xs">Outcome: Holistic Scrutiny</h4>
-              <p className="text-white/60 text-lg italic font-light">"What took humans hours to compile was done in minutes—with consistency that doesn't tire."</p>
+            <div className="flex w-full items-center gap-12 mt-12 px-12 py-8 bg-white/5 border border-white/10 rounded-sm">
+              <div className="flex-1 space-y-2">
+                <div className="flex justify-between items-end">
+                  <span className="text-[9px] uppercase tracking-widest text-white/40 font-bold">Human Effort</span>
+                  <span className="text-xs font-mono text-white/60 italic">~Hours of reading</span>
+                </div>
+                <div className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
+                  <div className="h-full w-full bg-white/20" />
+                </div>
+              </div>
+              <div className="flex flex-col items-center">
+                <Clock className="h-8 w-8 text-accent animate-pulse" />
+                <span className="text-[8px] uppercase tracking-[0.3em] text-accent font-bold mt-2">VS</span>
+              </div>
+              <div className="flex-1 space-y-2">
+                <div className="flex justify-between items-end">
+                  <span className="text-[9px] uppercase tracking-widest text-accent font-bold">Agent Swarm</span>
+                  <span className="text-xs font-mono text-accent">~Seconds of processing</span>
+                </div>
+                <div className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
+                  <div className="h-full w-4 bg-accent" />
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -390,3 +420,4 @@ export default function Home() {
     </main>
   );
 }
+
