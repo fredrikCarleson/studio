@@ -3,49 +3,49 @@
     {
       "id": "hero-bg",
       "description": "Dark cinematic abstract technology background",
-      "imageUrl": "https://picsum.photos/seed/tech1/1920/1080",
-      "imageHint": "technology abstract"
+      "imageUrl": "https://picsum.photos/seed/tech-pro/1920/1080",
+      "imageHint": "technology dark"
     },
     {
       "id": "team-bg",
       "description": "Collaboration and brains abstract",
-      "imageUrl": "https://picsum.photos/seed/neural/1920/1080",
+      "imageUrl": "https://picsum.photos/seed/neural-net/1920/1080",
       "imageHint": "neural network"
     },
     {
       "id": "tax-agency-bg",
       "description": "Modern office architecture",
-      "imageUrl": "https://picsum.photos/seed/architecture/1920/1080",
+      "imageUrl": "https://picsum.photos/seed/modern-office/1920/1080",
       "imageHint": "modern architecture"
     },
     {
       "id": "agent-bg",
       "description": "Digital agents and social media risk",
-      "imageUrl": "https://picsum.photos/seed/cyber/1920/1080",
+      "imageUrl": "https://picsum.photos/seed/cyber-data/1920/1080",
       "imageHint": "digital data"
     },
     {
       "id": "takeaway-bg",
       "description": "Complex structure and connections",
-      "imageUrl": "https://picsum.photos/seed/connections/1920/1080",
+      "imageUrl": "https://picsum.photos/seed/struct-conn/1920/1080",
       "imageHint": "structure complexity"
     },
     {
       "id": "bravo-bg",
       "description": "Customer service digital assistant",
-      "imageUrl": "https://picsum.photos/seed/assistant/1920/1080",
+      "imageUrl": "https://picsum.photos/seed/ai-assistant/1920/1080",
       "imageHint": "digital assistant"
     },
     {
       "id": "delta-bg",
       "description": "Financial reports and analysis",
-      "imageUrl": "https://picsum.photos/seed/analysis/1920/1080",
+      "imageUrl": "https://picsum.photos/seed/data-anal/1920/1080",
       "imageHint": "data analysis"
     },
     {
       "id": "winner-bg",
       "description": "Success and celebration abstract",
-      "imageUrl": "https://picsum.photos/seed/award/1920/1080",
+      "imageUrl": "https://picsum.photos/seed/success-light/1920/1080",
       "imageHint": "success light"
     }
   ]

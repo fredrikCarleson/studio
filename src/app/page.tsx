@@ -20,7 +20,7 @@ const CHAPTERS = [
   "The Future"
 ];
 
-const ARCHITECTURE_EXPLANATION = "This is our agentic swarm architecture. Phase 1 begins with a parallel multi-modal scraper. In phase 2, we fan out to specialized evaluation agents. Phase 4 is where the magic happens: the system dynamically spawns workers based on a JSON task plan. Finally, in phase 5, it converges into a structured Swedish compliance report.";
+const ARCHITECTURE_EXPLANATION = "This is our agentic swarm architecture. Phase 1 begins with a parallel multi-modal scraper. In phase 2, we fan out to specialized evaluation agents. Phase 3 uses a JSON task plan to dynamically spawn workers. Finally, phase 5 converges into a structured Swedish compliance report.";
 
 export default function Home() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -35,15 +35,15 @@ export default function Home() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const totalSections = CHAPTERS.length;
 
-  const videos = [
-    "https://videos.pexels.com/video-files/3129957/3129957-uhd_2560_1440_30fps.mp4",
-    "https://videos.pexels.com/video-files/3129671/3129671-uhd_2560_1440_30fps.mp4",
-    "https://videos.pexels.com/video-files/853889/853889-hd_1920_1080_25fps.mp4",
-    "https://videos.pexels.com/video-files/4496268/4496268-hd_1920_1080_25fps.mp4",
-    "https://videos.pexels.com/video-files/3130182/3130182-uhd_2560_1440_30fps.mp4",
-    "https://videos.pexels.com/video-files/854400/854400-hd_1920_1080_30fps.mp4",
-    "https://videos.pexels.com/video-files/3129910/3129910-uhd_2560_1440_30fps.mp4",
-    "https://videos.pexels.com/video-files/1851190/1851190-uhd_2560_1440_25fps.mp4",
+  const localVideos = [
+    "/videos/Sunrise_over_Stockholm_202604071643.mp4",
+    "/videos/Modern_tech_office_202604071647.mp4",
+    "/videos/AI_agents_collaborating_202604071648.mp4",
+    "/videos/Digital_documents_sorted_202604071650.mp4",
+    "/videos/Digital_reports_financial_202604071757.mp4",
+    "/videos/Golden_particles_converging_202604071759.mp4",
+    "/videos/Geometric_shapes_moving_202604071759.mp4",
+    "/videos/Digital_horizon_leading_202604071800.mp4",
   ];
 
   const scrollToSection = (index: number) => {
@@ -205,7 +205,7 @@ export default function Home() {
 
       {/* Slide 1: Prologue */}
       <PresentationSection 
-        videoUrl={videos[0]} 
+        videoUrl={localVideos[0]} 
         fallbackImageUrl={PlaceHolderImages.find(img => img.id === "hero-bg")?.imageUrl || ""}
       >
         <h1 className="text-5xl md:text-8xl font-bold tracking-tighter text-white max-w-5xl leading-[0.9] mb-8">
@@ -221,7 +221,7 @@ export default function Home() {
 
       {/* Slide 2: Mission */}
       <PresentationSection 
-        videoUrl={videos[1]} 
+        videoUrl={localVideos[1]} 
         fallbackImageUrl={PlaceHolderImages.find(img => img.id === "tax-agency-bg")?.imageUrl || ""}
       >
         <div className="space-y-12">
@@ -238,7 +238,7 @@ export default function Home() {
 
       {/* Slide 3: Team Alpha - Swarm & Nudge */}
       <PresentationSection 
-        videoUrl={videos[2]} 
+        videoUrl={localVideos[2]} 
         fallbackImageUrl={PlaceHolderImages.find(img => img.id === "agent-bg")?.imageUrl || ""}
       >
         <div className="space-y-6 relative w-full">
@@ -288,15 +288,14 @@ export default function Home() {
 
           {/* Floating Nudge Evidence Overlay */}
           <div className={cn(
-            "absolute right-12 top-0 w-80 p-6 bg-card border border-white/10 rounded-sm shadow-2xl transition-all duration-1000 transform",
-            showEvidence && !isDeepDiveActive ? "opacity-100 translate-x-0" : "opacity-0 translate-x-12 pointer-events-none"
+            "fixed right-12 bottom-12 w-80 p-6 bg-card border border-white/10 rounded-sm shadow-2xl transition-all duration-1000 transform z-[50]",
+            showEvidence && !isDeepDiveActive ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12 pointer-events-none"
           )}>
             <div className="relative h-48 w-full bg-muted mb-4 overflow-hidden rounded-sm group">
               <img 
-                src="https://picsum.photos/seed/legal/600/400" 
+                src="/images/influencerJail.png" 
                 alt="Case Evidence" 
-                className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
-                data-ai-hint="news crime"
+                className="w-full h-full object-cover transition-all duration-700"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
               <div className="absolute bottom-3 left-3 flex gap-2">
@@ -312,7 +311,7 @@ export default function Home() {
 
         {/* Technical Swarm Architecture Deep Dive */}
         <div className={cn(
-          "fixed inset-0 z-[100] bg-black backdrop-blur-2xl flex items-center justify-center p-8 md:p-12 transition-all duration-700",
+          "fixed inset-0 z-[100] bg-black flex items-center justify-center p-8 md:p-12 transition-all duration-700",
           isDeepDiveActive ? "opacity-100 translate-y-0" : "opacity-0 translate-y-full pointer-events-none"
         )}>
           <button 
@@ -320,7 +319,7 @@ export default function Home() {
               setIsDeepDiveActive(false);
               if (audioRef.current) audioRef.current.pause();
             }}
-            className="absolute top-12 right-12 z-[110] text-white/60 hover:text-white bg-white/5 p-4 rounded-full border border-white/20 transition-all hover:scale-110"
+            className="absolute top-12 right-12 z-[110] text-white/60 hover:text-white bg-white/10 p-4 rounded-full border border-white/20 transition-all hover:scale-110"
           >
             <X className="h-8 w-8" />
           </button>
@@ -383,7 +382,7 @@ export default function Home() {
 
       {/* Slide 4: Team Bravo - The Pedagogy */}
       <PresentationSection 
-        videoUrl={videos[3]} 
+        videoUrl={localVideos[3]} 
         fallbackImageUrl={PlaceHolderImages.find(img => img.id === "bravo-bg")?.imageUrl || ""}
       >
         <div className="space-y-12 w-full max-w-6xl mx-auto px-6">
@@ -414,7 +413,7 @@ export default function Home() {
 
       {/* Slide 5: Team Delta - Automation */}
       <PresentationSection 
-        videoUrl={videos[4]} 
+        videoUrl={localVideos[4]} 
         fallbackImageUrl={PlaceHolderImages.find(img => img.id === "delta-bg")?.imageUrl || ""}
       >
         <div className="space-y-12">
@@ -461,7 +460,7 @@ export default function Home() {
 
       {/* Slide 6: Verdict */}
       <PresentationSection 
-        videoUrl={videos[5]} 
+        videoUrl={localVideos[5]} 
         fallbackImageUrl={PlaceHolderImages.find(img => img.id === "winner-bg")?.imageUrl || ""}
       >
         <Trophy className="h-20 w-20 text-accent mx-auto mb-8 animate-bounce" />
@@ -477,7 +476,7 @@ export default function Home() {
 
       {/* Slide 7: Wisdom & Opportunity */}
       <PresentationSection 
-        videoUrl={videos[6]} 
+        videoUrl={localVideos[6]} 
         fallbackImageUrl={PlaceHolderImages.find(img => img.id === "takeaway-bg")?.imageUrl || ""}
       >
         <div className="space-y-12 max-w-6xl mx-auto px-6">
@@ -488,54 +487,54 @@ export default function Home() {
             </p>
           </div>
           
-          <div className="pt-12 border-t border-white/10">
+          <div className="pt-12 border-t border-white/10 w-full">
             <div className="grid grid-cols-1 md:grid-cols-5 gap-4 items-center">
-              <div className="md:col-span-1 p-6 bg-white/5 border border-white/10 rounded-sm">
+              <div className="p-6 bg-white/5 border border-white/10 rounded-sm">
                 <span className="text-white/80 text-lg font-light">AI Chat</span>
               </div>
               <div className="flex justify-center">
                 <ArrowRight className="text-accent h-6 w-6 rotate-90 md:rotate-0" />
               </div>
-              <div className="md:col-span-1 p-6 bg-accent/20 border border-accent/40 rounded-sm">
+              <div className="p-6 bg-accent/20 border border-accent/40 rounded-sm">
                 <span className="text-white font-bold text-lg">AI Assistants</span>
               </div>
               <div className="flex justify-center">
                  <ArrowRight className="text-accent h-6 w-6 rotate-90 md:rotate-0" />
               </div>
-              <div className="md:col-span-1 p-6 bg-white/10 border border-white/20 rounded-sm">
+              <div className="p-6 bg-white/10 border border-white/20 rounded-sm">
                 <span className="text-white font-black text-lg italic tracking-tighter">AI Coworkers</span>
               </div>
             </div>
-            <p className="mt-8 text-white/30 text-[9px] font-mono tracking-widest uppercase">Transitioning from Simple Interaction to Deep Workflow Integration</p>
+            <p className="mt-8 text-white/30 text-[9px] font-mono tracking-widest uppercase">Transitioning to Deep Workflow Integration</p>
           </div>
         </div>
       </PresentationSection>
 
       {/* Slide 8: Horizon - The Final Message */}
       <PresentationSection 
-        videoUrl={videos[7]} 
+        videoUrl={localVideos[7]} 
         fallbackImageUrl={PlaceHolderImages.find(img => img.id === "hero-bg")?.imageUrl || ""}
       >
-        <div className="max-w-5xl mx-auto space-y-16">
+        <div className="max-w-5xl mx-auto space-y-12 px-6">
           <div className="space-y-6">
-            <Rocket className="h-12 w-12 text-accent mx-auto" />
-            <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight uppercase">Skatteverket 3.0</h2>
+            <Rocket className="h-10 w-10 text-accent mx-auto" />
+            <h2 className="text-3xl md:text-5xl font-bold text-white tracking-tight uppercase">Skatteverket 3.0</h2>
             <p className="text-lg md:text-2xl font-light text-white/80 leading-relaxed max-w-4xl mx-auto">
               Through <span className="text-accent font-semibold italic">'Kraftsamling AI'</span>, we are building the foundation—focusing on <span className="text-white font-bold">culture, legal compliance, and new ways of working.</span>
             </p>
           </div>
 
-          <div className="pt-16 border-t border-white/10 relative">
-             <Sparkles className="absolute -top-12 left-1/2 -translate-x-1/2 h-8 w-8 text-accent/40" />
+          <div className="pt-12 border-t border-white/10 relative">
+             <Sparkles className="absolute -top-10 left-1/2 -translate-x-1/2 h-8 w-8 text-accent/40" />
              <h3 className="text-3xl md:text-6xl font-black text-white tracking-tighter italic leading-none">
               "The future is already here - <br/>it's just not <span className="text-accent">evenly distributed.</span>"
              </h3>
-             <p className="mt-8 text-white/30 font-mono text-xs tracking-[0.4em] uppercase">— William Gibson</p>
+             <p className="mt-6 text-white/30 font-mono text-xs tracking-[0.4em] uppercase">— William Gibson</p>
           </div>
 
-          <div className="pt-12 opacity-30">
+          <div className="pt-8 opacity-30">
             <div className="w-12 h-px bg-white/30 mx-auto" />
-            <p className="text-white/40 text-[9px] uppercase tracking-[0.8em] font-mono mt-4">Presentation Concluded • 2024 Innovation Hack</p>
+            <p className="text-white/40 text-[9px] uppercase tracking-[0.8em] font-mono mt-4">2024 Innovation Hack • Stockholm</p>
           </div>
         </div>
       </PresentationSection>
