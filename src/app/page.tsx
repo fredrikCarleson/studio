@@ -1,10 +1,9 @@
-
 "use client";
 
 import { useState, useEffect, useRef } from "react";
 import { PresentationSection } from "@/components/PresentationSection";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { ArrowLeft, ArrowRight, Cpu, MessageSquare, Workflow, Trophy, Users, AlertTriangle, FileText, Database, Clock, X, Info, Volume2, Sparkles, Rocket } from "lucide-react";
+import { Cpu, MessageSquare, Workflow, Trophy, Users, AlertTriangle, FileText, Database, Clock, X, Info, Volume2, Sparkles, Rocket, ArrowRight } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -25,7 +24,7 @@ const ARCHITECTURE_EXPLANATION = "This is our agentic swarm architecture. Phase 
 
 export default function Home() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [timeLeft, setTimeLeft] = useState(1200); // 20 minutes
+  const [timeLeft, setTimeLeft] = useState(1200); 
   const [isTimerRunning, setIsTimerRunning] = useState(false);
   const [isUIHidden, setIsUIHidden] = useState(false);
   const [showEvidence, setShowEvidence] = useState(false);
@@ -37,14 +36,14 @@ export default function Home() {
   const totalSections = CHAPTERS.length;
 
   const videos = [
-    "https://videos.pexels.com/video-files/3129957/3129957-uhd_2560_1440_30fps.mp4", // Sunrise
-    "https://videos.pexels.com/video-files/3129671/3129671-uhd_2560_1440_30fps.mp4", // Tech office
-    "https://videos.pexels.com/video-files/853889/853889-hd_1920_1080_25fps.mp4",    // AI Collaboration
-    "https://videos.pexels.com/video-files/4496268/4496268-hd_1920_1080_25fps.mp4",  // Documents
-    "https://videos.pexels.com/video-files/3130182/3130182-uhd_2560_1440_30fps.mp4", // Financial
-    "https://videos.pexels.com/video-files/854400/854400-hd_1920_1080_30fps.mp4",    // Particles
-    "https://videos.pexels.com/video-files/3129910/3129910-uhd_2560_1440_30fps.mp4", // Shapes
-    "https://videos.pexels.com/video-files/1851190/1851190-uhd_2560_1440_25fps.mp4", // Horizon
+    "https://videos.pexels.com/video-files/3129957/3129957-uhd_2560_1440_30fps.mp4",
+    "https://videos.pexels.com/video-files/3129671/3129671-uhd_2560_1440_30fps.mp4",
+    "https://videos.pexels.com/video-files/853889/853889-hd_1920_1080_25fps.mp4",
+    "https://videos.pexels.com/video-files/4496268/4496268-hd_1920_1080_25fps.mp4",
+    "https://videos.pexels.com/video-files/3130182/3130182-uhd_2560_1440_30fps.mp4",
+    "https://videos.pexels.com/video-files/854400/854400-hd_1920_1080_30fps.mp4",
+    "https://videos.pexels.com/video-files/3129910/3129910-uhd_2560_1440_30fps.mp4",
+    "https://videos.pexels.com/video-files/1851190/1851190-uhd_2560_1440_25fps.mp4",
   ];
 
   const scrollToSection = (index: number) => {
@@ -60,7 +59,7 @@ export default function Home() {
       
       setIsDeepDiveActive(false);
       if (index === 2) {
-        setTimeout(() => setShowEvidence(true), 3000);
+        setTimeout(() => setShowEvidence(true), 2500);
       } else {
         setShowEvidence(false);
       }
@@ -78,7 +77,7 @@ export default function Home() {
         audioRef.current.onended = () => setIsSpeaking(false);
       }
     } catch (error) {
-      console.error("TTS failed", error);
+      console.error("Assistant speech failed:", error);
       setIsSpeaking(false);
     }
   };
@@ -95,7 +94,7 @@ export default function Home() {
     const handleMouseMove = () => {
       setIsUIHidden(false);
       if (timerRef.current) clearTimeout(timerRef.current);
-      timerRef.current = setTimeout(() => setIsUIHidden(true), 3000);
+      timerRef.current = setTimeout(() => setIsUIHidden(true), 4000);
     };
     window.addEventListener("mousemove", handleMouseMove);
     return () => {
@@ -138,7 +137,7 @@ export default function Home() {
       <div className="film-grain" />
       <audio ref={audioRef} hidden />
 
-      {/* Stage Monitor HUD */}
+      {/* Global Presentation HUD */}
       <div className={cn(
         "fixed top-0 left-0 w-full z-[80] p-8 flex justify-between items-start transition-all duration-700",
         (isUIHidden || isDeepDiveActive) ? "opacity-0 pointer-events-none translate-y-[-20px]" : "opacity-100 translate-y-0"
@@ -155,7 +154,7 @@ export default function Home() {
         </div>
 
         <div className="flex flex-col items-end gap-3">
-          <div className="flex items-center gap-6 px-6 py-3 bg-black/40 backdrop-blur-2xl rounded-sm border border-white/10">
+          <div className="flex items-center gap-6 px-6 py-3 bg-black/40 backdrop-blur-2xl rounded-sm border border-white/10 shadow-2xl">
             <div className="flex flex-col items-end border-r border-white/10 pr-6 mr-1">
               <span className="text-[8px] font-mono uppercase tracking-[0.3em] text-white/30">Session Timer</span>
               <span className={cn("font-mono text-2xl font-light tracking-tighter", timeLeft < 300 ? "text-red-500 animate-pulse" : "text-white")}>
@@ -166,7 +165,7 @@ export default function Home() {
               variant="ghost" 
               size="sm" 
               onClick={() => setIsTimerRunning(!isTimerRunning)}
-              className="h-10 w-10 rounded-full border border-white/10 p-0 text-white/40 hover:text-accent transition-all hover:scale-110 active:scale-95"
+              className="h-10 w-10 rounded-full border border-white/10 p-0 text-white/40 hover:text-accent transition-all hover:scale-110"
             >
               {isTimerRunning ? "||" : "▶"}
             </Button>
@@ -177,7 +176,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Navigation Timeline */}
+      {/* Navigation Timeline Sidebar */}
       <div className={cn(
         "fixed left-12 top-1/2 -translate-y-1/2 z-[80] flex flex-col gap-8 transition-all duration-700",
         (isUIHidden || isDeepDiveActive) ? "opacity-0 pointer-events-none -translate-x-12" : "opacity-100 translate-x-0"
@@ -237,12 +236,12 @@ export default function Home() {
         </div>
       </PresentationSection>
 
-      {/* Slide 3: Team Alpha */}
+      {/* Slide 3: Team Alpha - Swarm & Nudge */}
       <PresentationSection 
         videoUrl={videos[2]} 
         fallbackImageUrl={PlaceHolderImages.find(img => img.id === "agent-bg")?.imageUrl || ""}
       >
-        <div className="space-y-6 relative">
+        <div className="space-y-6 relative w-full">
           <div className="inline-block px-4 py-1 bg-white/5 border border-white/10 rounded-sm text-accent text-[10px] font-bold uppercase tracking-[0.4em]">
             Case Study: Team Alpha
           </div>
@@ -261,126 +260,120 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto mt-12 px-6">
-            <div className="p-8 bg-white/5 border border-white/10 backdrop-blur-3xl text-left border-t-accent border-t-2">
+            <div className="p-8 bg-white/5 border border-white/10 backdrop-blur-3xl text-left border-t-accent border-t-2 transition-all hover:bg-white/10">
               <h4 className="text-white font-bold mb-2 tracking-widest uppercase text-xs">Multi-Modal Scraper</h4>
-              <p className="text-white/60 text-xs leading-relaxed">Scanning feeds multimodally to identify "undeclared" collaborations and gifts.</p>
+              <p className="text-white/60 text-xs leading-relaxed">Scanning feeds to identify "undeclared" collaborations and gifts.</p>
             </div>
-            <div className="p-8 bg-white/5 border border-white/10 backdrop-blur-3xl text-left border-t-white/20 border-t-2">
+            <div className="p-8 bg-white/5 border border-white/10 backdrop-blur-3xl text-left border-t-white/20 border-t-2 transition-all hover:bg-white/10">
               <h4 className="text-white font-bold mb-2 tracking-widest uppercase text-xs">Valuation Agent</h4>
-              <p className="text-white/60 text-xs leading-relaxed">Identifying luxury watches in YouTube videos and estimating market value instantly.</p>
+              <p className="text-white/60 text-xs leading-relaxed">Identifying luxury items in YouTube videos and estimating market value.</p>
             </div>
-            <div className="p-8 bg-white/5 border border-white/10 backdrop-blur-3xl text-left border-t-white/20 border-t-2">
+            <div className="p-8 bg-white/5 border border-white/10 backdrop-blur-3xl text-left border-t-white/20 border-t-2 transition-all hover:bg-white/10">
               <h4 className="text-white font-bold mb-2 tracking-widest uppercase text-xs">Risk Profiler</h4>
-              <p className="text-white/60 text-xs leading-relaxed">Consolidating social data, valuation, and registries into a single human-ready profile.</p>
+              <p className="text-white/60 text-xs leading-relaxed">Consolidating social data, valuation, and registries into human-ready profiles.</p>
             </div>
           </div>
 
-          <div className="mt-12 flex justify-center gap-4">
+          <div className="mt-12">
             <Button 
               variant="outline" 
               onClick={handleDeepDive}
-              className="bg-accent/10 border-accent/30 text-accent hover:bg-accent/20 group"
+              className="bg-accent/10 border-accent/30 text-accent hover:bg-accent/20"
             >
               <Info className="mr-2 h-4 w-4" />
-              Technical Blueprint
+              Technical Swarm Blueprint
               <Volume2 className={cn("ml-2 h-4 w-4 transition-all", isSpeaking && "animate-bounce text-white")} />
             </Button>
           </div>
 
-          {/* Floating Case Study Overlay */}
+          {/* Floating Nudge Evidence Overlay */}
           <div className={cn(
-            "absolute -right-4 top-0 w-80 p-6 bg-card border border-white/10 rounded-sm shadow-2xl transition-all duration-1000 transform",
+            "absolute right-12 top-0 w-80 p-6 bg-card border border-white/10 rounded-sm shadow-2xl transition-all duration-1000 transform",
             showEvidence && !isDeepDiveActive ? "opacity-100 translate-x-0" : "opacity-0 translate-x-12 pointer-events-none"
           )}>
-            <div className="relative h-48 w-full bg-muted mb-4 overflow-hidden rounded-sm">
+            <div className="relative h-48 w-full bg-muted mb-4 overflow-hidden rounded-sm group">
               <img 
                 src="https://picsum.photos/seed/legal/600/400" 
                 alt="Case Evidence" 
-                className="w-full h-full object-cover opacity-50 grayscale hover:grayscale-0 transition-all cursor-crosshair"
-                data-ai-hint="news media"
+                className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                data-ai-hint="news crime"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
               <div className="absolute bottom-3 left-3 flex gap-2">
-                <span className="bg-red-500 text-[8px] font-bold px-1.5 py-0.5 rounded-sm uppercase">Evidence</span>
-                <span className="bg-white/10 text-[8px] font-bold px-1.5 py-0.5 rounded-sm uppercase">Case #882</span>
+                <span className="bg-red-500 text-[8px] font-bold px-1.5 py-0.5 rounded-sm uppercase tracking-tighter">Case Example</span>
               </div>
             </div>
             <h5 className="text-white font-bold text-sm mb-2">The "Nudge" Strategy</h5>
             <p className="text-white/50 text-[10px] leading-relaxed italic">
-              "Imagine if we nudged this influencer early. Early intervention could have prevented a legal crisis. Shifting from reactive to proactive."
+              "Imagine if we nudged this influencer early. Shifting from reactive correction to proactive compliance could prevent legal crises."
             </p>
           </div>
         </div>
 
-        {/* Technical Deep Dive Overlay */}
+        {/* Technical Swarm Architecture Deep Dive */}
         <div className={cn(
-          "fixed inset-0 z-[100] bg-black/100 backdrop-blur-xl flex items-center justify-center p-8 md:p-12 transition-all duration-700 overflow-y-auto",
-          isDeepDiveActive ? "opacity-100 scale-100 pointer-events-auto" : "opacity-0 scale-105 pointer-events-none"
+          "fixed inset-0 z-[100] bg-black backdrop-blur-2xl flex items-center justify-center p-8 md:p-12 transition-all duration-700",
+          isDeepDiveActive ? "opacity-100 translate-y-0" : "opacity-0 translate-y-full pointer-events-none"
         )}>
           <button 
             onClick={() => {
               setIsDeepDiveActive(false);
               if (audioRef.current) audioRef.current.pause();
             }}
-            className="absolute top-12 right-12 z-[110] text-white/60 hover:text-white transition-colors bg-white/5 p-3 rounded-full border border-white/10"
+            className="absolute top-12 right-12 z-[110] text-white/60 hover:text-white bg-white/5 p-4 rounded-full border border-white/20 transition-all hover:scale-110"
           >
             <X className="h-8 w-8" />
           </button>
           
-          <div className="max-w-7xl w-full grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-24 items-center">
-             <div className="space-y-10 text-left">
+          <div className="max-w-7xl w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+             <div className="space-y-8 text-left">
                 <div className="inline-block px-3 py-1 bg-accent/20 border border-accent/40 rounded-sm text-accent text-[10px] font-bold uppercase tracking-[0.4em]">
-                  Technical Deep Dive
+                  Technical Swarm Architecture
                 </div>
-                <h2 className="text-4xl md:text-6xl font-bold text-white tracking-tighter leading-tight">System Architecture</h2>
-                <div className="space-y-6">
+                <h2 className="text-4xl md:text-6xl font-bold text-white tracking-tighter leading-tight">Five-Phase Execution</h2>
+                <div className="space-y-4">
                   {[
-                    { title: "Multi-Modal Collection", desc: "Parallel scraping of social feeds & metadata" },
-                    { title: "Parallel Evaluation", desc: "Specialized agents analyzing valuation & barter risks" },
-                    { title: "Worker Orchestration", desc: "Dynamic task allocation via orchestration layer" },
-                    { title: "Dynamic Task Planning", desc: "JSON-based execution planning for autonomous flows" },
-                    { title: "Final Compliance Report", desc: "Synthesis into human-readable Swedish reports" }
+                    { title: "Multi-Modal Scraper", desc: "Phase 1: High-throughput parallel collection" },
+                    { title: "Valuation Swarm", desc: "Phase 2: Fan-out to specialized pricing models" },
+                    { title: "Dynamic Workers", desc: "Phase 3: Automated spawning based on task plans" },
+                    { title: "Registry Synthesis", desc: "Phase 4: Cross-referencing legal entity data" },
+                    { title: "Compliance Output", desc: "Phase 5: Final human-readable Swedish reports" }
                   ].map((item, i) => (
-                    <div key={i} className={cn(
-                      "flex items-start gap-6 transition-all duration-700",
-                      isDeepDiveActive ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-12"
-                    )} style={{ transitionDelay: `${i * 150}ms` }}>
-                       <div className="w-10 h-10 rounded-full bg-accent/20 border border-accent/40 flex items-center justify-center text-accent font-mono text-sm shrink-0">
+                    <div key={i} className="flex items-start gap-6 group">
+                       <div className="w-10 h-10 rounded-full bg-accent/20 border border-accent/40 flex items-center justify-center text-accent font-mono text-sm group-hover:bg-accent group-hover:text-black transition-all">
                          {i + 1}
                        </div>
-                       <div className="space-y-1">
-                         <span className="block text-white font-semibold text-xl tracking-tight">{item.title}</span>
-                         <span className="block text-white/40 text-sm font-light">{item.desc}</span>
+                       <div>
+                         <span className="block text-white font-semibold text-xl">{item.title}</span>
+                         <span className="block text-white/40 text-xs uppercase tracking-widest">{item.desc}</span>
                        </div>
                     </div>
                   ))}
                 </div>
                 
-                <div className={cn("pt-10 transition-opacity duration-1000", isSpeaking ? "opacity-100" : "opacity-0")}>
-                   <div className="flex items-center gap-6">
-                      <div className="h-[2px] w-20 bg-accent animate-pulse" />
-                      <span className="text-accent font-mono text-xs uppercase tracking-[0.3em] animate-pulse">Assistant Explaining Architecture...</span>
-                   </div>
-                </div>
+                {isSpeaking && (
+                  <div className="pt-10 flex items-center gap-4">
+                    <div className="flex gap-1">
+                      {[1,2,3,4,5].map(i => <div key={i} className="w-1 h-4 bg-accent animate-pulse" style={{ animationDelay: `${i*100}ms` }} />)}
+                    </div>
+                    <span className="text-accent font-mono text-xs uppercase tracking-[0.4em]">AI Assistant Narrating...</span>
+                  </div>
+                )}
              </div>
              
-             <div className="relative group">
-                <div className="absolute inset-0 bg-accent/10 blur-[120px] rounded-full animate-pulse" />
-                <div className="relative aspect-[4/3] rounded-lg border border-white/20 bg-black overflow-hidden shadow-[0_0_100px_rgba(0,0,0,1)]">
+             <div className="relative">
+                <div className="absolute inset-0 bg-accent/10 blur-[100px] rounded-full" />
+                <div className="relative rounded-lg border border-white/10 bg-black/50 overflow-hidden shadow-2xl">
                    <img 
-                    src="https://picsum.photos/seed/system-architecture/1600/1200" 
-                    alt="Architecture Diagram" 
-                    className="w-full h-full object-cover opacity-80"
+                    src="https://picsum.photos/seed/system-diagram/1200/900" 
+                    alt="System Architecture" 
+                    className="w-full h-auto opacity-70 grayscale"
                     data-ai-hint="system diagram"
                    />
-                   <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/40" />
-                   <div className="absolute inset-0 flex items-center justify-center p-12">
-                     <div className="w-full h-full border border-accent/20 rounded-md backdrop-blur-[2px] flex flex-col items-center justify-center gap-6">
-                        <div className="grid grid-cols-4 gap-3 w-4/5">
-                          {[1,2,3,4,5,6,7,8].map(i => <div key={i} className="h-2 bg-accent/30 rounded-full animate-pulse" style={{ animationDelay: `${i * 100}ms` }} />)}
-                        </div>
-                        <span className="text-accent/60 font-mono text-[10px] uppercase tracking-[0.6em]">Agentic Swarm View v1.0</span>
-                     </div>
+                   <div className="absolute inset-0 flex items-center justify-center bg-black/40 backdrop-blur-[1px]">
+                      <div className="p-8 border border-white/10 rounded-sm bg-black/80">
+                        <span className="text-white font-mono text-[10px] uppercase tracking-[1em]">Architecture View v1.0</span>
+                      </div>
                    </div>
                 </div>
              </div>
@@ -388,7 +381,7 @@ export default function Home() {
         </div>
       </PresentationSection>
 
-      {/* Slide 4: Team Bravo */}
+      {/* Slide 4: Team Bravo - The Pedagogy */}
       <PresentationSection 
         videoUrl={videos[3]} 
         fallbackImageUrl={PlaceHolderImages.find(img => img.id === "bravo-bg")?.imageUrl || ""}
@@ -397,82 +390,69 @@ export default function Home() {
           <MessageSquare className="h-16 w-16 text-accent mx-auto" />
           <h2 className="text-4xl md:text-7xl font-bold text-white tracking-tight">The Knowledge Split</h2>
           
-          <div className="grid grid-cols-2 gap-1 px-1 bg-white/5 border border-white/10 rounded-sm">
-            <div className="p-12 text-center border-r border-white/10">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-white/5 border border-white/10 p-2 rounded-sm">
+            <div className="p-12 text-center border-r border-white/10 hover:bg-white/5 transition-all">
               <span className="text-accent font-mono text-[10px] uppercase tracking-[0.4em] mb-4 block">The "What"</span>
               <h3 className="text-2xl font-bold text-white mb-4">Official Regulations</h3>
               <p className="text-white/40 text-sm italic">"Excellent accuracy. Pure facts. Static rules."</p>
-              <div className="mt-8 flex justify-center gap-2">
-                {[1,2,3,4,5].map(i => <div key={i} className="w-4 h-1 bg-accent/40 rounded-full" />)}
-              </div>
             </div>
-            <div className="p-12 text-center relative overflow-hidden group">
+            <div className="p-12 text-center relative overflow-hidden group hover:bg-red-500/5 transition-all">
               <div className="absolute top-4 right-4 animate-pulse">
                 <AlertTriangle className="text-red-500 h-4 w-4" />
               </div>
               <span className="text-accent font-mono text-[10px] uppercase tracking-[0.4em] mb-4 block">The "How"</span>
               <h3 className="text-2xl font-bold text-white mb-4">Practical Pedagogy</h3>
               <p className="text-white/40 text-sm italic">"High risk of hallucination. Making things up."</p>
-              <div className="mt-8 flex justify-center gap-2">
-                {[1,2,3].map(i => <div key={i} className="w-4 h-1 bg-red-500/40 rounded-full" />)}
-                {[4,5].map(i => <div key={i} className="w-4 h-1 bg-white/10 rounded-full" />)}
-              </div>
             </div>
           </div>
 
           <p className="text-2xl md:text-4xl font-light text-white italic max-w-4xl mx-auto">
-            "Skatti… <br/>you're actually <span className="text-accent font-bold">making that up.</span>"
+            "Skatti… you're actually <span className="text-accent font-bold underline decoration-accent/30 underline-offset-8">making that up.</span>"
           </p>
         </div>
       </PresentationSection>
 
-      {/* Slide 5: Team Delta */}
+      {/* Slide 5: Team Delta - Automation */}
       <PresentationSection 
         videoUrl={videos[4]} 
         fallbackImageUrl={PlaceHolderImages.find(img => img.id === "delta-bg")?.imageUrl || ""}
       >
         <div className="space-y-12">
           <Workflow className="h-16 w-16 text-accent mx-auto" />
-          <h2 className="text-4xl md:text-7xl font-bold text-white">Kraftsamling Analysis</h2>
+          <h2 className="text-4xl md:text-7xl font-bold text-white">Risk Analysis Swarm</h2>
           
           <div className="flex flex-col items-center gap-6 mt-8 max-w-5xl mx-auto w-full">
-            <div className="grid grid-cols-3 gap-4 w-full">
-              <div className="p-6 bg-white/5 border border-white/10 rounded-sm backdrop-blur-xl group hover:bg-accent/10 transition-all text-center">
-                <FileText className="h-6 w-6 text-accent mb-4 mx-auto" />
-                <span className="text-[10px] text-white/50 uppercase tracking-[0.3em] font-bold">Annual Reports</span>
-              </div>
-              <div className="p-6 bg-white/5 border border-white/10 rounded-sm backdrop-blur-xl group hover:bg-accent/10 transition-all text-center">
-                <Database className="h-6 w-6 text-accent mb-4 mx-auto" />
-                <span className="text-[10px] text-white/50 uppercase tracking-[0.3em] font-bold">SCB Statistics</span>
-              </div>
-              <div className="p-6 bg-white/5 border border-white/10 rounded-sm backdrop-blur-xl group hover:bg-accent/10 transition-all text-center">
-                <Users className="h-6 w-6 text-accent mb-4 mx-auto" />
-                <span className="text-[10px] text-white/50 uppercase tracking-[0.3em] font-bold">Public Registry</span>
-              </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
+              {[
+                { icon: FileText, label: "Annual Reports" },
+                { icon: Database, label: "SCB Statistics" },
+                { icon: Users, label: "Public Registry" }
+              ].map((item, i) => (
+                <div key={i} className="p-6 bg-white/5 border border-white/10 rounded-sm backdrop-blur-xl hover:bg-accent/10 transition-all text-center group">
+                  <item.icon className="h-6 w-6 text-accent mb-4 mx-auto group-hover:scale-110 transition-transform" />
+                  <span className="text-[10px] text-white/50 uppercase tracking-[0.3em] font-bold">{item.label}</span>
+                </div>
+              ))}
             </div>
             
-            <div className="flex w-full items-center gap-12 mt-12 px-12 py-8 bg-white/5 border border-white/10 rounded-sm">
-              <div className="flex-1 space-y-2">
+            <div className="flex flex-col md:flex-row w-full items-center gap-8 mt-12 px-12 py-8 bg-white/5 border border-white/10 rounded-sm">
+              <div className="flex-1 space-y-2 w-full">
                 <div className="flex justify-between items-end">
-                  <span className="text-[9px] uppercase tracking-widest text-white/40 font-bold">Human Effort</span>
-                  <span className="text-xs font-mono text-white/60 italic">~Hours of reading</span>
+                  <span className="text-[9px] uppercase tracking-widest text-white/40 font-bold">Human Compilation</span>
+                  <span className="text-xs font-mono text-white/60">~Hours of Manual Work</span>
                 </div>
-                <div className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
-                  <div className="h-full w-full bg-white/20" />
-                </div>
+                <Progress value={100} className="h-1 bg-white/10" />
               </div>
-              <div className="flex flex-col items-center">
-                <Clock className="h-8 w-8 text-accent animate-pulse" />
+              <div className="flex flex-col items-center shrink-0">
+                <Clock className="h-6 w-6 text-accent animate-pulse" />
                 <span className="text-[8px] uppercase tracking-[0.3em] text-accent font-bold mt-2">VS</span>
               </div>
-              <div className="flex-1 space-y-2">
+              <div className="flex-1 space-y-2 w-full">
                 <div className="flex justify-between items-end">
                   <span className="text-[9px] uppercase tracking-widest text-accent font-bold">Agent Swarm</span>
-                  <span className="text-xs font-mono text-accent">~Seconds of processing</span>
+                  <span className="text-xs font-mono text-accent">~Seconds of AI Reasoning</span>
                 </div>
-                <div className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
-                  <div className="h-full w-4 bg-accent" />
-                </div>
+                <Progress value={5} className="h-1 bg-white/10" />
               </div>
             </div>
           </div>
@@ -484,84 +464,78 @@ export default function Home() {
         videoUrl={videos[5]} 
         fallbackImageUrl={PlaceHolderImages.find(img => img.id === "winner-bg")?.imageUrl || ""}
       >
-        <Trophy className="h-20 w-20 text-accent mx-auto mb-8" />
-        <h2 className="text-5xl md:text-8xl font-bold text-white tracking-tighter mb-6 italic">The Winner: Alpha</h2>
+        <Trophy className="h-20 w-20 text-accent mx-auto mb-8 animate-bounce" />
+        <h2 className="text-5xl md:text-8xl font-bold text-white tracking-tighter mb-6 italic">The Winner: Team Alpha</h2>
         <div className="max-w-4xl mx-auto space-y-8">
           <p className="text-2xl md:text-4xl font-light text-white leading-snug">
-            Multi-agent systems show their power when they are given <span className="text-accent font-bold">roles, responsibilities, and peers.</span>
+            Agents thrive when given <span className="text-accent font-bold">roles, responsibilities, and peers.</span>
           </p>
-          <div className="h-[2px] w-24 bg-accent mx-auto" />
-          <p className="text-white/40 text-[10px] uppercase tracking-[0.6em] font-mono">Potential: Crime prevention and stolen goods analysis</p>
+          <div className="h-px w-24 bg-accent mx-auto" />
+          <p className="text-white/40 text-[10px] uppercase tracking-[0.6em] font-mono">Crime prevention • Valuations • Swarm Orchestration</p>
         </div>
       </PresentationSection>
 
-      {/* Slide 7: Wisdom */}
+      {/* Slide 7: Wisdom & Opportunity */}
       <PresentationSection 
         videoUrl={videos[6]} 
         fallbackImageUrl={PlaceHolderImages.find(img => img.id === "takeaway-bg")?.imageUrl || ""}
       >
-        <div className="space-y-16 max-w-6xl mx-auto px-6">
+        <div className="space-y-12 max-w-6xl mx-auto px-6">
           <div className="space-y-4">
-            <h3 className="text-accent text-sm font-bold uppercase tracking-[1em]">The Learning</h3>
-            <p className="text-3xl md:text-5xl font-light text-white italic leading-tight max-w-5xl mx-auto">
-              "Agents are not just technology. They're teammates without judgment. They need <span className="text-accent font-bold">boundaries, orchestration, and patience.</span>"
+            <h3 className="text-accent text-xs font-bold uppercase tracking-[1em]">The Core Insight</h3>
+            <p className="text-2xl md:text-5xl font-light text-white italic leading-tight max-w-5xl mx-auto">
+              "Agents are not just technology. They're <span className="text-accent font-bold">digital coworkers.</span> They need structure, verification, and clear goals."
             </p>
           </div>
           
           <div className="pt-12 border-t border-white/10">
-            <h3 className="text-white/40 text-xs font-bold uppercase tracking-[0.5em] mb-12">The Opportunity</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
-              <div className="p-8 bg-white/5 border border-white/10 rounded-sm">
-                <span className="text-accent font-mono text-4xl font-bold mb-2 block">01</span>
-                <span className="text-white/80 text-xl font-light">AI Chat</span>
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-4 items-center">
+              <div className="md:col-span-1 p-6 bg-white/5 border border-white/10 rounded-sm">
+                <span className="text-white/80 text-lg font-light">AI Chat</span>
               </div>
               <div className="flex justify-center">
-                <ArrowRight className="text-accent h-6 w-6 animate-pulse hidden md:block" />
+                <ArrowRight className="text-accent h-6 w-6 rotate-90 md:rotate-0" />
               </div>
-              <div className="p-8 bg-accent/20 border border-accent/40 rounded-sm">
-                <span className="text-accent font-mono text-4xl font-bold mb-2 block">02</span>
-                <span className="text-white font-bold text-xl">AI Assistants</span>
+              <div className="md:col-span-1 p-6 bg-accent/20 border border-accent/40 rounded-sm">
+                <span className="text-white font-bold text-lg">AI Assistants</span>
               </div>
-              <div className="flex justify-center md:col-start-2">
-                 <ArrowRight className="text-accent h-6 w-6 animate-pulse rotate-90 md:rotate-0" />
+              <div className="flex justify-center">
+                 <ArrowRight className="text-accent h-6 w-6 rotate-90 md:rotate-0" />
               </div>
-              <div className="p-8 bg-white/10 border border-white/20 rounded-sm md:col-start-3">
-                <span className="text-accent font-mono text-4xl font-bold mb-2 block">03</span>
-                <span className="text-white font-black text-xl italic tracking-tighter">AI Coworkers</span>
+              <div className="md:col-span-1 p-6 bg-white/10 border border-white/20 rounded-sm">
+                <span className="text-white font-black text-lg italic tracking-tighter">AI Coworkers</span>
               </div>
             </div>
-            <p className="mt-12 text-white/40 text-sm font-mono tracking-widest uppercase">Transitioning from Interaction to Integration</p>
+            <p className="mt-8 text-white/30 text-[9px] font-mono tracking-widest uppercase">Transitioning from Simple Interaction to Deep Workflow Integration</p>
           </div>
         </div>
       </PresentationSection>
 
-      {/* Slide 8: Horizon */}
+      {/* Slide 8: Horizon - The Final Message */}
       <PresentationSection 
         videoUrl={videos[7]} 
         fallbackImageUrl={PlaceHolderImages.find(img => img.id === "hero-bg")?.imageUrl || ""}
       >
-        <div className="max-w-5xl mx-auto space-y-24">
-          <div className="space-y-8">
-            <Rocket className="h-16 w-16 text-accent mx-auto animate-bounce" />
-            <h2 className="text-4xl md:text-6xl font-bold text-white tracking-tight uppercase">Skatteverket 3.0</h2>
-            <p className="text-xl md:text-3xl font-light text-white/80 leading-relaxed max-w-4xl mx-auto">
-              Through <span className="text-accent font-semibold italic">'Kraftsamling AI'</span>, we are building the foundation—focusing not just on technology, but on <span className="text-white font-bold">culture, legal compliance, and new ways of working.</span>
+        <div className="max-w-5xl mx-auto space-y-16">
+          <div className="space-y-6">
+            <Rocket className="h-12 w-12 text-accent mx-auto" />
+            <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight uppercase">Skatteverket 3.0</h2>
+            <p className="text-lg md:text-2xl font-light text-white/80 leading-relaxed max-w-4xl mx-auto">
+              Through <span className="text-accent font-semibold italic">'Kraftsamling AI'</span>, we are building the foundation—focusing on <span className="text-white font-bold">culture, legal compliance, and new ways of working.</span>
             </p>
           </div>
 
-          <div className="pt-24 border-t border-white/10">
-            <div className="relative inline-block">
-               <Sparkles className="absolute -top-12 -right-12 h-10 w-10 text-accent animate-pulse" />
-               <h3 className="text-4xl md:text-7xl font-black text-white tracking-tighter italic leading-none">
-                "The future is already here - <br/>it's just not <span className="text-accent">evenly distributed.</span>"
-               </h3>
-               <p className="mt-8 text-white/40 font-mono text-sm tracking-[0.4em] uppercase">— William Gibson</p>
-            </div>
+          <div className="pt-16 border-t border-white/10 relative">
+             <Sparkles className="absolute -top-12 left-1/2 -translate-x-1/2 h-8 w-8 text-accent/40" />
+             <h3 className="text-3xl md:text-6xl font-black text-white tracking-tighter italic leading-none">
+              "The future is already here - <br/>it's just not <span className="text-accent">evenly distributed.</span>"
+             </h3>
+             <p className="mt-8 text-white/30 font-mono text-xs tracking-[0.4em] uppercase">— William Gibson</p>
           </div>
 
-          <div className="pt-24 opacity-20">
-            <div className="w-16 h-px bg-white/30 mx-auto" />
-            <p className="text-white/30 text-[10px] uppercase tracking-[0.8em] font-mono mt-4">Presentation Concluded • 2024 Innovation Hack</p>
+          <div className="pt-12 opacity-30">
+            <div className="w-12 h-px bg-white/30 mx-auto" />
+            <p className="text-white/40 text-[9px] uppercase tracking-[0.8em] font-mono mt-4">Presentation Concluded • 2024 Innovation Hack</p>
           </div>
         </div>
       </PresentationSection>
