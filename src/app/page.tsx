@@ -4,7 +4,7 @@
 import { useState, useEffect, useRef } from "react";
 import { PresentationSection } from "@/components/PresentationSection";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { ArrowLeft, ArrowRight, Cpu, MessageSquare, Workflow, Trophy, Users, AlertTriangle, FileText, Database, Clock, X, Info, Volume2 } from "lucide-react";
+import { ArrowLeft, ArrowRight, Cpu, MessageSquare, Workflow, Trophy, Users, AlertTriangle, FileText, Database, Clock, X, Info, Volume2, Sparkles, Rocket } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -18,7 +18,7 @@ const CHAPTERS = [
   "The Automation",
   "The Verdict",
   "The Wisdom",
-  "The Horizon"
+  "The Future"
 ];
 
 const ARCHITECTURE_EXPLANATION = "This is our agentic swarm architecture. Phase 1 begins with a parallel multi-modal scraper. In phase 2, we fan out to specialized evaluation agents. Phase 4 is where the magic happens: the system dynamically spawns workers based on a JSON task plan. Finally, in phase 5, it converges into a structured Swedish compliance report.";
@@ -298,7 +298,7 @@ export default function Home() {
                 src="https://picsum.photos/seed/legal/600/400" 
                 alt="Case Evidence" 
                 className="w-full h-full object-cover opacity-50 grayscale hover:grayscale-0 transition-all cursor-crosshair"
-                data-ai-hint="jail news"
+                data-ai-hint="news media"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
               <div className="absolute bottom-3 left-3 flex gap-2">
@@ -421,15 +421,15 @@ export default function Home() {
           
           <div className="flex flex-col items-center gap-6 mt-8 max-w-5xl mx-auto w-full">
             <div className="grid grid-cols-3 gap-4 w-full">
-              <div className="p-6 bg-white/5 border border-white/10 rounded-sm backdrop-blur-xl group hover:bg-accent/10 transition-all">
+              <div className="p-6 bg-white/5 border border-white/10 rounded-sm backdrop-blur-xl group hover:bg-accent/10 transition-all text-center">
                 <FileText className="h-6 w-6 text-accent mb-4 mx-auto" />
                 <span className="text-[10px] text-white/50 uppercase tracking-[0.3em] font-bold">Annual Reports</span>
               </div>
-              <div className="p-6 bg-white/5 border border-white/10 rounded-sm backdrop-blur-xl group hover:bg-accent/10 transition-all">
+              <div className="p-6 bg-white/5 border border-white/10 rounded-sm backdrop-blur-xl group hover:bg-accent/10 transition-all text-center">
                 <Database className="h-6 w-6 text-accent mb-4 mx-auto" />
                 <span className="text-[10px] text-white/50 uppercase tracking-[0.3em] font-bold">SCB Statistics</span>
               </div>
-              <div className="p-6 bg-white/5 border border-white/10 rounded-sm backdrop-blur-xl group hover:bg-accent/10 transition-all">
+              <div className="p-6 bg-white/5 border border-white/10 rounded-sm backdrop-blur-xl group hover:bg-accent/10 transition-all text-center">
                 <Users className="h-6 w-6 text-accent mb-4 mx-auto" />
                 <span className="text-[10px] text-white/50 uppercase tracking-[0.3em] font-bold">Public Registry</span>
               </div>
@@ -441,7 +441,6 @@ export default function Home() {
                   <span className="text-[9px] uppercase tracking-widest text-white/40 font-bold">Human Effort</span>
                   <span className="text-xs font-mono text-white/60 italic">~Hours of reading</span>
                 </div>
-                <div className="h-full w-full bg-white/20" />
                 <div className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
                   <div className="h-full w-full bg-white/20" />
                 </div>
@@ -485,24 +484,37 @@ export default function Home() {
         videoUrl={videos[6]} 
         fallbackImageUrl={PlaceHolderImages.find(img => img.id === "takeaway-bg")?.imageUrl || ""}
       >
-        <div className="space-y-16">
-          <h3 className="text-accent text-sm font-bold uppercase tracking-[1em]">The Digital Philosophy</h3>
-          <p className="text-3xl md:text-6xl font-light text-white italic leading-tight max-w-5xl mx-auto">
-            "Agents are like developers with total world knowledge and <span className="text-accent font-bold">zero judgment.</span>"
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-16 mt-16 text-left max-w-6xl mx-auto px-12">
-            <div className="space-y-4 border-l border-accent/30 pl-8">
-              <div className="text-accent font-bold tracking-widest uppercase text-[10px]">The Struggle</div>
-              <div className="text-white/80 text-xl font-light">Absolute correctness in legal and public facts.</div>
+        <div className="space-y-16 max-w-6xl mx-auto px-6">
+          <div className="space-y-4">
+            <h3 className="text-accent text-sm font-bold uppercase tracking-[1em]">The Learning</h3>
+            <p className="text-3xl md:text-5xl font-light text-white italic leading-tight max-w-5xl mx-auto">
+              "Agents are not just technology. They're teammates without judgment. They need <span className="text-accent font-bold">boundaries, orchestration, and patience.</span>"
+            </p>
+          </div>
+          
+          <div className="pt-12 border-t border-white/10">
+            <h3 className="text-white/40 text-xs font-bold uppercase tracking-[0.5em] mb-12">The Opportunity</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+              <div className="p-8 bg-white/5 border border-white/10 rounded-sm">
+                <span className="text-accent font-mono text-4xl font-bold mb-2 block">01</span>
+                <span className="text-white/80 text-xl font-light">AI Chat</span>
+              </div>
+              <div className="flex justify-center">
+                <ArrowRight className="text-accent h-6 w-6 animate-pulse hidden md:block" />
+              </div>
+              <div className="p-8 bg-accent/20 border border-accent/40 rounded-sm">
+                <span className="text-accent font-mono text-4xl font-bold mb-2 block">02</span>
+                <span className="text-white font-bold text-xl">AI Assistants</span>
+              </div>
+              <div className="flex justify-center md:col-start-2">
+                 <ArrowRight className="text-accent h-6 w-6 animate-pulse rotate-90 md:rotate-0" />
+              </div>
+              <div className="p-8 bg-white/10 border border-white/20 rounded-sm md:col-start-3">
+                <span className="text-accent font-mono text-4xl font-bold mb-2 block">03</span>
+                <span className="text-white font-black text-xl italic tracking-tighter">AI Coworkers</span>
+              </div>
             </div>
-            <div className="space-y-4 border-l border-white/10 pl-8">
-              <div className="text-white font-bold tracking-widest uppercase text-[10px]">The Excellence</div>
-              <div className="text-white/80 text-xl font-light">Discovering trends and exploring massive datasets.</div>
-            </div>
-            <div className="space-y-4 border-l border-white/10 pl-8">
-              <div className="text-white font-bold tracking-widest uppercase text-[10px]">The Need</div>
-              <div className="text-white/80 text-xl font-light">Orchestration, boundaries, and human judgment.</div>
-            </div>
+            <p className="mt-12 text-white/40 text-sm font-mono tracking-widest uppercase">Transitioning from Interaction to Integration</p>
           </div>
         </div>
       </PresentationSection>
@@ -512,13 +524,29 @@ export default function Home() {
         videoUrl={videos[7]} 
         fallbackImageUrl={PlaceHolderImages.find(img => img.id === "hero-bg")?.imageUrl || ""}
       >
-        <Users className="h-16 w-16 text-accent mx-auto mb-10" />
-        <p className="text-5xl md:text-7xl font-bold text-white tracking-tighter max-w-5xl leading-none">
-          Teammates <br/>without <span className="text-accent italic">judgment.</span>
-        </p>
-        <div className="mt-24 space-y-6">
-          <div className="w-16 h-px bg-white/30 mx-auto" />
-          <p className="text-white/30 text-[10px] uppercase tracking-[0.8em] font-mono">Presentation Concluded • 2024 Innovation Hack</p>
+        <div className="max-w-5xl mx-auto space-y-24">
+          <div className="space-y-8">
+            <Rocket className="h-16 w-16 text-accent mx-auto animate-bounce" />
+            <h2 className="text-4xl md:text-6xl font-bold text-white tracking-tight uppercase">Skatteverket 3.0</h2>
+            <p className="text-xl md:text-3xl font-light text-white/80 leading-relaxed max-w-4xl mx-auto">
+              Through <span className="text-accent font-semibold italic">'Kraftsamling AI'</span>, we are building the foundation—focusing not just on technology, but on <span className="text-white font-bold">culture, legal compliance, and new ways of working.</span>
+            </p>
+          </div>
+
+          <div className="pt-24 border-t border-white/10">
+            <div className="relative inline-block">
+               <Sparkles className="absolute -top-12 -right-12 h-10 w-10 text-accent animate-pulse" />
+               <h3 className="text-4xl md:text-7xl font-black text-white tracking-tighter italic leading-none">
+                "The future is already here - <br/>it's just not <span className="text-accent">evenly distributed.</span>"
+               </h3>
+               <p className="mt-8 text-white/40 font-mono text-sm tracking-[0.4em] uppercase">— William Gibson</p>
+            </div>
+          </div>
+
+          <div className="pt-24 opacity-20">
+            <div className="w-16 h-px bg-white/30 mx-auto" />
+            <p className="text-white/30 text-[10px] uppercase tracking-[0.8em] font-mono mt-4">Presentation Concluded • 2024 Innovation Hack</p>
+          </div>
         </div>
       </PresentationSection>
     </main>
