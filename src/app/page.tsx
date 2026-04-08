@@ -46,14 +46,14 @@ const CHAPTERS = [
 ] as const;
 
 const LOCAL_VIDEOS = [
-  "/videos/Sunrise_over_Stockholm_202604071643.mp4",
-  "/videos/Modern_tech_office_202604071647.mp4",
-  "/videos/AI_agents_collaborating_202604071648.mp4",
-  "/videos/Digital_documents_sorted_202604071650.mp4",
-  "/videos/Digital_reports_financial_202604071757.mp4",
-  "/videos/Golden_particles_converging_202604071759.mp4",
-  "/videos/Geometric_shapes_moving_202604071759.mp4",
-  "/videos/Digital_horizon_leading_202604071800.mp4",
+  "/videos/Sunrise_over_Stockholm_202604071643.mp4",          // 1 — Prologue
+  "/videos/Modern_tech_office_202604071647.mp4",               // 2 — The Vision
+  "/videos/AI_agents_collaborating_202604071648.mp4",          // 3 — The Swarm
+  "/videos/Slide 4 - The Knowledge Split.mp4",                 // 4 — The Pedagogy
+  "/videos/Slide 5 - The Automation.mp4",                      // 5 — The Automation
+  "/videos/Slide 6 - The Verdict.mp4",                         // 6 — The Verdict
+  "/videos/Slide 7 - The Wisdom.mp4",                          // 7 — The Wisdom
+  "/videos/Digital_horizon_leading_202604071800.mp4",          // 8 — The Future
 ] as const;
 
 /**
@@ -895,9 +895,8 @@ export default function Home() {
 
       {/* ────────────────────────────────────────────────────────────────────────
           SLIDE 8 — THE FUTURE
-          TEDx closer: the audience's own questions → the human punchline.
-          Ends on our voice, not Gibson's. The screen holds silence while
-          the speaker delivers "And apparently, so do we."
+          Minimal text. The speaker delivers the close live.
+          The screen just holds two lines and silence.
       ──────────────────────────────────────────────────────────────────────── */}
       <PresentationSection
         sectionIndex={7}
@@ -906,57 +905,17 @@ export default function Home() {
         onSectionActiveChange={handleSectionActiveChange}
         videoUrl={LOCAL_VIDEOS[7]}
         fallbackImageUrl={PlaceHolderImages.find((img) => img.id === "hero-bg")?.imageUrl ?? ""}
-        contentClassName="space-y-10 max-w-4xl mx-auto px-6 w-full"
       >
-        {/* Opening line — sets the frame */}
-        <div className="space-y-3">
-          <span className="text-[9px] font-mono uppercase tracking-[1em] text-accent/50">
-            The questions we can't avoid
-          </span>
-          <p className="text-lg md:text-xl font-light text-white/50 leading-relaxed [text-wrap:balance]">
-            Once agents start{" "}
-            <span className="text-white italic">acting</span>{" "}
-            instead of just answering, we face questions that aren't technical.
-            They are questions of{" "}
-            <span className="text-accent">leadership.</span>
-          </p>
-        </div>
-
-        {/* The three hard questions — each lands as the speaker speaks */}
-        <div className="space-y-4 w-full border-l-2 border-accent/30 pl-8">
-          {[
-            "Who is accountable when an agent makes a bad call — the developer, the business, or \u201cthe system\u201d?",
-            "Where do we draw the line between automation and decision-making?",
-            "What does \u201cgood enough\u201d mean when the output affects real people?",
-          ].map((q, i) => (
-            <p
-              key={i}
-              className="text-lg md:text-2xl font-light text-white/80 leading-snug [text-wrap:balance]"
-            >
-              {q}
-            </p>
-          ))}
-        </div>
-
-        {/* The human truth — the real thesis of the whole talk */}
-        <div className="relative pt-8 border-t border-white/10 space-y-6">
-          <p className="text-2xl md:text-4xl font-light text-white italic leading-tight [text-wrap:balance]">
-            "Agents are our new teammates.
-            <br />
-            They need{" "}
-            <span className="text-accent font-bold not-italic">
-              boundaries, orchestration, and patience.
-            </span>"
-          </p>
-          {/* The punchline — pause here. Let the silence work. */}
-          <p className="text-3xl md:text-5xl font-black text-white tracking-tight">
-            And apparently —{" "}
-            <span className="text-accent italic">so do we.</span>
-          </p>
-          <p className="text-[10px] font-mono uppercase tracking-[0.6em] text-white/20 pt-2">
-            And that's exactly where the journey continues.
-          </p>
-        </div>
+        <p className="text-3xl md:text-6xl font-light text-white italic leading-tight tracking-tight [text-wrap:balance] max-w-4xl">
+          They need boundaries, orchestration, and patience.
+        </p>
+        <p className="text-4xl md:text-7xl font-black text-white tracking-tighter mt-6">
+          And apparently —{" "}
+          <span className="text-accent italic">so do we.</span>
+        </p>
+        <p className="text-[10px] font-mono uppercase tracking-[0.8em] text-white/15 mt-12">
+          And that's exactly where the journey continues.
+        </p>
       </PresentationSection>
     </main>
 
