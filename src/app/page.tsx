@@ -35,6 +35,7 @@ export default function Home() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const totalSections = CHAPTERS.length;
 
+  // Local videos from public/videos
   const localVideos = [
     "/videos/Sunrise_over_Stockholm_202604071643.mp4",
     "/videos/Modern_tech_office_202604071647.mp4",
@@ -137,7 +138,7 @@ export default function Home() {
       <div className="film-grain" />
       <audio ref={audioRef} hidden />
 
-      {/* Global Presentation HUD */}
+      {/* Global Presentation HUD - Hidden during Deep Dive */}
       <div className={cn(
         "fixed top-0 left-0 w-full z-[80] p-8 flex justify-between items-start transition-all duration-700",
         (isUIHidden || isDeepDiveActive) ? "opacity-0 pointer-events-none translate-y-[-20px]" : "opacity-100 translate-y-0"
@@ -176,7 +177,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Navigation Timeline Sidebar */}
+      {/* Navigation Timeline Sidebar - Hidden during Deep Dive */}
       <div className={cn(
         "fixed left-12 top-1/2 -translate-y-1/2 z-[80] flex flex-col gap-8 transition-all duration-700",
         (isUIHidden || isDeepDiveActive) ? "opacity-0 pointer-events-none -translate-x-12" : "opacity-100 translate-x-0"
@@ -286,7 +287,7 @@ export default function Home() {
             </Button>
           </div>
 
-          {/* Floating Nudge Evidence Overlay */}
+          {/* Floating Nudge Evidence Overlay - /images/influencerJail.png */}
           <div className={cn(
             "fixed right-12 bottom-12 w-80 p-6 bg-card border border-white/10 rounded-sm shadow-2xl transition-all duration-1000 transform z-[50]",
             showEvidence && !isDeepDiveActive ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12 pointer-events-none"
@@ -309,7 +310,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Technical Swarm Architecture Deep Dive */}
+        {/* Technical Swarm Architecture Deep Dive Overlay */}
         <div className={cn(
           "fixed inset-0 z-[100] bg-black flex items-center justify-center p-8 md:p-12 transition-all duration-700",
           isDeepDiveActive ? "opacity-100 translate-y-0" : "opacity-0 translate-y-full pointer-events-none"
@@ -364,16 +365,11 @@ export default function Home() {
                 <div className="absolute inset-0 bg-accent/10 blur-[100px] rounded-full" />
                 <div className="relative rounded-lg border border-white/10 bg-black/50 overflow-hidden shadow-2xl">
                    <img 
-                    src="https://picsum.photos/seed/system-diagram/1200/900" 
+                    src="https://picsum.photos/seed/system-diagram-3/1200/900" 
                     alt="System Architecture" 
                     className="w-full h-auto opacity-70 grayscale"
                     data-ai-hint="system diagram"
                    />
-                   <div className="absolute inset-0 flex items-center justify-center bg-black/40 backdrop-blur-[1px]">
-                      <div className="p-8 border border-white/10 rounded-sm bg-black/80">
-                        <span className="text-white font-mono text-[10px] uppercase tracking-[1em]">Architecture View v1.0</span>
-                      </div>
-                   </div>
                 </div>
              </div>
           </div>
@@ -479,16 +475,16 @@ export default function Home() {
         videoUrl={localVideos[6]} 
         fallbackImageUrl={PlaceHolderImages.find(img => img.id === "takeaway-bg")?.imageUrl || ""}
       >
-        <div className="space-y-12 max-w-6xl mx-auto px-6">
+        <div className="space-y-12 max-w-6xl mx-auto px-6 text-center">
           <div className="space-y-4">
             <h3 className="text-accent text-xs font-bold uppercase tracking-[1em]">The Core Insight</h3>
             <p className="text-2xl md:text-5xl font-light text-white italic leading-tight max-w-5xl mx-auto">
-              "Agents are not just technology. They're <span className="text-accent font-bold">digital coworkers.</span> They need structure, verification, and clear goals."
+              "Agents are not just technology. They're <span className="text-accent font-bold">digital coworkers.</span> They need structure, verification, and patience."
             </p>
           </div>
           
-          <div className="pt-12 border-t border-white/10 w-full">
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-4 items-center">
+          <div className="pt-12 border-t border-white/10 w-full flex flex-col items-center">
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-4 items-center w-full">
               <div className="p-6 bg-white/5 border border-white/10 rounded-sm">
                 <span className="text-white/80 text-lg font-light">AI Chat</span>
               </div>
@@ -515,7 +511,7 @@ export default function Home() {
         videoUrl={localVideos[7]} 
         fallbackImageUrl={PlaceHolderImages.find(img => img.id === "hero-bg")?.imageUrl || ""}
       >
-        <div className="max-w-5xl mx-auto space-y-12 px-6">
+        <div className="max-w-5xl mx-auto space-y-12 px-6 text-center">
           <div className="space-y-6">
             <Rocket className="h-10 w-10 text-accent mx-auto" />
             <h2 className="text-3xl md:text-5xl font-bold text-white tracking-tight uppercase">Skatteverket 3.0</h2>
