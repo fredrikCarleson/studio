@@ -895,6 +895,9 @@ export default function Home() {
 
       {/* ────────────────────────────────────────────────────────────────────────
           SLIDE 8 — THE FUTURE
+          TEDx closer: the audience's own questions → the human punchline.
+          Ends on our voice, not Gibson's. The screen holds silence while
+          the speaker delivers "And apparently, so do we."
       ──────────────────────────────────────────────────────────────────────── */}
       <PresentationSection
         sectionIndex={7}
@@ -903,40 +906,56 @@ export default function Home() {
         onSectionActiveChange={handleSectionActiveChange}
         videoUrl={LOCAL_VIDEOS[7]}
         fallbackImageUrl={PlaceHolderImages.find((img) => img.id === "hero-bg")?.imageUrl ?? ""}
-        contentClassName="space-y-16 max-w-5xl mx-auto px-6 w-full"
+        contentClassName="space-y-10 max-w-4xl mx-auto px-6 w-full"
       >
-        <div className="space-y-6">
-          <div className="relative inline-block mx-auto">
-            <Rocket className="h-10 w-10 text-accent mx-auto" aria-hidden="true" />
-            <div className="absolute inset-0 bg-accent/20 blur-2xl" />
-          </div>
-          <h2 className="text-4xl md:text-6xl font-black text-white tracking-tight uppercase">
-            Skatteverket 3.0
-          </h2>
-          <p className="text-lg md:text-xl font-light text-white/65 leading-relaxed max-w-3xl mx-auto [text-wrap:balance]">
-            Through{" "}
-            <span className="text-accent font-semibold italic">'Kraftsamling AI'</span>
-            , we are building the foundation — culture, legal compliance, and
-            entirely new ways of working.
+        {/* Opening line — sets the frame */}
+        <div className="space-y-3">
+          <span className="text-[9px] font-mono uppercase tracking-[1em] text-accent/50">
+            The questions we can't avoid
+          </span>
+          <p className="text-lg md:text-xl font-light text-white/50 leading-relaxed [text-wrap:balance]">
+            Once agents start{" "}
+            <span className="text-white italic">acting</span>{" "}
+            instead of just answering, we face questions that aren't technical.
+            They are questions of{" "}
+            <span className="text-accent">leadership.</span>
           </p>
         </div>
 
-        <div className="relative pt-12 border-t border-white/10">
-          <Sparkles
-            className="absolute -top-5 left-1/2 -translate-x-1/2 h-8 w-8 text-accent/30"
-            aria-hidden="true"
-          />
-          <blockquote>
-            <p className="text-3xl md:text-5xl font-black text-white tracking-tighter italic leading-tight [text-wrap:balance]">
-              "The future is already here —
-              <br />
-              it's just not{" "}
-              <span className="text-accent">evenly distributed.</span>"
+        {/* The three hard questions — each lands as the speaker speaks */}
+        <div className="space-y-4 w-full border-l-2 border-accent/30 pl-8">
+          {[
+            "Who is accountable when an agent makes a bad call — the developer, the business, or "the system"?",
+            "Where do we draw the line between automation and decision-making?",
+            "What does "good enough" mean when the output affects real people?",
+          ].map((q, i) => (
+            <p
+              key={i}
+              className="text-lg md:text-2xl font-light text-white/80 leading-snug [text-wrap:balance]"
+            >
+              {q}
             </p>
-            <footer className="mt-8 text-white/25 font-mono text-xs tracking-[0.5em] uppercase">
-              — William Gibson
-            </footer>
-          </blockquote>
+          ))}
+        </div>
+
+        {/* The human truth — the real thesis of the whole talk */}
+        <div className="relative pt-8 border-t border-white/10 space-y-6">
+          <p className="text-2xl md:text-4xl font-light text-white italic leading-tight [text-wrap:balance]">
+            "Agents are our new teammates.
+            <br />
+            They need{" "}
+            <span className="text-accent font-bold not-italic">
+              boundaries, orchestration, and patience.
+            </span>"
+          </p>
+          {/* The punchline — pause here. Let the silence work. */}
+          <p className="text-3xl md:text-5xl font-black text-white tracking-tight">
+            And apparently —{" "}
+            <span className="text-accent italic">so do we.</span>
+          </p>
+          <p className="text-[10px] font-mono uppercase tracking-[0.6em] text-white/20 pt-2">
+            And that's exactly where the journey continues.
+          </p>
         </div>
       </PresentationSection>
     </main>
