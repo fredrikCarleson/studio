@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { PresentationSection } from "@/components/PresentationSection";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { ArrowLeft, ArrowRight, Info, Zap, Shield, Users, Trophy, Clock, Cpu } from "lucide-react";
+import { ArrowLeft, ArrowRight, Info, Zap, Shield, Users, Trophy, Clock, Cpu, MessageSquare, Workflow } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
@@ -52,7 +52,6 @@ export default function Home() {
     }
   };
 
-  // Timer Logic
   useEffect(() => {
     let interval: NodeJS.Timeout;
     if (isTimerRunning && timeLeft > 0) {
@@ -61,7 +60,6 @@ export default function Home() {
     return () => clearInterval(interval);
   }, [isTimerRunning, timeLeft]);
 
-  // UI Hiding Logic
   useEffect(() => {
     const handleMouseMove = () => {
       setIsUIHidden(false);
@@ -75,7 +73,6 @@ export default function Home() {
     };
   }, []);
 
-  // Keyboard Navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "ArrowRight" || e.key === "ArrowDown" || e.key === " ") {
@@ -186,7 +183,7 @@ export default function Home() {
         ))}
       </div>
 
-      {/* Sections */}
+      {/* Slide 1: Prologue */}
       <PresentationSection 
         videoUrl={videos[0]} 
         fallbackImageUrl={PlaceHolderImages.find(img => img.id === "hero-bg")?.imageUrl || ""}
@@ -202,6 +199,7 @@ export default function Home() {
         </p>
       </PresentationSection>
 
+      {/* Slide 2: Mission */}
       <PresentationSection 
         videoUrl={videos[1]} 
         fallbackImageUrl={PlaceHolderImages.find(img => img.id === "tax-agency-bg")?.imageUrl || ""}
@@ -215,6 +213,7 @@ export default function Home() {
         </div>
       </PresentationSection>
 
+      {/* Slide 3: Team Alpha */}
       <PresentationSection 
         videoUrl={videos[2]} 
         fallbackImageUrl={PlaceHolderImages.find(img => img.id === "agent-bg")?.imageUrl || ""}
@@ -228,82 +227,116 @@ export default function Home() {
             Automating the detection of hidden economies through multi-modal analysis.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-6xl mx-auto mt-12 px-6">
-            <div className="p-8 bg-white/5 border border-white/10 backdrop-blur-2xl text-left">
+            <div className="p-8 bg-white/5 border border-white/10 backdrop-blur-2xl text-left border-t-accent/50 border-t-2">
               <span className="text-accent text-3xl font-bold mb-4 block">01</span>
-              <h4 className="text-white font-bold mb-2 tracking-widest uppercase text-xs">Scraper</h4>
-              <p className="text-white/60 text-xs leading-relaxed">Collecting social media feeds at a scale impossible for human analysts.</p>
+              <h4 className="text-white font-bold mb-2 tracking-widest uppercase text-xs">The Scraper</h4>
+              <p className="text-white/60 text-xs leading-relaxed">Scanning feeds multimodally to identify "undeclared" collaborations and gifts.</p>
             </div>
             <div className="p-8 bg-white/5 border border-white/10 backdrop-blur-2xl text-left">
               <span className="text-accent text-3xl font-bold mb-4 block">02</span>
-              <h4 className="text-white font-bold mb-2 tracking-widest uppercase text-xs">Valuation</h4>
-              <p className="text-white/60 text-xs leading-relaxed">Identifying luxury watches and gifts to estimate undeclared income.</p>
+              <h4 className="text-white font-bold mb-2 tracking-widest uppercase text-xs">The Valuation</h4>
+              <p className="text-white/60 text-xs leading-relaxed">Identifying luxury watches in YouTube videos and estimating market value instantly.</p>
             </div>
             <div className="p-8 bg-white/5 border border-white/10 backdrop-blur-2xl text-left">
               <span className="text-accent text-3xl font-bold mb-4 block">03</span>
-              <h4 className="text-white font-bold mb-2 tracking-widest uppercase text-xs">Risk</h4>
-              <p className="text-white/60 text-xs leading-relaxed">Consolidating data into actionable profiles with automated next steps.</p>
+              <h4 className="text-white font-bold mb-2 tracking-widest uppercase text-xs">The Swarm</h4>
+              <p className="text-white/60 text-xs leading-relaxed">Agents cross-referencing connections to flag high-risk anomalies for humans.</p>
             </div>
           </div>
         </div>
       </PresentationSection>
 
+      {/* Slide 4: Team Bravo */}
       <PresentationSection 
         videoUrl={videos[3]} 
         fallbackImageUrl={PlaceHolderImages.find(img => img.id === "bravo-bg")?.imageUrl || ""}
       >
         <div className="space-y-12">
-          <Zap className="h-16 w-16 text-accent mx-auto" />
+          <MessageSquare className="h-16 w-16 text-accent mx-auto" />
           <h2 className="text-4xl md:text-7xl font-bold text-white tracking-tight">Skatti 2.0</h2>
-          <blockquote className="text-2xl md:text-4xl text-white/90 font-light italic max-w-4xl mx-auto leading-relaxed border-l-2 border-accent pl-12">
-            "The official sites explain <span className="text-accent font-bold">what</span> to do, not <span className="text-accent font-bold">how</span>."
-          </blockquote>
-          <p className="text-white/40 text-sm tracking-[0.3em] uppercase max-w-2xl mx-auto">
-            Lesson: Pedagogy vs. Fact Retrieval
-          </p>
-        </div>
-      </PresentationSection>
+          
+          <div className="relative py-8">
+            <div className="absolute left-0 top-0 text-9xl text-accent/10 font-serif leading-none">"</div>
+            <blockquote className="text-2xl md:text-5xl text-white font-light italic max-w-4xl mx-auto leading-tight px-12 relative z-10">
+              Skatti… <br/>you're actually <span className="text-accent font-bold">making that up.</span>
+            </blockquote>
+          </div>
 
-      <PresentationSection 
-        videoUrl={videos[4]} 
-        fallbackImageUrl={PlaceHolderImages.find(img => img.id === "delta-bg")?.imageUrl || ""}
-      >
-        <div className="space-y-12">
-          <Shield className="h-16 w-16 text-accent mx-auto" />
-          <h2 className="text-4xl md:text-7xl font-bold text-white">Holistic Risk</h2>
-          <p className="text-2xl text-white/60 font-light">
-            Drowning in data? <span className="text-white font-semibold">Automating the first layer of scrutiny.</span>
-          </p>
-          <div className="flex flex-col items-center gap-6 mt-12">
-            <div className="flex gap-8 items-center text-[10px] font-bold tracking-[0.5em] text-white/30">
-              <span>REPORTS</span>
-              <div className="w-12 h-[1px] bg-white/10" />
-              <span>STATISTICS</span>
-              <div className="w-12 h-[1px] bg-white/10" />
-              <span>REGISTRIES</span>
+          <div className="max-w-3xl mx-auto grid grid-cols-2 gap-12 mt-12 text-left">
+            <div className="border-l border-white/10 pl-6">
+              <p className="text-accent font-bold text-xs uppercase tracking-widest mb-2">The "What"</p>
+              <p className="text-white/60 text-sm">Official sites are perfect for regulations, but agents struggle with the rigid 'officialese'.</p>
             </div>
-            <div className="w-px h-16 bg-gradient-to-b from-white/10 to-accent" />
-            <div className="px-10 py-5 border border-accent text-accent font-bold tracking-[0.2em] bg-accent/5">
-              PARALLEL ORCHESTRATION
+            <div className="border-l border-white/10 pl-6">
+              <p className="text-accent font-bold text-xs uppercase tracking-widest mb-2">The "How"</p>
+              <p className="text-white/60 text-sm">Unofficial sites explain logic better, but introduce hallucination risks. Verification is key.</p>
             </div>
           </div>
         </div>
       </PresentationSection>
 
+      {/* Slide 5: Team Delta */}
+      <PresentationSection 
+        videoUrl={videos[4]} 
+        fallbackImageUrl={PlaceHolderImages.find(img => img.id === "delta-bg")?.imageUrl || ""}
+      >
+        <div className="space-y-12">
+          <Workflow className="h-16 w-16 text-accent mx-auto" />
+          <h2 className="text-4xl md:text-7xl font-bold text-white">Kraftsamling: Team Delta</h2>
+          
+          {/* Agent Workflow Visual */}
+          <div className="flex flex-col items-center gap-4 mt-8 max-w-4xl mx-auto w-full">
+            <div className="grid grid-cols-3 gap-4 w-full">
+              <div className="p-4 bg-white/5 border border-white/10 text-xs text-white/40 uppercase tracking-widest rounded-sm">
+                Annual Reports
+              </div>
+              <div className="p-4 bg-white/5 border border-white/10 text-xs text-white/40 uppercase tracking-widest rounded-sm">
+                SCB Statistics
+              </div>
+              <div className="p-4 bg-white/5 border border-white/10 text-xs text-white/40 uppercase tracking-widest rounded-sm">
+                Public Registry
+              </div>
+            </div>
+            
+            <div className="h-12 w-px bg-gradient-to-b from-white/20 to-accent" />
+            
+            <div className="flex gap-4 items-center">
+              <div className="px-6 py-3 border border-accent bg-accent/10 rounded-sm text-accent font-bold text-sm tracking-[0.2em] animate-pulse">
+                PARALLEL EXTRACTION
+              </div>
+              <div className="w-8 h-px bg-accent/40" />
+              <div className="px-6 py-3 border border-accent bg-accent/10 rounded-sm text-accent font-bold text-sm tracking-[0.2em]">
+                SERIAL REASONING
+              </div>
+            </div>
+            
+            <div className="h-12 w-px bg-gradient-to-b from-accent to-white/20" />
+            
+            <div className="p-8 bg-white/10 backdrop-blur-3xl border border-white/20 rounded-lg w-full">
+              <h4 className="text-white font-bold mb-2 tracking-widest uppercase text-xs">Outcome: Holistic Scrutiny</h4>
+              <p className="text-white/60 text-sm italic">"What took hours to compile now takes minutes—with consistency humans can't match."</p>
+            </div>
+          </div>
+        </div>
+      </PresentationSection>
+
+      {/* Slide 6: Verdict */}
       <PresentationSection 
         videoUrl={videos[5]} 
         fallbackImageUrl={PlaceHolderImages.find(img => img.id === "winner-bg")?.imageUrl || ""}
       >
         <Trophy className="h-20 w-20 text-accent mx-auto mb-8" />
-        <h2 className="text-5xl md:text-8xl font-bold text-white tracking-tighter mb-6 italic">The Winner</h2>
+        <h2 className="text-5xl md:text-8xl font-bold text-white tracking-tighter mb-6 italic">The Winner: Alpha</h2>
         <div className="max-w-4xl mx-auto space-y-8">
           <p className="text-2xl md:text-4xl font-light text-white leading-snug">
             Multi-agent systems show their power when they are given <span className="text-accent font-bold">roles, responsibilities, and peers.</span>
           </p>
           <div className="h-[1px] w-32 bg-accent mx-auto" />
-          <p className="text-white/40 text-xs uppercase tracking-[0.5em]">One plus one became three.</p>
+          <p className="text-white/40 text-xs uppercase tracking-[0.5em]">The potential for crime prevention and stolen goods scanning.</p>
         </div>
       </PresentationSection>
 
+      {/* Slide 7: Wisdom */}
       <PresentationSection 
         videoUrl={videos[6]} 
         fallbackImageUrl={PlaceHolderImages.find(img => img.id === "takeaway-bg")?.imageUrl || ""}
@@ -330,6 +363,7 @@ export default function Home() {
         </div>
       </PresentationSection>
 
+      {/* Slide 8: Horizon */}
       <PresentationSection 
         videoUrl={videos[7]} 
         fallbackImageUrl={PlaceHolderImages.find(img => img.id === "hero-bg")?.imageUrl || ""}
