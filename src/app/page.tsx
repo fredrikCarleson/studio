@@ -192,7 +192,10 @@ export default function Home() {
         fallbackImageUrl={PlaceHolderImages.find(img => img.id === "hero-bg")?.imageUrl || ""}
       >
         <h1 className="text-5xl md:text-8xl font-bold tracking-tighter text-white max-w-5xl leading-[0.9] mb-8">
-          The <span className="text-accent italic">Hackathon</span> <br/>Chronicles.
+          Hackathon. <br/>
+          <span className="text-accent italic">Two days.</span> <br/>
+          Three teams. <br/>
+          Fifteen brains.
         </h1>
         <p className="text-white/40 text-sm md:text-base font-mono tracking-[0.6em] uppercase">
           Agentic AI at the Swedish Tax Agency
