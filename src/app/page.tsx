@@ -1,13 +1,13 @@
-
 "use client";
 
 import { useState, useEffect, useRef } from "react";
 import { PresentationSection } from "@/components/PresentationSection";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { ArrowLeft, ArrowRight, Cpu, MessageSquare, Workflow, Trophy, Users, AlertTriangle, FileText, Database, Clock } from "lucide-react";
+import { ArrowLeft, ArrowRight, Cpu, MessageSquare, Workflow, Trophy, Users, AlertTriangle, FileText, Database, Clock, X, Info, Volume2 } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { generateAssistantSpeech } from "@/ai/flows/tts-flow";
 
 const CHAPTERS = [
   "Prologue",
@@ -20,14 +20,19 @@ const CHAPTERS = [
   "The Horizon"
 ];
 
+const ARCHITECTURE_EXPLANATION = "This is our agentic swarm architecture. Phase 1 begins with a parallel multi-modal scraper. In phase 2, we fan out to specialized evaluation agents. Phase 4 is where the magic happens: the system dynamically spawns workers based on a JSON task plan. Finally, in phase 5, it converges into a structured Swedish compliance report.";
+
 export default function Home() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [timeLeft, setTimeLeft] = useState(1200); // 20 minutes
   const [isTimerRunning, setIsTimerRunning] = useState(false);
   const [isUIHidden, setIsUIHidden] = useState(false);
   const [showEvidence, setShowEvidence] = useState(false);
+  const [isDeepDiveActive, setIsDeepDiveActive] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
   const totalSections = CHAPTERS.length;
 
   const videos = [
@@ -52,12 +57,29 @@ export default function Home() {
       setCurrentIndex(index);
       if (index === 1 && !isTimerRunning) setIsTimerRunning(true);
       
-      // Reset evidence state
+      // Reset states
+      setIsDeepDiveActive(false);
       if (index === 2) {
         setTimeout(() => setShowEvidence(true), 3000);
       } else {
         setShowEvidence(false);
       }
+    }
+  };
+
+  const handleDeepDive = async () => {
+    setIsDeepDiveActive(true);
+    setIsSpeaking(true);
+    try {
+      const response = await generateAssistantSpeech({ text: ARCHITECTURE_EXPLANATION });
+      if (audioRef.current) {
+        audioRef.current.src = response.mediaUrl;
+        audioRef.current.play();
+        audioRef.current.onended = () => setIsSpeaking(false);
+      }
+    } catch (error) {
+      console.error("TTS failed", error);
+      setIsSpeaking(false);
     }
   };
 
@@ -84,6 +106,15 @@ export default function Home() {
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (isDeepDiveActive && e.key === "Escape") {
+        setIsDeepDiveActive(false);
+        if (audioRef.current) {
+          audioRef.current.pause();
+          setIsSpeaking(false);
+        }
+        return;
+      }
+
       if (e.key === "ArrowRight" || e.key === "ArrowDown" || e.key === " ") {
         e.preventDefault();
         scrollToSection(currentIndex + 1);
@@ -94,7 +125,7 @@ export default function Home() {
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [currentIndex]);
+  }, [currentIndex, isDeepDiveActive]);
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
@@ -105,11 +136,12 @@ export default function Home() {
   return (
     <main ref={containerRef} className="snap-container relative bg-black">
       <div className="film-grain" />
+      <audio ref={audioRef} hidden />
 
       {/* Stage Monitor HUD */}
       <div className={cn(
         "fixed top-0 left-0 w-full z-50 p-8 flex justify-between items-start transition-opacity duration-1000",
-        isUIHidden ? "opacity-0" : "opacity-100"
+        (isUIHidden || isDeepDiveActive) ? "opacity-0" : "opacity-100"
       )}>
         <div className="flex flex-col gap-2 w-72">
           <div className="flex justify-between items-end mb-1">
@@ -148,7 +180,7 @@ export default function Home() {
       {/* Navigation Timeline */}
       <div className={cn(
         "fixed left-12 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-8 transition-opacity duration-1000",
-        isUIHidden ? "opacity-0" : "opacity-100"
+        (isUIHidden || isDeepDiveActive) ? "opacity-0" : "opacity-100"
       )}>
         {CHAPTERS.map((name, i) => (
           <button
@@ -243,17 +275,29 @@ export default function Home() {
             </div>
           </div>
 
+          <div className="mt-12 flex justify-center gap-4">
+            <Button 
+              variant="outline" 
+              onClick={handleDeepDive}
+              className="bg-accent/10 border-accent/30 text-accent hover:bg-accent/20 group"
+            >
+              <Info className="mr-2 h-4 w-4" />
+              Technical Blueprint
+              <Volume2 className={cn("ml-2 h-4 w-4 transition-all", isSpeaking && "animate-bounce text-white")} />
+            </Button>
+          </div>
+
           {/* Floating Case Study Overlay */}
           <div className={cn(
             "absolute -right-4 top-0 w-80 p-6 bg-card border border-white/10 rounded-sm shadow-2xl transition-all duration-1000 transform",
-            showEvidence ? "opacity-100 translate-x-0" : "opacity-0 translate-x-12 pointer-events-none"
+            showEvidence && !isDeepDiveActive ? "opacity-100 translate-x-0" : "opacity-0 translate-x-12 pointer-events-none"
           )}>
             <div className="relative h-48 w-full bg-muted mb-4 overflow-hidden rounded-sm">
               <img 
                 src="https://picsum.photos/seed/legal/600/400" 
                 alt="Case Evidence" 
                 className="w-full h-full object-cover opacity-50 grayscale hover:grayscale-0 transition-all cursor-crosshair"
-                data-ai-hint="news headline"
+                data-ai-hint="jail news"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
               <div className="absolute bottom-3 left-3 flex gap-2">
@@ -263,8 +307,66 @@ export default function Home() {
             </div>
             <h5 className="text-white font-bold text-sm mb-2">The "Nudge" Strategy</h5>
             <p className="text-white/50 text-[10px] leading-relaxed italic">
-              "Imagine if we nudged this influencer early. No jail time. Just compliance. Shifting from reactive to proactive."
+              "Imagine if we nudged this influencer early. Early intervention could have prevented a legal crisis. Shifting from reactive to proactive."
             </p>
+          </div>
+        </div>
+
+        {/* Technical Deep Dive Overlay */}
+        <div className={cn(
+          "fixed inset-0 z-[100] bg-black/95 backdrop-blur-3xl flex items-center justify-center p-12 transition-all duration-1000",
+          isDeepDiveActive ? "opacity-100 scale-100 pointer-events-auto" : "opacity-0 scale-110 pointer-events-none"
+        )}>
+          <button 
+            onClick={() => {
+              setIsDeepDiveActive(false);
+              if (audioRef.current) audioRef.current.pause();
+            }}
+            className="absolute top-12 right-12 text-white/40 hover:text-white transition-colors"
+          >
+            <X className="h-10 w-10" />
+          </button>
+          
+          <div className="max-w-6xl w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+             <div className="space-y-8 text-left">
+                <div className="inline-block px-3 py-1 bg-accent/20 border border-accent/40 rounded-sm text-accent text-[10px] font-bold uppercase tracking-[0.4em]">
+                  Technical Deep Dive
+                </div>
+                <h2 className="text-5xl font-bold text-white tracking-tighter">System Architecture</h2>
+                <div className="space-y-6">
+                  {["Multi-Modal Collection", "Parallel Evaluation", "Worker Orchestration", "Dynamic Task Planning", "Final Compliance Report"].map((step, i) => (
+                    <div key={i} className={cn(
+                      "flex items-center gap-4 transition-all duration-500",
+                      isSpeaking ? "opacity-100 translate-x-4" : "opacity-40"
+                    )} style={{ transitionDelay: `${i * 300}ms` }}>
+                       <div className="w-8 h-8 rounded-full bg-accent/20 border border-accent/40 flex items-center justify-center text-accent font-mono text-xs">
+                         {i + 1}
+                       </div>
+                       <span className="text-white/80 font-light text-xl tracking-tight">{step}</span>
+                    </div>
+                  ))}
+                </div>
+                <div className="pt-12">
+                   <div className="flex items-center gap-4">
+                      <div className="h-1 w-24 bg-accent animate-pulse" />
+                      <span className="text-accent font-mono text-[10px] uppercase tracking-widest animate-pulse">Assistant Explaining...</span>
+                   </div>
+                </div>
+             </div>
+             
+             <div className="relative group">
+                <div className="absolute inset-0 bg-accent/20 blur-[100px] rounded-full animate-pulse" />
+                <div className="relative aspect-video rounded-sm border border-white/20 bg-black overflow-hidden shadow-2xl">
+                   <img 
+                    src="https://picsum.photos/seed/diagram/1200/800" 
+                    alt="Architecture Diagram" 
+                    className="w-full h-full object-contain opacity-80"
+                    data-ai-hint="system diagram"
+                   />
+                   {/* Virtual Highlights */}
+                   <div className={cn("absolute inset-0 bg-accent/10 transition-opacity duration-1000", isSpeaking ? "opacity-100" : "opacity-0")} />
+                </div>
+             </div>
           </div>
         </div>
       </PresentationSection>
