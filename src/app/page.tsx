@@ -34,16 +34,19 @@ const LOCAL_VIDEOS = [
 
 const ARCHITECTURE_EXPLANATION = "This is our agentic swarm architecture. Phase 1 begins with a parallel multi-modal scraper. In phase 2, we fan out to specialized evaluation agents. Phase 3 uses a JSON task plan to dynamically spawn workers. Finally, phase 5 converges into a structured Swedish compliance report.";
 
-// Sub-components to prevent full page re-renders
-const PresentationHUD = memo(({ 
-  currentIndex, 
-  progressValue, 
-  isUIHidden, 
-  isDeepDiveActive, 
-  timeLeft, 
-  isTimerRunning, 
-  setIsTimerRunning 
-}: any) => {
+// Isolated Timer component to prevent full-page re-renders
+const SessionTimer = memo(() => {
+  const [timeLeft, setTimeLeft] = useState(1200);
+  const [isRunning, setIsRunning] = useState(true);
+
+  useEffect(() => {
+    if (!isRunning) return;
+    const interval = setInterval(() => {
+      setTimeLeft((prev) => (prev <= 0 ? 0 : prev - 1));
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [isRunning]);
+
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
@@ -51,8 +54,36 @@ const PresentationHUD = memo(({
   };
 
   return (
+    <div className="flex items-center gap-6 px-6 py-3 bg-black/60 backdrop-blur-md rounded-sm border border-white/10 shadow-2xl">
+      <div className="flex flex-col items-end border-r border-white/10 pr-6 mr-1">
+        <span className="text-[8px] font-mono uppercase tracking-[0.3em] text-white/30">Session Timer</span>
+        <span className={cn("font-mono text-2xl font-light tracking-tighter", timeLeft < 300 ? "text-red-500 animate-pulse" : "text-white")}>
+          {formatTime(timeLeft)}
+        </span>
+      </div>
+      <Button 
+        variant="ghost" 
+        size="sm" 
+        onClick={() => setIsRunning(!isRunning)}
+        className="h-10 w-10 rounded-full border border-white/10 p-0 text-white/40 hover:text-accent transition-all"
+        aria-label={isRunning ? "Pause timer" : "Start timer"}
+      >
+        {isRunning ? "||" : "▶"}
+      </Button>
+    </div>
+  );
+});
+SessionTimer.displayName = "SessionTimer";
+
+const PresentationHUD = memo(({ 
+  currentIndex, 
+  progressValue, 
+  isUIHidden, 
+  isDeepDiveActive
+}: any) => {
+  return (
     <div className={cn(
-      "fixed top-0 left-0 w-full z-[80] p-8 flex justify-between items-start transition-all duration-700 will-change-transform",
+      "fixed top-0 left-0 w-full z-[80] p-8 flex justify-between items-start transition-all duration-500",
       (isUIHidden || isDeepDiveActive) ? "opacity-0 pointer-events-none -translate-y-4" : "opacity-100 translate-y-0"
     )}>
       <div className="flex flex-col gap-2 w-72">
@@ -67,23 +98,7 @@ const PresentationHUD = memo(({
       </div>
 
       <div className="flex flex-col items-end gap-3">
-        <div className="flex items-center gap-6 px-6 py-3 bg-black/60 backdrop-blur-xl rounded-sm border border-white/10 shadow-2xl">
-          <div className="flex flex-col items-end border-r border-white/10 pr-6 mr-1">
-            <span className="text-[8px] font-mono uppercase tracking-[0.3em] text-white/30">Session Timer</span>
-            <span className={cn("font-mono text-2xl font-light tracking-tighter", timeLeft < 300 ? "text-red-500 animate-pulse" : "text-white")}>
-              {formatTime(timeLeft)}
-            </span>
-          </div>
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            onClick={() => setIsTimerRunning(!isTimerRunning)}
-            className="h-10 w-10 rounded-full border border-white/10 p-0 text-white/40 hover:text-accent transition-all"
-            aria-label={isTimerRunning ? "Pause timer" : "Start timer"}
-          >
-            {isTimerRunning ? "||" : "▶"}
-          </Button>
-        </div>
+        <SessionTimer />
         <div className="px-4 py-1.5 bg-accent/10 border border-accent/30 rounded-sm">
           <span className="text-[9px] font-bold tracking-[0.5em] text-accent uppercase">BETA 1.0</span>
         </div>
@@ -95,7 +110,7 @@ PresentationHUD.displayName = "PresentationHUD";
 
 const NavigationTimeline = memo(({ currentIndex, scrollToSection, isUIHidden, isDeepDiveActive }: any) => (
   <nav className={cn(
-    "fixed left-12 top-1/2 -translate-y-1/2 z-[80] flex flex-col gap-8 transition-all duration-700 will-change-transform",
+    "fixed left-12 top-1/2 -translate-y-1/2 z-[80] flex flex-col gap-8 transition-all duration-500",
     (isUIHidden || isDeepDiveActive) ? "opacity-0 pointer-events-none -translate-x-8" : "opacity-100 translate-x-0"
   )} aria-label="Slide navigation">
     {CHAPTERS.map((name, i) => (
@@ -107,11 +122,11 @@ const NavigationTimeline = memo(({ currentIndex, scrollToSection, isUIHidden, is
         aria-current={currentIndex === i ? "step" : undefined}
       >
         <div className={cn(
-          "w-px transition-all duration-700",
+          "w-px transition-all duration-500",
           currentIndex === i ? "h-12 bg-accent" : "h-6 bg-white/10 group-hover:bg-white/30"
         )} />
         <div className={cn(
-          "absolute left-4 px-2 py-1 transition-all duration-500 rounded-sm",
+          "absolute left-4 px-2 py-1 transition-all duration-300 rounded-sm",
           currentIndex === i ? "opacity-100 translate-x-0 bg-accent/10 border-l-2 border-accent" : "opacity-0 -translate-x-4 pointer-events-none"
         )}>
           <span className="text-[9px] uppercase tracking-[0.4em] text-accent whitespace-nowrap font-bold">
@@ -126,8 +141,6 @@ NavigationTimeline.displayName = "NavigationTimeline";
 
 export default function Home() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [timeLeft, setTimeLeft] = useState(1200); 
-  const [isTimerRunning, setIsTimerRunning] = useState(false);
   const [isUIHidden, setIsUIHidden] = useState(false);
   const [showEvidence, setShowEvidence] = useState(false);
   const [isDeepDiveActive, setIsDeepDiveActive] = useState(false);
@@ -159,7 +172,6 @@ export default function Home() {
       const index = Math.round(container.scrollTop / window.innerHeight);
       if (index !== currentIndex) {
         setCurrentIndex(index);
-        if (index === 1 && !isTimerRunning) setIsTimerRunning(true);
         setIsDeepDiveActive(false);
         if (index === 2) {
           const t = setTimeout(() => setShowEvidence(true), 2500);
@@ -172,7 +184,7 @@ export default function Home() {
 
     container.addEventListener("scroll", handleScroll, { passive: true });
     return () => container.removeEventListener("scroll", handleScroll);
-  }, [currentIndex, isTimerRunning]);
+  }, [currentIndex]);
 
   const handleDeepDive = async () => {
     setIsDeepDiveActive(true);
@@ -189,14 +201,6 @@ export default function Home() {
       setIsSpeaking(false);
     }
   };
-
-  useEffect(() => {
-    if (!isTimerRunning) return;
-    const interval = setInterval(() => {
-      setTimeLeft((prev) => (prev <= 0 ? 0 : prev - 1));
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [isTimerRunning]);
 
   useEffect(() => {
     const handleMouseMove = () => {
@@ -223,9 +227,6 @@ export default function Home() {
         progressValue={progressValue}
         isUIHidden={isUIHidden}
         isDeepDiveActive={isDeepDiveActive}
-        timeLeft={timeLeft}
-        isTimerRunning={isTimerRunning}
-        setIsTimerRunning={setIsTimerRunning}
       />
 
       <NavigationTimeline 
@@ -322,7 +323,7 @@ export default function Home() {
 
           {/* Floating Nudge Evidence Overlay */}
           <aside className={cn(
-            "fixed right-12 bottom-12 w-80 p-6 bg-card border border-white/10 rounded-sm shadow-2xl transition-all duration-1000 transform z-[50]",
+            "fixed right-12 bottom-12 w-80 p-6 bg-card border border-white/10 rounded-sm shadow-2xl transition-all duration-700 transform z-[50]",
             showEvidence && !isDeepDiveActive ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12 pointer-events-none"
           )} aria-label="Nudge Case Example">
             <div className="relative h-48 w-full bg-muted mb-4 overflow-hidden rounded-sm">
@@ -347,7 +348,7 @@ export default function Home() {
 
         {/* Technical Swarm Architecture Deep Dive Overlay */}
         <div className={cn(
-          "fixed inset-0 z-[100] bg-black flex items-center justify-center p-8 md:p-12 transition-all duration-700",
+          "fixed inset-0 z-[100] bg-black flex items-center justify-center p-8 md:p-12 transition-all duration-500",
           isDeepDiveActive ? "opacity-100 translate-y-0" : "opacity-0 translate-y-full pointer-events-none"
         )} role="dialog" aria-labelledby="blueprint-title">
           <button 

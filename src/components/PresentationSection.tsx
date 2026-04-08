@@ -32,17 +32,11 @@ const PresentationSectionBase: React.FC<PresentationSectionProps> = ({
         if (entry.isIntersecting) {
           setIsVisible(true);
           setShouldLoadVideo(true);
-          if (videoRef.current) {
-            videoRef.current.play().catch(() => {});
-          }
         } else {
           setIsVisible(false);
-          if (videoRef.current) {
-            videoRef.current.pause();
-          }
         }
       },
-      { threshold: 0.15, rootMargin: "50px" }
+      { threshold: 0.15, rootMargin: "100px" }
     );
 
     if (sectionRef.current) {
@@ -52,13 +46,21 @@ const PresentationSectionBase: React.FC<PresentationSectionProps> = ({
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    if (isVisible && videoRef.current) {
+      videoRef.current.play().catch(() => {});
+    } else if (!isVisible && videoRef.current) {
+      videoRef.current.pause();
+    }
+  }, [isVisible]);
+
   return (
     <section
       ref={sectionRef}
       className={cn("snap-section flex items-center justify-center relative overflow-hidden bg-black", className)}
       aria-label="Presentation Slide"
     >
-      {/* Background Layer */}
+      {/* Background Layer - Only load video when section is near-viewport */}
       <div 
         className={cn(
           "absolute inset-0 transition-opacity duration-1000 z-0",
@@ -83,7 +85,7 @@ const PresentationSectionBase: React.FC<PresentationSectionProps> = ({
         )}
       </div>
 
-      {/* Optimized Fallback Image */}
+      {/* Fallback Image - Prioritize hero image */}
       {!isVideoLoaded && (
         <div className="absolute inset-0 z-0">
           <Image
@@ -93,17 +95,18 @@ const PresentationSectionBase: React.FC<PresentationSectionProps> = ({
             priority={priority}
             className="object-cover opacity-40 grayscale"
             sizes="100vw"
+            loading={priority ? "eager" : "lazy"}
           />
         </div>
       )}
 
       {/* Optimized Overlay Gradients */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/90 z-10 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-transparent to-black/90 z-10 pointer-events-none" />
 
       {/* Content Container */}
       <div className="relative z-20 container mx-auto px-6">
         <div className={cn(
-          "fade-in-stagger flex flex-col items-center justify-center text-center transition-all duration-1000", 
+          "fade-in-stagger flex flex-col items-center justify-center text-center transition-all duration-700", 
           isVisible ? "visible opacity-100 translate-y-0" : "opacity-0 translate-y-8"
         )}>
           {children}
