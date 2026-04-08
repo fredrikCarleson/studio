@@ -58,7 +58,6 @@ export default function Home() {
       setCurrentIndex(index);
       if (index === 1 && !isTimerRunning) setIsTimerRunning(true);
       
-      // Reset states
       setIsDeepDiveActive(false);
       if (index === 2) {
         setTimeout(() => setShowEvidence(true), 3000);
@@ -315,7 +314,7 @@ export default function Home() {
 
         {/* Technical Deep Dive Overlay */}
         <div className={cn(
-          "fixed inset-0 z-[100] bg-black flex items-center justify-center p-8 md:p-12 transition-all duration-700",
+          "fixed inset-0 z-[100] bg-black/100 backdrop-blur-xl flex items-center justify-center p-8 md:p-12 transition-all duration-700 overflow-y-auto",
           isDeepDiveActive ? "opacity-100 scale-100 pointer-events-auto" : "opacity-0 scale-105 pointer-events-none"
         )}>
           <button 
@@ -323,55 +322,64 @@ export default function Home() {
               setIsDeepDiveActive(false);
               if (audioRef.current) audioRef.current.pause();
             }}
-            className="absolute top-12 right-12 z-[110] text-white/40 hover:text-white transition-colors bg-white/5 p-2 rounded-full border border-white/10"
+            className="absolute top-12 right-12 z-[110] text-white/60 hover:text-white transition-colors bg-white/5 p-3 rounded-full border border-white/10"
           >
             <X className="h-8 w-8" />
           </button>
           
-          <div className="max-w-7xl w-full grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-16 items-center">
-             <div className="space-y-8 text-left">
+          <div className="max-w-7xl w-full grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-24 items-center">
+             <div className="space-y-10 text-left">
                 <div className="inline-block px-3 py-1 bg-accent/20 border border-accent/40 rounded-sm text-accent text-[10px] font-bold uppercase tracking-[0.4em]">
                   Technical Deep Dive
                 </div>
-                <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tighter">System Architecture</h2>
-                <div className="space-y-4 md:space-y-6">
-                  {["Multi-Modal Collection", "Parallel Evaluation", "Worker Orchestration", "Dynamic Task Planning", "Final Compliance Report"].map((step, i) => (
+                <h2 className="text-4xl md:text-6xl font-bold text-white tracking-tighter leading-tight">System Architecture</h2>
+                <div className="space-y-6">
+                  {[
+                    { title: "Multi-Modal Collection", desc: "Parallel scraping of social feeds & metadata" },
+                    { title: "Parallel Evaluation", desc: "Specialized agents analyzing valuation & barter risks" },
+                    { title: "Worker Orchestration", desc: "Dynamic task allocation via orchestration layer" },
+                    { title: "Dynamic Task Planning", desc: "JSON-based execution planning for autonomous flows" },
+                    { title: "Final Compliance Report", desc: "Synthesis into human-readable Swedish reports" }
+                  ].map((item, i) => (
                     <div key={i} className={cn(
-                      "flex items-center gap-4 transition-all duration-500",
-                      isDeepDiveActive ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-8"
+                      "flex items-start gap-6 transition-all duration-700",
+                      isDeepDiveActive ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-12"
                     )} style={{ transitionDelay: `${i * 150}ms` }}>
-                       <div className="w-8 h-8 rounded-full bg-accent/20 border border-accent/40 flex items-center justify-center text-accent font-mono text-xs shrink-0">
+                       <div className="w-10 h-10 rounded-full bg-accent/20 border border-accent/40 flex items-center justify-center text-accent font-mono text-sm shrink-0">
                          {i + 1}
                        </div>
-                       <span className="text-white/80 font-light text-lg md:text-xl tracking-tight">{step}</span>
+                       <div className="space-y-1">
+                         <span className="block text-white font-semibold text-xl tracking-tight">{item.title}</span>
+                         <span className="block text-white/40 text-sm font-light">{item.desc}</span>
+                       </div>
                     </div>
                   ))}
                 </div>
                 
-                <div className={cn("pt-8 transition-opacity duration-1000", isSpeaking ? "opacity-100" : "opacity-0")}>
-                   <div className="flex items-center gap-4">
-                      <div className="h-0.5 w-16 bg-accent animate-pulse" />
-                      <span className="text-accent font-mono text-[10px] uppercase tracking-widest animate-pulse">Assistant Explaining...</span>
+                <div className={cn("pt-10 transition-opacity duration-1000", isSpeaking ? "opacity-100" : "opacity-0")}>
+                   <div className="flex items-center gap-6">
+                      <div className="h-[2px] w-20 bg-accent animate-pulse" />
+                      <span className="text-accent font-mono text-xs uppercase tracking-[0.3em] animate-pulse">Assistant Explaining Architecture...</span>
                    </div>
                 </div>
              </div>
              
              <div className="relative group">
-                <div className="absolute inset-0 bg-accent/10 blur-[100px] rounded-full animate-pulse" />
-                <div className="relative aspect-video rounded-sm border border-white/20 bg-card overflow-hidden shadow-2xl">
+                <div className="absolute inset-0 bg-accent/10 blur-[120px] rounded-full animate-pulse" />
+                <div className="relative aspect-[4/3] rounded-lg border border-white/20 bg-black overflow-hidden shadow-[0_0_100px_rgba(0,0,0,1)]">
                    <img 
-                    src="https://picsum.photos/seed/tech-diagram/1200/800" 
+                    src="https://picsum.photos/seed/system-architecture/1600/1200" 
                     alt="Architecture Diagram" 
-                    className="w-full h-full object-cover opacity-60"
-                    data-ai-hint="technical diagram"
+                    className="w-full h-full object-cover opacity-80"
+                    data-ai-hint="system diagram"
                    />
                    <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/40" />
-                   <div className="absolute inset-0 flex items-center justify-center">
-                     <div className="w-full h-full p-8 border border-accent/10 flex flex-col items-center justify-center gap-4">
-                        <div className="grid grid-cols-2 gap-2 w-full max-w-xs">
-                          {[1,2,3,4].map(i => <div key={i} className="h-1 bg-accent/20 rounded-full" />)}
+                   <div className="absolute inset-0 flex items-center justify-center p-12">
+                     <div className="w-full h-full border border-accent/20 rounded-md backdrop-blur-[2px] flex flex-col items-center justify-center gap-6">
+                        <div className="grid grid-cols-4 gap-3 w-4/5">
+                          {[1,2,3,4,5,6,7,8].map(i => <div key={i} className="h-2 bg-accent/30 rounded-full animate-pulse" style={{ animationDelay: `${i * 100}ms` }} />)}
                         </div>
-                        <span className="text-accent/40 font-mono text-[8px] uppercase tracking-[0.5em]">Agentic Orchestration View</span>
+                        <span className="text-accent/60 font-mono text-[10px] uppercase tracking-[0.6em]">Agentic Swarm View v1.0</span>
                      </div>
                    </div>
                 </div>
