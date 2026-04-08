@@ -37,14 +37,14 @@ export default function Home() {
   const totalSections = CHAPTERS.length;
 
   const videos = [
-    "/videos/Sunrise_over_Stockholm_202604071643.mp4",
-    "/videos/Modern_tech_office_202604071647.mp4",
-    "/videos/AI_agents_collaborating_202604071648.mp4",
-    "/videos/Digital_documents_sorted_202604071650.mp4",
-    "/videos/Digital_reports_financial_202604071757.mp4",
-    "/videos/Golden_particles_converging_202604071759.mp4",
-    "/videos/Geometric_shapes_moving_202604071759.mp4",
-    "/videos/Digital_horizon_leading_202604071800.mp4",
+    "https://videos.pexels.com/video-files/3129957/3129957-uhd_2560_1440_30fps.mp4", // Sunrise
+    "https://videos.pexels.com/video-files/3129671/3129671-uhd_2560_1440_30fps.mp4", // Tech office
+    "https://videos.pexels.com/video-files/853889/853889-hd_1920_1080_25fps.mp4",    // AI Collaboration
+    "https://videos.pexels.com/video-files/4496268/4496268-hd_1920_1080_25fps.mp4",  // Documents
+    "https://videos.pexels.com/video-files/3130182/3130182-uhd_2560_1440_30fps.mp4", // Financial
+    "https://videos.pexels.com/video-files/854400/854400-hd_1920_1080_30fps.mp4",    // Particles
+    "https://videos.pexels.com/video-files/3129910/3129910-uhd_2560_1440_30fps.mp4", // Shapes
+    "https://videos.pexels.com/video-files/1851190/1851190-uhd_2560_1440_25fps.mp4", // Horizon
   ];
 
   const scrollToSection = (index: number) => {
@@ -141,8 +141,8 @@ export default function Home() {
 
       {/* Stage Monitor HUD */}
       <div className={cn(
-        "fixed top-0 left-0 w-full z-50 p-8 flex justify-between items-start transition-opacity duration-1000",
-        (isUIHidden || isDeepDiveActive) ? "opacity-0" : "opacity-100"
+        "fixed top-0 left-0 w-full z-[80] p-8 flex justify-between items-start transition-all duration-700",
+        (isUIHidden || isDeepDiveActive) ? "opacity-0 pointer-events-none translate-y-[-20px]" : "opacity-100 translate-y-0"
       )}>
         <div className="flex flex-col gap-2 w-72">
           <div className="flex justify-between items-end mb-1">
@@ -180,8 +180,8 @@ export default function Home() {
 
       {/* Navigation Timeline */}
       <div className={cn(
-        "fixed left-12 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-8 transition-opacity duration-1000",
-        (isUIHidden || isDeepDiveActive) ? "opacity-0" : "opacity-100"
+        "fixed left-12 top-1/2 -translate-y-1/2 z-[80] flex flex-col gap-8 transition-all duration-700",
+        (isUIHidden || isDeepDiveActive) ? "opacity-0 pointer-events-none -translate-x-12" : "opacity-100 translate-x-0"
       )}>
         {CHAPTERS.map((name, i) => (
           <button
@@ -315,57 +315,65 @@ export default function Home() {
 
         {/* Technical Deep Dive Overlay */}
         <div className={cn(
-          "fixed inset-0 z-[100] bg-black/95 backdrop-blur-3xl flex items-center justify-center p-12 transition-all duration-1000",
-          isDeepDiveActive ? "opacity-100 scale-100 pointer-events-auto" : "opacity-0 scale-110 pointer-events-none"
+          "fixed inset-0 z-[100] bg-black flex items-center justify-center p-8 md:p-12 transition-all duration-700",
+          isDeepDiveActive ? "opacity-100 scale-100 pointer-events-auto" : "opacity-0 scale-105 pointer-events-none"
         )}>
           <button 
             onClick={() => {
               setIsDeepDiveActive(false);
               if (audioRef.current) audioRef.current.pause();
             }}
-            className="absolute top-12 right-12 text-white/40 hover:text-white transition-colors"
+            className="absolute top-12 right-12 z-[110] text-white/40 hover:text-white transition-colors bg-white/5 p-2 rounded-full border border-white/10"
           >
-            <X className="h-10 w-10" />
+            <X className="h-8 w-8" />
           </button>
           
-          <div className="max-w-6xl w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="max-w-7xl w-full grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-16 items-center">
              <div className="space-y-8 text-left">
                 <div className="inline-block px-3 py-1 bg-accent/20 border border-accent/40 rounded-sm text-accent text-[10px] font-bold uppercase tracking-[0.4em]">
                   Technical Deep Dive
                 </div>
-                <h2 className="text-5xl font-bold text-white tracking-tighter">System Architecture</h2>
-                <div className="space-y-6">
+                <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tighter">System Architecture</h2>
+                <div className="space-y-4 md:space-y-6">
                   {["Multi-Modal Collection", "Parallel Evaluation", "Worker Orchestration", "Dynamic Task Planning", "Final Compliance Report"].map((step, i) => (
                     <div key={i} className={cn(
                       "flex items-center gap-4 transition-all duration-500",
-                      isSpeaking ? "opacity-100 translate-x-4" : "opacity-40"
-                    )} style={{ transitionDelay: `${i * 300}ms` }}>
-                       <div className="w-8 h-8 rounded-full bg-accent/20 border border-accent/40 flex items-center justify-center text-accent font-mono text-xs">
+                      isDeepDiveActive ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-8"
+                    )} style={{ transitionDelay: `${i * 150}ms` }}>
+                       <div className="w-8 h-8 rounded-full bg-accent/20 border border-accent/40 flex items-center justify-center text-accent font-mono text-xs shrink-0">
                          {i + 1}
                        </div>
-                       <span className="text-white/80 font-light text-xl tracking-tight">{step}</span>
+                       <span className="text-white/80 font-light text-lg md:text-xl tracking-tight">{step}</span>
                     </div>
                   ))}
                 </div>
-                <div className="pt-12">
+                
+                <div className={cn("pt-8 transition-opacity duration-1000", isSpeaking ? "opacity-100" : "opacity-0")}>
                    <div className="flex items-center gap-4">
-                      <div className="h-1 w-24 bg-accent animate-pulse" />
+                      <div className="h-0.5 w-16 bg-accent animate-pulse" />
                       <span className="text-accent font-mono text-[10px] uppercase tracking-widest animate-pulse">Assistant Explaining...</span>
                    </div>
                 </div>
              </div>
              
              <div className="relative group">
-                <div className="absolute inset-0 bg-accent/20 blur-[100px] rounded-full animate-pulse" />
-                <div className="relative aspect-video rounded-sm border border-white/20 bg-black overflow-hidden shadow-2xl">
+                <div className="absolute inset-0 bg-accent/10 blur-[100px] rounded-full animate-pulse" />
+                <div className="relative aspect-video rounded-sm border border-white/20 bg-card overflow-hidden shadow-2xl">
                    <img 
-                    src="https://picsum.photos/seed/diagram/1200/800" 
+                    src="https://picsum.photos/seed/tech-diagram/1200/800" 
                     alt="Architecture Diagram" 
-                    className="w-full h-full object-contain opacity-80"
-                    data-ai-hint="system diagram"
+                    className="w-full h-full object-cover opacity-60"
+                    data-ai-hint="technical diagram"
                    />
-                   {/* Virtual Highlights */}
-                   <div className={cn("absolute inset-0 bg-accent/10 transition-opacity duration-1000", isSpeaking ? "opacity-100" : "opacity-0")} />
+                   <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/40" />
+                   <div className="absolute inset-0 flex items-center justify-center">
+                     <div className="w-full h-full p-8 border border-accent/10 flex flex-col items-center justify-center gap-4">
+                        <div className="grid grid-cols-2 gap-2 w-full max-w-xs">
+                          {[1,2,3,4].map(i => <div key={i} className="h-1 bg-accent/20 rounded-full" />)}
+                        </div>
+                        <span className="text-accent/40 font-mono text-[8px] uppercase tracking-[0.5em]">Agentic Orchestration View</span>
+                     </div>
+                   </div>
                 </div>
              </div>
           </div>
