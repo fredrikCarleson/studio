@@ -31,7 +31,6 @@ import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { generateAssistantSpeech } from "@/ai/flows/tts-flow";
 
 // ─── Narrative Structure ───────────────────────────────────────────────────────
 
@@ -57,13 +56,25 @@ const LOCAL_VIDEOS = [
   "/videos/Digital_horizon_leading_202604071800.mp4",
 ] as const;
 
-const ARCHITECTURE_NARRATION =
-  "This is the five-phase swarm architecture. Phase one begins with a parallel multi-modal scraper, pulling social data at scale. Phase two fans out to specialised valuation agents. Phase three uses a JSON task plan to dynamically spawn workers. Phase four cross-references legal entity registries. Finally, phase five converges everything into a structured Swedish compliance report.";
+/**
+ * Pre-generated MP3 for bulletproof stage playback.
+ * Falls back to live TTS only if this file is missing.
+ */
+const BLUEPRINT_AUDIO_URL = "/audio/blueprint-narration.mp3";
+
+/**
+ * Slides with sub-steps: pressing "next" cycles through sub-steps
+ * before advancing to the next slide. value = number of extra steps.
+ * Slide 3 (index 2): step 0 = slide content, step 1 = evidence card.
+ */
+const SLIDE_SUB_STEPS: Record<number, number> = {
+  2: 1,
+};
 
 // ─── Keyboard Reference ────────────────────────────────────────────────────────
 
 const KEYS = [
-  { key: "→ / Space", action: "Next slide" },
+  { key: "→ / Space", action: "Next slide / sub-step" },
   { key: "←", action: "Previous slide" },
   { key: "B", action: "Blueprint overlay (Slide 3)" },
   { key: "H", action: "Toggle HUD" },
@@ -137,25 +148,25 @@ const PresentationHUD = memo(({ currentIndex, progressValue, isHidden }: HUDProp
       isHidden ? "opacity-0 pointer-events-none -translate-y-3" : "opacity-100 translate-y-0"
     )}
   >
-    <div className="flex flex-col gap-2 w-72">
-      <div className="flex justify-between items-end mb-1">
-        <div className="flex flex-col">
-          <span className="text-[10px] font-mono uppercase tracking-[0.4em] text-accent/60">
-            Chapter {currentIndex + 1} / {CHAPTERS.length}
-          </span>
-          <span className="text-sm font-bold tracking-tight text-white uppercase">
-            {CHAPTERS[currentIndex]}
-          </span>
-        </div>
-        <span className="text-[10px] font-mono text-white/40">
+    <div className="flex flex-col gap-2 w-64">
+      <div className="flex flex-col mb-1">
+        <span className="text-[9px] font-mono uppercase tracking-[0.4em] text-accent/50">
+          Chapter {currentIndex + 1} of {CHAPTERS.length}
+        </span>
+        <span className="text-sm font-bold tracking-tight text-white uppercase">
+          {CHAPTERS[currentIndex]}
+        </span>
+      </div>
+      <div className="flex items-center gap-3">
+        <Progress
+          value={progressValue}
+          className="h-[1px] bg-white/10 flex-1"
+          aria-label="Presentation progress"
+        />
+        <span className="text-[9px] font-mono text-white/25 shrink-0 w-8 text-right">
           {Math.round(progressValue)}%
         </span>
       </div>
-      <Progress
-        value={progressValue}
-        className="h-[1px] bg-white/10"
-        aria-label="Presentation progress"
-      />
     </div>
 
     <div className="flex flex-col items-end gap-3">
@@ -273,8 +284,8 @@ KeyboardReference.displayName = "KeyboardReference";
 
 export default function Home() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [subStep, setSubStep] = useState(0);
   const [isUIHidden, setIsUIHidden] = useState(false);
-  const [showEvidence, setShowEvidence] = useState(false);
   const [isDeepDiveActive, setIsDeepDiveActive] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [showKeyboard, setShowKeyboard] = useState(false);
@@ -283,7 +294,10 @@ export default function Home() {
   const uiTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
 
-  // ── Navigation ──────────────────────────────────────────────────────────────
+  // Evidence card is driven by subStep, not a timer
+  const showEvidence = currentIndex === 2 && subStep >= 1 && !isDeepDiveActive;
+
+  // ── Navigation with sub-step awareness ──────────────────────────────────────
 
   const scrollToSection = useCallback((index: number) => {
     if (index < 0 || index >= CHAPTERS.length) return;
@@ -293,28 +307,71 @@ export default function Home() {
     }
   }, []);
 
+  const advanceForward = useCallback(() => {
+    const maxSub = SLIDE_SUB_STEPS[currentIndex] ?? 0;
+    if (subStep < maxSub) {
+      setSubStep((s) => s + 1);
+    } else {
+      if (currentIndex < CHAPTERS.length - 1) {
+        scrollToSection(currentIndex + 1);
+      }
+    }
+  }, [currentIndex, subStep, scrollToSection]);
+
+  const goBack = useCallback(() => {
+    if (subStep > 0) {
+      setSubStep((s) => s - 1);
+    } else if (currentIndex > 0) {
+      scrollToSection(currentIndex - 1);
+    }
+  }, [currentIndex, subStep, scrollToSection]);
+
   const handleSectionActiveChange = useCallback((index: number, active: boolean) => {
     if (active) {
       setCurrentIndex(index);
+      setSubStep(0);
       setIsDeepDiveActive(false);
     }
   }, []);
 
-  // ── Deep Dive Easter Egg ────────────────────────────────────────────────────
+  // ── Deep Dive — plays static MP3 (bulletproof), falls back to live TTS ─────
 
   const handleDeepDive = useCallback(async () => {
     setIsDeepDiveActive(true);
     setIsSpeaking(true);
-    try {
-      const response = await generateAssistantSpeech({ text: ARCHITECTURE_NARRATION });
-      const audio = audioRef.current;
-      if (audio) {
-        audio.src = response.mediaUrl;
-        audio.play();
-        audio.onended = () => setIsSpeaking(false);
-      }
-    } catch {
+
+    const audio = audioRef.current;
+    if (!audio) {
       setIsSpeaking(false);
+      return;
+    }
+
+    audio.onended = () => setIsSpeaking(false);
+    audio.onerror = () => setIsSpeaking(false);
+
+    // Try the pre-generated static file first
+    audio.src = BLUEPRINT_AUDIO_URL;
+    try {
+      await audio.play();
+    } catch {
+      // Static file not found or blocked — try live TTS as fallback
+      try {
+        const { generateAssistantSpeech } = await import("@/ai/flows/tts-flow");
+        const NARRATION =
+          "Hi Fredrik. Of course I can explain the diagram for you. " +
+          "This is the five-phase swarm architecture we built during the hackathon. " +
+          "Phase one starts with a parallel multi-modal scraper — the channel mapper and Instagram scraper agent pull social data at scale. " +
+          "Phase two fans out into parallel research. A product identifier prices items, while affiliate mappers, barter investigators, and donation mappers each handle their speciality — all running simultaneously. " +
+          "Phase three is the risk assessor. It analyses all previous findings without any search tools, purely reasoning over what the other agents discovered. " +
+          "Phase four is where it gets interesting. A follow-up planner creates a JSON task plan, and a dynamic parallel research executor spawns Worker 1 through Worker N on demand. " +
+          "And finally, phase five — the report synthesizer produces a complete Swedish compliance report with proper citations. " +
+          "What used to take analysts days now happens in minutes.";
+        const response = await generateAssistantSpeech({ text: NARRATION });
+        audio.src = response.mediaUrl;
+        await audio.play();
+      } catch {
+        setIsSpeaking(false);
+      }
     }
   }, []);
 
@@ -327,17 +384,6 @@ export default function Home() {
       audio.currentTime = 0;
     }
   }, []);
-
-  // ── Evidence card on Swarm slide ────────────────────────────────────────────
-
-  useEffect(() => {
-    if (currentIndex !== 2) {
-      setShowEvidence(false);
-      return;
-    }
-    const t = setTimeout(() => setShowEvidence(true), 3000);
-    return () => clearTimeout(t);
-  }, [currentIndex]);
 
   // ── Mouse-idle HUD auto-hide ─────────────────────────────────────────────────
 
@@ -358,7 +404,6 @@ export default function Home() {
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      // Don't intercept when user is typing into an input
       const tag = (e.target as Element)?.tagName;
       if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
 
@@ -367,13 +412,13 @@ export default function Home() {
         case "ArrowDown":
         case " ":
           e.preventDefault();
-          if (!isDeepDiveActive) scrollToSection(currentIndex + 1);
+          if (!isDeepDiveActive) advanceForward();
           break;
 
         case "ArrowLeft":
         case "ArrowUp":
           e.preventDefault();
-          if (!isDeepDiveActive) scrollToSection(currentIndex - 1);
+          if (!isDeepDiveActive) goBack();
           break;
 
         case "Escape":
@@ -411,7 +456,7 @@ export default function Home() {
 
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [currentIndex, isDeepDiveActive, showKeyboard, scrollToSection, handleDeepDive, handleCloseDeepDive]);
+  }, [currentIndex, subStep, isDeepDiveActive, showKeyboard, advanceForward, goBack, handleDeepDive, handleCloseDeepDive]);
 
   // ── Derived ───────────────────────────────────────────────────────────────────
 
@@ -425,6 +470,7 @@ export default function Home() {
   // ── Render ────────────────────────────────────────────────────────────────────
 
   return (
+    <>
     <main
       ref={containerRef}
       className="snap-container relative bg-black selection:bg-accent/30"
@@ -452,7 +498,6 @@ export default function Home() {
 
       {/* ────────────────────────────────────────────────────────────────────────
           SLIDE 1 — PROLOGUE
-          Opens with pure weight. The talk begins here.
       ──────────────────────────────────────────────────────────────────────── */}
       <PresentationSection
         sectionIndex={0}
@@ -478,7 +523,6 @@ export default function Home() {
 
       {/* ────────────────────────────────────────────────────────────────────────
           SLIDE 2 — THE VISION
-          Establish the central question. Create suspense.
       ──────────────────────────────────────────────────────────────────────── */}
       <PresentationSection
         sectionIndex={1}
@@ -510,8 +554,9 @@ export default function Home() {
 
       {/* ────────────────────────────────────────────────────────────────────────
           SLIDE 3 — THE SWARM (Team Alpha)
-          The dramatic centerpiece. Easter egg lives here.
-          Press B on stage to trigger the Technical Blueprint overlay.
+          Sub-step 0: slide content stagger in
+          Sub-step 1: evidence card slides in (press → to reveal)
+          Press B: Technical Blueprint overlay with narration
       ──────────────────────────────────────────────────────────────────────── */}
       <PresentationSection
         sectionIndex={2}
@@ -520,9 +565,8 @@ export default function Home() {
         onSectionActiveChange={handleSectionActiveChange}
         videoUrl={LOCAL_VIDEOS[2]}
         fallbackImageUrl={PlaceHolderImages.find((img) => img.id === "agent-bg")?.imageUrl ?? ""}
-        contentClassName="space-y-8 relative w-full"
+        contentClassName="space-y-8 relative w-full pt-14"
       >
-        {/* Badge + headline */}
         <header className="space-y-4">
           <div className="inline-block px-4 py-1 bg-white/5 border border-white/10 text-accent text-[10px] font-bold uppercase tracking-[0.4em]">
             Case Study — Team Alpha
@@ -532,7 +576,6 @@ export default function Home() {
           </h2>
         </header>
 
-        {/* Stats */}
         <div className="flex items-center justify-center gap-12">
           <div className="text-center">
             <span className="block text-5xl font-black text-accent">10,000+</span>
@@ -556,7 +599,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Agent cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-5xl mx-auto w-full">
           {[
             {
@@ -590,7 +632,6 @@ export default function Home() {
           ))}
         </div>
 
-        {/* Easter egg button */}
         <div className="flex items-center gap-4">
           <Button
             variant="outline"
@@ -614,134 +655,8 @@ export default function Home() {
         </div>
       </PresentationSection>
 
-      {/* ── Evidence card (auto-appears 3s after arriving on Swarm slide) ── */}
-      <aside
-        className={cn(
-          "fixed right-12 bottom-12 w-80 p-6 bg-card border border-white/10 shadow-2xl transition-[opacity,transform] duration-700 ease-out z-[50] will-change-[opacity,transform]",
-          showEvidence && !isDeepDiveActive
-            ? "opacity-100 translate-y-0"
-            : "opacity-0 translate-y-10 pointer-events-none"
-        )}
-        aria-label="Case evidence card"
-      >
-        <div className="relative h-44 w-full bg-muted mb-4 overflow-hidden">
-          <img
-            src="/images/influencerJail.png"
-            alt="Influencer tax consequence case example"
-            className="w-full h-full object-cover"
-            width={320}
-            height={176}
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
-          <div className="absolute bottom-3 left-3">
-            <span className="bg-red-500 text-[8px] font-bold px-1.5 py-0.5 uppercase tracking-tighter">
-              Case Example
-            </span>
-          </div>
-        </div>
-        <h4 className="text-white font-bold text-sm mb-2">The Nudge Strategy</h4>
-        <p className="text-white/45 text-[10px] leading-relaxed italic">
-          "What if we nudged the influencer early? Proactive compliance beats a
-          tax bill at year-end."
-        </p>
-      </aside>
-
-      {/* ── Technical Blueprint Deep-Dive Overlay (Easter Egg) ── */}
-      <div
-        className={cn(
-          "fixed inset-0 z-[100] bg-black/97 flex items-center justify-center p-8 md:p-16 transition-[opacity,transform] duration-500 ease-out will-change-[opacity,transform]",
-          isDeepDiveActive
-            ? "opacity-100 translate-y-0 pointer-events-auto"
-            : "opacity-0 translate-y-full pointer-events-none"
-        )}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="blueprint-title"
-      >
-        <button
-          onClick={handleCloseDeepDive}
-          className="absolute top-10 right-10 z-[110] text-white/50 hover:text-white bg-white/10 p-3 border border-white/20 transition-all duration-200 hover:scale-105 hover:border-white/40"
-          aria-label="Close blueprint (Esc)"
-        >
-          <X className="h-6 w-6" />
-        </button>
-
-        <div className="max-w-6xl w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          {/* Left: phase list */}
-          <div className={cn("space-y-8 text-left", isDeepDiveActive && "deep-dive-active")}>
-            <div className="space-y-3">
-              <div className="inline-block px-3 py-1 bg-accent/20 border border-accent/40 text-accent text-[10px] font-bold uppercase tracking-[0.4em]">
-                Technical Swarm Architecture
-              </div>
-              <h2
-                id="blueprint-title"
-                className="text-4xl md:text-5xl font-black text-white tracking-tighter leading-tight"
-              >
-                Five-Phase
-                <br />
-                Execution
-              </h2>
-            </div>
-
-            <div className="space-y-5">
-              {[
-                { title: "Multi-Modal Scraper", desc: "Phase 1 — Parallel high-throughput collection" },
-                { title: "Valuation Swarm", desc: "Phase 2 — Fan-out to specialised pricing agents" },
-                { title: "Dynamic Workers", desc: "Phase 3 — JSON task plan spawns workers on demand" },
-                { title: "Registry Synthesis", desc: "Phase 4 — Cross-reference legal entity data" },
-                { title: "Compliance Output", desc: "Phase 5 — Structured Swedish compliance report" },
-              ].map((item, i) => (
-                <div key={i} className="deep-dive-phase flex items-start gap-5">
-                  <div className="shrink-0 w-9 h-9 bg-accent/15 border border-accent/30 flex items-center justify-center text-accent font-mono text-sm">
-                    {i + 1}
-                  </div>
-                  <div>
-                    <span className="block text-white font-bold text-lg">{item.title}</span>
-                    <span className="block text-white/35 text-[10px] uppercase tracking-widest mt-0.5">
-                      {item.desc}
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {isSpeaking && (
-              <div className="flex items-center gap-3 pt-4">
-                <div className="flex gap-1">
-                  {[1, 2, 3, 4, 5].map((i) => (
-                    <div
-                      key={i}
-                      className="w-0.5 h-4 bg-accent animate-pulse"
-                      style={{ animationDelay: `${i * 80}ms` }}
-                    />
-                  ))}
-                </div>
-                <span className="text-accent font-mono text-[10px] uppercase tracking-[0.4em]">
-                  AI Narrating…
-                </span>
-              </div>
-            )}
-          </div>
-
-          {/* Right: architecture visual */}
-          <div className="relative">
-            <div className="absolute inset-0 bg-accent/5 blur-[80px] rounded-full" />
-            <div className="relative border border-white/10 bg-black/60 overflow-hidden shadow-2xl">
-              <img
-                src="https://picsum.photos/seed/swarm-arch/1200/900"
-                alt="Swarm architecture diagram"
-                className="w-full h-auto opacity-60 grayscale"
-                width={1200}
-                height={900}
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* ────────────────────────────────────────────────────────────────────────
           SLIDE 4 — THE PEDAGOGY (Team Bravo)
-          The knowledge-split lesson. The "making things up" moment.
       ──────────────────────────────────────────────────────────────────────── */}
       <PresentationSection
         sectionIndex={3}
@@ -750,7 +665,7 @@ export default function Home() {
         onSectionActiveChange={handleSectionActiveChange}
         videoUrl={LOCAL_VIDEOS[3]}
         fallbackImageUrl={PlaceHolderImages.find((img) => img.id === "bravo-bg")?.imageUrl ?? ""}
-        contentClassName="space-y-10 w-full max-w-5xl mx-auto px-6"
+        contentClassName="space-y-10 w-full max-w-5xl mx-auto px-6 pt-14"
       >
         <div className="space-y-3">
           <div className="inline-block px-4 py-1 bg-white/5 border border-white/10 text-accent text-[10px] font-bold uppercase tracking-[0.4em]">
@@ -808,7 +723,6 @@ export default function Home() {
 
       {/* ────────────────────────────────────────────────────────────────────────
           SLIDE 5 — THE AUTOMATION (Team Delta)
-          Hours → seconds. The scale of the shift.
       ──────────────────────────────────────────────────────────────────────── */}
       <PresentationSection
         sectionIndex={4}
@@ -817,7 +731,7 @@ export default function Home() {
         onSectionActiveChange={handleSectionActiveChange}
         videoUrl={LOCAL_VIDEOS[4]}
         fallbackImageUrl={PlaceHolderImages.find((img) => img.id === "delta-bg")?.imageUrl ?? ""}
-        contentClassName="space-y-10 w-full max-w-5xl mx-auto"
+        contentClassName="space-y-10 w-full max-w-5xl mx-auto pt-14"
       >
         <div className="space-y-3">
           <div className="inline-block px-4 py-1 bg-white/5 border border-white/10 text-accent text-[10px] font-bold uppercase tracking-[0.4em]">
@@ -828,7 +742,6 @@ export default function Home() {
           </h2>
         </div>
 
-        {/* Data sources */}
         <div className="grid grid-cols-3 gap-4 w-full">
           {[
             { Icon: FileText, label: "Annual Reports" },
@@ -847,7 +760,6 @@ export default function Home() {
           ))}
         </div>
 
-        {/* Time comparison */}
         <div className="w-full px-10 py-8 bg-white/5 border border-white/10 space-y-6">
           <div className="flex flex-col md:flex-row items-center gap-6">
             <div className="flex-1 space-y-2 w-full">
@@ -883,7 +795,6 @@ export default function Home() {
 
       {/* ────────────────────────────────────────────────────────────────────────
           SLIDE 6 — THE VERDICT
-          The winner reveal. Short. Punchy. Let it breathe.
       ──────────────────────────────────────────────────────────────────────── */}
       <PresentationSection
         sectionIndex={5}
@@ -893,12 +804,10 @@ export default function Home() {
         videoUrl={LOCAL_VIDEOS[5]}
         fallbackImageUrl={PlaceHolderImages.find((img) => img.id === "winner-bg")?.imageUrl ?? ""}
       >
-        <div className="relative mb-8">
-          <Trophy
-            className="h-20 w-20 text-accent mx-auto"
-            aria-hidden="true"
-          />
-          <div className="absolute inset-0 bg-accent/20 blur-3xl rounded-full" />
+        <div className="relative mb-6">
+          <div className="absolute -inset-8 bg-accent/15 blur-3xl rounded-full" />
+          <div className="absolute -inset-4 bg-accent/10 blur-xl rounded-full" />
+          <Trophy className="relative h-24 w-24 text-accent mx-auto drop-shadow-[0_0_24px_rgba(100,200,230,0.6)]" aria-hidden="true" />
         </div>
         <h2 className="text-5xl md:text-8xl font-black text-white tracking-tighter italic mb-8">
           Team Alpha Wins
@@ -917,8 +826,6 @@ export default function Home() {
 
       {/* ────────────────────────────────────────────────────────────────────────
           SLIDE 7 — THE WISDOM
-          The thesis. "Teammates without judgment."
-          The AI Chat → Assistants → Coworkers evolution.
       ──────────────────────────────────────────────────────────────────────── */}
       <PresentationSection
         sectionIndex={6}
@@ -929,7 +836,6 @@ export default function Home() {
         fallbackImageUrl={PlaceHolderImages.find((img) => img.id === "takeaway-bg")?.imageUrl ?? ""}
         contentClassName="space-y-12 max-w-5xl mx-auto px-6 w-full"
       >
-        {/* Core insight */}
         <div className="space-y-4">
           <span className="text-accent text-[10px] font-bold uppercase tracking-[1em] font-mono">
             The Core Insight
@@ -946,13 +852,11 @@ export default function Home() {
           </p>
         </div>
 
-        {/* Evolution progression */}
         <div className="w-full pt-8 border-t border-white/10">
           <p className="text-[9px] font-mono uppercase tracking-[0.6em] text-white/25 mb-6">
             The progression we are on
           </p>
           <div className="flex flex-col md:flex-row items-center justify-center gap-2 md:gap-0 w-full">
-            {/* Step 1 */}
             <div className="evolution-step flex-1 p-6 bg-white/5 border border-white/10 text-center">
               <MessageSquare className="h-5 w-5 text-white/30 mx-auto mb-2" />
               <span className="block text-white/50 font-light text-base">AI Chat</span>
@@ -961,12 +865,8 @@ export default function Home() {
               </span>
             </div>
             <div className="evolution-step flex items-center justify-center px-2 md:px-3">
-              <ArrowRight
-                className="h-5 w-5 text-accent/50 rotate-90 md:rotate-0"
-                aria-hidden="true"
-              />
+              <ArrowRight className="h-5 w-5 text-accent/50 rotate-90 md:rotate-0" aria-hidden="true" />
             </div>
-            {/* Step 2 — current */}
             <div className="evolution-step flex-1 p-6 bg-accent/15 border border-accent/40 text-center relative">
               <div className="absolute -top-2 left-1/2 -translate-x-1/2 px-2 py-0.5 bg-accent text-[8px] font-bold text-black uppercase tracking-widest">
                 Now
@@ -978,12 +878,8 @@ export default function Home() {
               </span>
             </div>
             <div className="evolution-step flex items-center justify-center px-2 md:px-3">
-              <ArrowRight
-                className="h-5 w-5 text-accent rotate-90 md:rotate-0"
-                aria-hidden="true"
-              />
+              <ArrowRight className="h-5 w-5 text-accent rotate-90 md:rotate-0" aria-hidden="true" />
             </div>
-            {/* Step 3 — destination */}
             <div className="evolution-step flex-1 p-6 bg-white/10 border-2 border-white/30 text-center">
               <Rocket className="h-5 w-5 text-white mx-auto mb-2" />
               <span className="block text-white font-black text-base italic tracking-tight">
@@ -999,8 +895,6 @@ export default function Home() {
 
       {/* ────────────────────────────────────────────────────────────────────────
           SLIDE 8 — THE FUTURE
-          The closer. Skatteverket 3.0. The Gibson quote.
-          Land with maximum silence.
       ──────────────────────────────────────────────────────────────────────── */}
       <PresentationSection
         sectionIndex={7}
@@ -1011,7 +905,6 @@ export default function Home() {
         fallbackImageUrl={PlaceHolderImages.find((img) => img.id === "hero-bg")?.imageUrl ?? ""}
         contentClassName="space-y-16 max-w-5xl mx-auto px-6 w-full"
       >
-        {/* Skatteverket 3.0 */}
         <div className="space-y-6">
           <div className="relative inline-block mx-auto">
             <Rocket className="h-10 w-10 text-accent mx-auto" aria-hidden="true" />
@@ -1028,7 +921,6 @@ export default function Home() {
           </p>
         </div>
 
-        {/* Closing quote */}
         <div className="relative pt-12 border-t border-white/10">
           <Sparkles
             className="absolute -top-5 left-1/2 -translate-x-1/2 h-8 w-8 text-accent/30"
@@ -1048,5 +940,139 @@ export default function Home() {
         </div>
       </PresentationSection>
     </main>
+
+    {/* ══════════════════════════════════════════════════════════════════════
+        OVERLAYS — rendered OUTSIDE <main> so they are not children of
+        the scroll container. This guarantees correct fixed positioning
+        and z-index stacking on all browsers.
+    ══════════════════════════════════════════════════════════════════════ */}
+
+    {/* ── Evidence card — appears when presenter presses → on Swarm slide ── */}
+    <aside
+      className={cn(
+        "fixed right-12 bottom-12 w-80 p-5 bg-card border border-white/10 shadow-2xl transition-[opacity,transform] duration-700 ease-out z-[90] will-change-[opacity,transform]",
+        showEvidence
+          ? "opacity-100 translate-y-0"
+          : "opacity-0 translate-y-8 pointer-events-none"
+      )}
+      aria-label="Case evidence card"
+    >
+      <div className="relative h-40 w-full bg-muted mb-3 overflow-hidden">
+        <img
+          src="/images/influencerJail.png"
+          alt="Swedish influencer sentenced for tax evasion"
+          className="w-full h-full object-cover"
+          width={320}
+          height={160}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+        <div className="absolute bottom-2.5 left-2.5">
+          <span className="bg-red-500 text-[8px] font-bold px-1.5 py-0.5 uppercase tracking-tighter">
+            Real Case
+          </span>
+        </div>
+      </div>
+      <h4 className="text-white font-black text-sm mb-1.5 tracking-tight">
+        He went to jail.
+      </h4>
+      <p className="text-white/40 text-[10px] leading-relaxed italic">
+        Our swarm could have nudged him months earlier.
+      </p>
+    </aside>
+
+    {/* ── Technical Blueprint Deep-Dive Overlay ── */}
+    <div
+      className={cn(
+        "fixed inset-0 z-[100] bg-black flex overflow-hidden transition-opacity duration-500 ease-out will-change-[opacity]",
+        isDeepDiveActive
+          ? "opacity-100 pointer-events-auto"
+          : "opacity-0 pointer-events-none"
+      )}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="blueprint-title"
+    >
+      {/* Close button */}
+      <button
+        onClick={handleCloseDeepDive}
+        className="absolute top-6 right-6 z-[110] text-white/50 hover:text-white bg-white/10 p-3 border border-white/20 transition-all duration-200 hover:scale-105 hover:border-white/40"
+        aria-label="Close blueprint (Esc)"
+      >
+        <X className="h-5 w-5" />
+      </button>
+
+      {/* Left sidebar — fixed width, full height, scrollable if needed */}
+      <div
+        className={cn(
+          "w-72 shrink-0 flex flex-col justify-center gap-5 px-8 py-10 border-r border-white/10 overflow-y-auto",
+          isDeepDiveActive && "deep-dive-active"
+        )}
+      >
+        <div className="space-y-1">
+          <div className="inline-block px-3 py-1 bg-accent/20 border border-accent/40 text-accent text-[10px] font-bold uppercase tracking-[0.4em]">
+            Swarm Architecture
+          </div>
+          <h2
+            id="blueprint-title"
+            className="text-2xl font-black text-white tracking-tighter leading-tight pt-2"
+          >
+            Five-Phase<br />Execution
+          </h2>
+        </div>
+
+        <div className="space-y-4">
+          {[
+            { title: "Data Gathering",         desc: "Channel mapping & social scraping" },
+            { title: "Parallel Research",       desc: "Pricing, affiliates, barter, donations — simultaneously" },
+            { title: "Risk Assessment",         desc: "Reason over all findings, zero search tools" },
+            { title: "Follow-up Investigation", desc: "JSON task plan spawns N dynamic workers" },
+            { title: "Compliance Report",       desc: "Swedish report with verified citations" },
+          ].map((item, i) => (
+            <div key={i} className="deep-dive-phase flex items-start gap-3">
+              <div className="shrink-0 w-7 h-7 bg-accent/15 border border-accent/30 flex items-center justify-center text-accent font-mono text-xs">
+                {i + 1}
+              </div>
+              <div className="min-w-0">
+                <span className="block text-white font-bold text-sm leading-snug">{item.title}</span>
+                <span className="block text-white/30 text-[9px] uppercase tracking-widest mt-0.5 leading-snug">
+                  {item.desc}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {isSpeaking && (
+          <div className="flex items-center gap-3">
+            <div className="flex gap-1">
+              {[1, 2, 3, 4, 5].map((i) => (
+                <div
+                  key={i}
+                  className="w-0.5 h-4 bg-accent animate-pulse"
+                  style={{ animationDelay: `${i * 80}ms` }}
+                />
+              ))}
+            </div>
+            <span className="text-accent font-mono text-[10px] uppercase tracking-[0.4em]">
+              AI Narrating…
+            </span>
+          </div>
+        )}
+      </div>
+
+      {/* Right panel — fills remaining width and full height, image centred */}
+      <div className="flex-1 flex items-center justify-center p-6 min-w-0">
+        <div className="relative w-full h-full flex items-center justify-center">
+          <div className="absolute inset-0 bg-accent/5 blur-[80px] rounded-full pointer-events-none" />
+          <img
+            src="/images/flowInfluencer.png"
+            alt="Five-phase swarm architecture diagram"
+            className="relative max-w-full max-h-full w-auto h-auto object-contain border border-white/10 shadow-2xl"
+            style={{ maxHeight: "calc(100vh - 48px)" }}
+          />
+        </div>
+      </div>
+    </div>
+    </>
   );
 }
