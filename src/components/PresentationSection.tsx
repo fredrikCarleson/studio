@@ -18,6 +18,12 @@ interface PresentationSectionProps {
   className?: string;
   /** Applied to the fade-in-stagger wrapper. Use for per-slide spacing/layout. */
   contentClassName?: string;
+  /** Override default top→bottom scrim stops when the footage is very bright (e.g. bokeh). */
+  overlayGradientClassName?: string;
+  /** Video wrapper opacity once loaded (e.g. `opacity-[0.65]`). Default full opacity. */
+  videoLoadedOpacityClassName?: string;
+  /** Optional layer between scrim and content: radial gradients, extra tint, etc. */
+  midgroundOverlayClassName?: string;
   priority?: boolean;
   sectionIndex: number;
   chapterName?: string;
@@ -31,6 +37,9 @@ const PresentationSectionBase: FC<PresentationSectionProps> = ({
   children,
   className,
   contentClassName,
+  overlayGradientClassName,
+  videoLoadedOpacityClassName,
+  midgroundOverlayClassName,
   priority = false,
   sectionIndex,
   chapterName,
@@ -119,7 +128,9 @@ const PresentationSectionBase: FC<PresentationSectionProps> = ({
       <div
         className={cn(
           "absolute inset-0 z-0 transition-opacity duration-1000",
-          isVideoLoaded ? "opacity-100" : "opacity-0"
+          isVideoLoaded
+            ? (videoLoadedOpacityClassName ?? "opacity-100")
+            : "opacity-0"
         )}
       >
         {shouldLoadVideo && (
@@ -153,7 +164,20 @@ const PresentationSectionBase: FC<PresentationSectionProps> = ({
       )}
 
       {/* Cinematic gradient — heavier at top and bottom for text legibility */}
-      <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-b from-black/75 via-black/20 to-black/85" />
+      <div
+        className={cn(
+          "pointer-events-none absolute inset-0 z-10 bg-gradient-to-b",
+          overlayGradientClassName ?? "from-black/75 via-black/20 to-black/85"
+        )}
+      />
+      {midgroundOverlayClassName ? (
+        <div
+          className={cn(
+            "pointer-events-none absolute inset-0 z-[11]",
+            midgroundOverlayClassName
+          )}
+        />
+      ) : null}
 
       {/* Slide Content */}
       <div className="relative z-20 container mx-auto px-6">
