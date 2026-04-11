@@ -1,7 +1,7 @@
 # Speaker Manuscript
 
 **Event:** Google Public Sector Breakfast
-**Duration:** ~17 minutes spoken + ~2.5 min buffer for AI narration and transitions
+**Duration:** ~14.5 minutes scripted (~17 with natural delivery) + ~2.5 min buffer for AI narration
 **Speaker:** Fredrik Carleson
 
 ---
@@ -18,7 +18,9 @@
 
 > Last November, fifteen people from the Swedish Tax Agency walked into Google's Stockholm office.
 
-> It smelled like coffee. And maybe a little bit of prestige.
+> It smelled like coffee.
+>
+> And… a bit of expectation.
 
 > We had two days. No preparation. One question.
 
@@ -48,17 +50,13 @@
 
 [Short Pause]
 
-> Now. A single AI agent is easy. You give it a prompt. It does a thing.
+> A single agent is easy. You ask. It answers.
 
-> But multiple agents? That's a team.
+> But multiple agents? That's a team. And teams need structure, roles, accountability.
 
-> And teams need structure. They need roles. They need someone to say: you do this. You do that. You — check their work.
-
-> Which is, by the way, not that different from managing people.
+> Not that different from managing people, actually.
 
 [Short Pause]
-
-> We weren't building for perfection. We were building to understand the behaviour, the limits, and the possibilities.
 
 > Let me show you what each team built.
 
@@ -83,9 +81,10 @@
 
 > Team Alpha asked: can we detect these risks automatically — before it becomes a problem for the influencer?
 
-> They built five agents. One scrapes social media. A valuation agent estimates the worth of luxury items — watches, handbags, even cars spotted in YouTube videos. Risk profilers consolidate everything into a compliance report.
+> They built five agents. One scrapes social media. Others value luxury items spotted in posts and videos. Risk profilers consolidate everything into a compliance report.
 
-> What could take a human analyst days — done in minutes.
+> What would normally take days of digging…
+> showed up in minutes.
 
 [Short Pause]
 
@@ -131,41 +130,21 @@
 
 [Visual Cue: Scene 4 — Knowledge split]
 
-> Team Bravo tried something different.
+> Team Bravo built Skatti 2.0 — an AI trained on our official website to answer tax questions. 24/7. Never tired.
 
-> Every day, the Tax Information Service gets thousands of calls. People just want to know: what applies to me?
+> At first, it seemed to work. Then they noticed something.
 
-> So the team built Skatti 2.0. An AI agent trained on our official website. It should read, interpret, and give correct answers. 24/7. Never tired.
-
-[Short Pause]
-
-> At first, it seemed to work.
-
-> Then they noticed something.
-
-> The answers were shaky. Sometimes confidently wrong.
-
-> The agent trained on official sources actually performed worse than a plain language model.
+> The answers were confidently wrong.
 
 [Pause — Let that land]
 
-> Why?
-
-> Because the official site explains what you need to do. But not how.
-
-> And the web is full of sites explaining how. Some right. Some very wrong. The agent couldn't tell the difference.
-
-[Gesture at the two panels on screen]
-
-> The what — high trust. Official. Statutory facts.
-
-> The how — high risk of hallucination. Confident, but wrong.
+> Why? Our website explains what you need to do. But not how. And the web is full of "how" — some right, some very wrong. The agent couldn't tell the difference.
 
 [Short Pause]
 
-> The conclusion? For precise legal answers — not good enough. But for reasoning, guidance, and pedagogy — excellent help.
+> For precise legal answers — not good enough. But for guidance and reasoning — genuinely useful.
 
-> Skatti 2.0 turned out to be a promising colleague. Just one you occasionally have to correct.
+> A promising colleague. Just one you occasionally have to correct.
 
 [Pause. Slight smile.]
 
@@ -181,27 +160,15 @@
 
 [Visual Cue: Scene 5 — The Automation]
 
-> Team Delta went after something practical.
+> Team Delta went after company risk analysis. Annual reports, public registries, statistics — work where humans drown in data.
 
-> Every year, Skatteverket evaluates thousands of companies. Which ones look normal. Which ones deserve closer inspection.
-
-> This involves downloading annual reports. Cross-referencing Statistics Sweden. Checking public registries.
-
-> Important work. But also work where humans easily drown in data.
-
-[Short Pause]
-
-> So they built a swarm. One agent pulls annual reports. Another fetches SCB statistics. A third gathers public information. Then an analysis agent produces a preliminary risk evaluation.
+> They built a swarm that does the gathering and produces a preliminary risk evaluation.
 
 [Point at the comparison bar on screen]
 
-> Days of human compilation. Versus minutes of AI reasoning.
+> Days of human compilation. Minutes of AI reasoning.
 
-[Short Pause]
-
-> And the result didn't feel like an experiment. It felt like the first draft of future risk analysis.
-
-> This wasn't science fiction. It was a prototype that could already make a difference.
+> That prototype didn't feel like an experiment. It felt like a first draft of the future.
 
 [Scroll]
 
@@ -227,13 +194,52 @@
 
 > The jury highlighted Alpha's demo. But honestly — every team taught us something we needed to hear.
 
+[Short Pause]
+
+> But there was something else.
+>
+> Something we didn't expect.
+
+[Pause]
+
+> The bottleneck was never the code.
+>
+> It was never the models.
+
+[Short Pause]
+
+> It was us.
+
+[Pause]
+
+> Or more specifically…
+
+[Short Pause]
+
+> how we think.
+
+[Pause]
+
+> Our ability to understand the problem.
+>
+> To frame it.
+>
+> To test it.
+>
+> To know what we were even trying to build.
+
+[Short Pause]
+
+> Because once that was clear…
+> the rest happened surprisingly fast.
+
 [Scroll]
 
 ---
 
 ## Chapter 7 — The Wisdom
 
-**On screen:** Core insight quote, AI Chat → Assistants → Coworkers
+**On screen:** Core insight quote
 
 [Visual Cue: Scene 7 — The Wisdom]
 
@@ -253,25 +259,57 @@
 
 > But multiple agents with roles and responsibilities? That becomes a workforce.
 
-> And here's the thing we didn't expect.
+> We thought the hard part would be the technology.
 
-> The hardest part wasn't the technology. The hardest part was the structure.
+[Short Pause]
 
-> Deciding who does what. When to split work. When to converge. How to verify.
+> It wasn't.
+
+[Pause]
+
+> The hard part was deciding what should happen.
+>
+> Who does what.
+>
+> When something is "good enough".
+>
+> And when it needs to be questioned.
+
+[Short Pause]
+
+> In other words…
+>
+> not execution.
+
+[Pause]
+
+> Insight.
+
+[Long Pause — Let it echo]
 
 [Gesture at the evolution row on screen]
 
 > We're on a journey.
 
-> We started with AI Chat. Reactive. One question at a time.
-
-> Then we moved to AI Assistants. Context-aware. Helpful. But still passive.
-
-> Where we're going? AI Coworkers. Agents that don't just respond — but act, integrate, and orchestrate on their own.
+> And what we saw, again and again, was a simple loop.
 
 [Short Pause]
 
-> That's Skatteverket 3.0.
+> You start with a question.
+>
+> You explore it.
+>
+> You make something real.
+>
+> Something you can react to.
+>
+> And then you refine it.
+
+[Pause]
+
+> Not because it's perfect.
+>
+> But because now you can react to it.
 
 [Pause. Take a breath. Scroll to the final slide.]
 
@@ -279,31 +317,67 @@
 
 ## Chapter 8 — The Future
 
-**On screen:** "We walked in with a question / We walked out with proof" — three loot lines — experience line — Gibson quote
+**On screen:** "We walked in with a question / We walked out with better questions" — experience line — Gibson quote
 
 [Visual Cue: Scene 8 — Stockholm dawn, through glass, horizon]
 
 **This is the landing. Slow. Quiet. Let the room feel it.**
 
 > We walked into Google's office with a question.
-
-> We walked out with proof.
+>
+> We walked out with something else.
 
 [Pause]
 
-> Agents that can see what we can't. At scale.
+> Not answers.
 
-> Prototypes that work. Not slide decks.
+[Short Pause]
 
-> And a team that now knows how to build the next one.
+> Better questions.
+
+[Pause]
+
+> Questions we could actually test.
+
+[Short Pause]
+
+> Questions we could turn into something real.
 
 [Long Pause]
 
+> Because that's the shift.
+
+[Pause]
+
+> It is no longer expensive to build.
+
+[Short Pause]
+
+> It is expensive to believe you are right… when you're not.
+
+[Pause]
+
+> And now…
+>
+> we can afford to find out earlier.
+
+[Long Pause — Let it echo]
+
 > Two days. A room. A few curious people.
 
-> That's all it took.
+[Short Pause]
 
-[Pause — Look at the audience. Let the Gibson quote sit on screen.]
+> And suddenly…
+>
+> the future didn't feel far away.
+
+[Pause]
+
+> It felt… buildable.
+
+[Short Pause]
+
+> By us.
 
 [Long Pause — Hold the silence for 3-4 seconds]
 
@@ -316,16 +390,16 @@
 | Chapter | Slide | Minutes |
 |---|---|---|
 | Prologue | 1 | 1.5 |
-| The Vision | 2 | 1.5 |
-| The Swarm | 3 | 4.0 |
-| The Pedagogy | 4 | 2.5 |
-| The Automation | 5 | 2.0 |
-| The Verdict | 6 | 1.5 |
-| The Wisdom | 7 | 3.0 |
-| The Future | 8 | 1.5 |
-| **Total** | | **17.5** |
+| The Vision | 2 | 1.0 |
+| The Swarm | 3 | 3.5 |
+| The Pedagogy | 4 | 1.5 |
+| The Automation | 5 | 0.5 |
+| The Verdict | 6 | 2.5 |
+| The Wisdom | 7 | 2.0 |
+| The Future | 8 | 2.0 |
+| **Total scripted** | | **14.5** |
 
-Buffer of 2.5 minutes for the AI narration on the blueprint overlay and audience reaction.
+~2.5 minutes of natural padding (slow delivery, pauses, improvisation) brings spoken time to ~17 minutes. Buffer of 2.5 minutes for AI narration on the blueprint overlay and audience reaction.
 
 ---
 
