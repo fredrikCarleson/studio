@@ -1,0 +1,525 @@
+SPEAKER MANUSCRIPT
+
+Event: Google Cloud Summit Nordics 2026 — Exclusive Executive Breakfast (Public Sector)
+Duration: 15 minutes total
+Speaker: Fredrik Carleson
+
+
+CHAPTER 1 — PROLOGUE
+
+On screen: “Hackathon. Two days. Three teams. Fifteen brains.”
+Visual cue: Scene 1 — Stockholm sunrise, cinematic
+
+Good morning.
+
+[Pause]
+
+Hackathon.
+
+Two days.
+
+Three teams.
+
+Fifteen brains.
+
+[Pause]
+
+Imagine an early morning.  The sun rising over Stockholm.
+
+Fifteen people from the Swedish Tax Agency walk into Google’s office.
+
+It smells like coffee.  And… expectation.
+
+[Short pause]
+
+We had a question:
+
+Can we get multiple AI agents to actually work together?
+
+Not just answer questions. Work. Like a team.
+
+[Short pause]
+
+We had two days. No preparation. We weren’t there to build a product.
+
+We were there to understand. And to see how far we could come if we just push as far as we could.
+
+So three teams. Three very different ideas.
+
+And this is where things changed.”
+
+[Pause]
+
+what came out of those 48 hours showed us something unexpected.
+
+Not just how powerful the agents are…
+
+but where the real limitation actually is.
+
+[Pause — let the slide sit. Then scroll.]
+
+
+CHAPTER 2 — THE VISION
+
+On screen: “The Bold Mission” — central question
+Visual cue: Scene 2 — Modern tech office
+
+“This was the question.”
+
+[Point to screen]
+
+“Could we actually do this… in two days?
+
+[Short pause]
+
+A single agent is predictable.
+
+You ask. It responds.
+
+But multiple agents? That’s a team.
+
+And teams need purpose, structure, roles and accountability.
+
+[Short pause]
+
+In other words — we weren’t building software.
+
+We were designing a team.
+
+Let me show you what each team built.
+
+[Scroll to The Swarm]
+
+
+CHAPTER 3 — THE SWARM
+
+On screen: Team Alpha — stats, agent cards, blueprint button
+Note: This is the centerpiece. Build slowly. Use the sub-steps.
+Visual cue: Scene 3 — The Swarm background
+
+In Sweden, more than ten thousand influencers make a living from brand deals and gifts.
+
+Most of them want to do the right thing.
+
+But tax rules are not always easy to interpret.
+
+[Short pause]
+
+The result?
+
+People slip into the hidden economy without even knowing it.
+
+[Short pause]
+
+Team Alpha asked:
+
+Can we detect these risks automatically — before it becomes a problem for the influencer?
+
+[Short pause]
+
+They built multiple agents working together.
+
+One scrapes social media.
+
+Others value luxury items spotted in posts and videos.
+
+Risk profilers consolidate everything into a compliance report.
+
+[Short pause]
+
+What would normally take days of digging…
+
+showed up in minutes.
+
+[Short pause]
+
+But here’s the part that made the jury lean forward.
+
+The team explained how the same approach could be adapted for crime prevention — scanning for stolen goods, cross-referencing declared income with visible assets.
+
+And when you combine text, video, and audio…
+
+you start to see things no single system could see before.
+
+[Press → to reveal the evidence card]
+
+And this is not theoretical.
+
+[Point at the evidence card]
+
+He went to jail.
+
+Our swarm could have nudged him months earlier.
+
+[Pause]
+
+[Press B to open the blueprint]
+
+This is what that actually looks like under the hood.
+
+Some of you are probably wondering how this was built. Let me ask our AI assistant to explain the architecture. “Sarah, please explain the architecture.”
+
+[The overlay opens. The MP3 narrates the five phases. Stand back. Point at the diagram as phases highlight.]
+
+[After narration ends, press Esc]
+
+That. Built in two working days.
+
+Not by a vendor.
+
+By five people from a tax agency.
+
+[Scroll]
+
+
+CHAPTER 4 — THE PEDAGOGY
+
+On screen: “The Knowledge Split” — pull-quote, what vs how
+Visual cue: Scene 4 — Knowledge split
+
+Team Bravo built Skatti 2.0 — an AI trained on our official website to answer tax questions.
+
+24/7. Never tires.
+
+[Short pause]
+
+At first, it seemed to work.
+
+Then the team noticed something.
+
+What surprised us…
+
+this ‘trained’ agent actually performed worse than a plain model.
+
+[Pause — let that land]
+
+Why?
+
+Our website explains what you need to do.
+
+But not how.
+
+And the web is full of “how” — some right, some very wrong.
+
+[Short pause]
+
+Because it doesn’t understand truth.
+
+It understands patterns
+
+[Short pause]
+
+We discovered that for precise legal answers — not good enough.
+
+For guidance.
+
+For repetitive tasks.
+
+For reasoning.
+
+Genuinely useful.
+
+[Short pause]
+
+So Skatti 2.0 is a promising colleague.
+
+Just one you occasionally have to correct:
+
+“Skatti… you’re actually making that up.”
+
+[Let the laugh settle. Scroll.]
+
+
+CHAPTER 5 — THE AUTOMATION
+
+On screen: Data sources, speed comparison bars
+Visual cue: Scene 5 — The Automation
+
+Team Delta went after company risk analysis.
+
+Annual reports, public registries, statistics — work where humans drown in data. At the Swedish Tax Agency, this work is done by around 40 people.
+
+Delta built a swarm that does the gathering and produces a preliminary risk evaluation.
+
+[Point at the comparison bar on screen]
+
+Days of human work.”
+
+[Pause]
+
+“Minutes… of AI reasoning.
+
+[Short pause]
+
+That prototype didn’t feel like an experiment.
+
+It felt like a first draft of the future.
+
+And the result surprised us.
+
+Not because it worked…
+
+but because it worked this well.
+
+[Scroll]
+
+
+CHAPTER 6 — THE VERDICT
+
+On screen: “What we learned” — three team cards, jury line
+Visual cue: Scene 6 — The Verdict
+
+So. What did we actually take home from those two days?
+
+[Short pause]
+
+From Alpha, we learned this:
+
+Many agents… create one clear picture.
+
+They can see more than we can.
+
+And earlier than we can.
+
+Which means they can build a picture we would struggle to see ourselves.
+
+[Short pause]
+
+From Delta, we learned that agents can take care of the heavy, boring steps.
+
+So people spend time on judgment — not assembly.
+
+[Short pause]
+
+From Bravo, we learned something we didn’t expect.
+
+Multi-agent systems are strong for exploring, for ideas, for guidance.
+
+But they’re a poor place to stop when the answer has to be legally correct.
+
+[Short pause]
+
+The jury highlighted Alpha’s demo.
+
+But honestly — every team taught us something we needed to hear.
+
+[Pause]
+
+And then we realized something.
+
+The bottleneck is no longer the code.
+
+It is not the models.
+
+It is clarity about what we wish to solve.
+
+Because once we understood the problem…
+
+building the agents was the easy part.
+
+[Scroll]
+
+
+CHAPTER 7 — THE WISDOM
+
+On screen: Core insight quote
+Visual cue: Scene 7 — The Wisdom
+
+So what’s the actual lesson?
+
+[Pause]
+
+Agents are not just technology.
+
+They behave more like a new kind of colleague.
+
+Extremely capable.
+
+Extremely fast.
+
+And completely without judgment.
+
+[Pause]
+
+So they need boundaries.
+
+Direction.
+
+Orchestration.
+
+And patience.
+
+[Let it sit]
+
+One agent is a tool.
+
+You ask.
+
+It answers.
+
+But multiple agents with different roles and responsibilities?
+
+[Pause]
+
+That starts to look less like software…
+
+and more like a workforce.
+
+[Pause]
+
+We thought the hard part would be the technology.
+
+It wasn’t.
+
+[Slow]
+
+The hard part was deciding what should happen.
+
+Who should do what.
+
+What “good enough” actually means.
+
+And when the system should stop… and ask for help.
+
+[Pause]
+
+In other words:
+
+Execution is getting cheaper.
+
+Clarity is becoming more valuable.
+
+[Long pause]
+
+[Gesture toward evolution row]
+
+And what we saw, again and again, was the same pattern.
+
+You start with a question.
+
+You explore it.
+
+You make something real.
+
+Something people can react to.
+
+And then… you refine.
+
+[Short pause]
+
+Not because the first answer was correct.
+
+But because building something is now the fastest way to understand what you actually mean.
+
+[Pause. Take a breath. Scroll to the final slide.]
+
+
+CHAPTER 8 — THE FUTURE
+
+On screen: “We walked in with a question. / We walked out with proof.”
+Visual cue: Scene 8 — Stockholm dawn through glass, quiet office
+
+We walked into Google’s office with a question.
+
+[Pause]
+
+We walked out with proof.
+
+Proof that agents can see patterns humans miss.
+
+Proof that ideas can move from thought… to working systems… in hours.
+
+And proof that the distance between idea and software has collapsed.
+
+[Pause]
+
+Building is no longer the hard part.
+
+[Short pause]
+
+Understanding what to build is.
+
+[Pause]
+
+Because when creation becomes almost free…
+
+bad assumptions scale faster too.
+
+[Pause]
+
+So maybe the real shift is not speed.
+
+Maybe the real shift… is clarity.
+
+[Slow]
+
+The teams that learn fastest…
+
+will not be the ones writing the most code.
+
+They will be the ones discovering reality earlier.
+
+Earlier feedback.
+
+Earlier mistakes.
+
+Earlier understanding.
+
+[Pause]
+
+Two days.
+
+One room.
+
+A few curious people.
+
+That was enough to glimpse what comes next.
+
+[Look across audience]
+
+And now our responsibility at Skatteverket becomes even more important.
+
+To build systems people can trust.
+
+Systems that are fair. Transparent. Secure.
+
+And sovereign by design.
+
+[Final pause]
+
+Because the future is not waiting for us anymore.
+
+It is already here.
+
+The question is whether we learn fast enough to shape it.
+
+[Hold silence]
+
+Thank you.
+
+
+TIMING SUMMARY
+
+Prologue: 1.5 minutes
+The Vision: 1.0 minute
+The Swarm: 3.5 minutes
+The Pedagogy: 1.5 minutes
+The Automation: 1.0 minute
+The Verdict: 2.0 minutes
+The Wisdom: 2.0 minutes
+The Future: 2.0 minutes
+
+Total scripted: 14.5 minutes
+Use the remaining 0.5 minute as intentional headroom for slow transitions, short audience reactions, and spontaneous remarks while staying inside a 15-minute slot.
+
+
+STAGE CHECKLIST
+
+[ ] Laptop charged, power cable connected
+[ ] Browser in fullscreen (press F once loaded)
+[ ] Audio output tested with the MP3 narration
+[ ] HUD timer set to 15:00 and started (auto-starts on load)
+[ ] Practice the B key → blueprint overlay → hold speaker button → release → narration plays → Esc flow
+[ ] Practice the → key for evidence card sub-step on Slide 3
+[ ] Clicker mapped to ArrowRight for forward, ArrowLeft for back
+[ ] Test the push-to-talk button in the blueprint overlay before going live

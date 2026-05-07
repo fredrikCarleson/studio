@@ -112,7 +112,7 @@ const KEYS = [
 // ??? SessionTimer (isolated to avoid full-page re-renders on tick) ?????????????
 
 const SessionTimer = memo(() => {
-  const [timeLeft, setTimeLeft] = useState(1200);
+  const [timeLeft, setTimeLeft] = useState(900);
   const [isRunning, setIsRunning] = useState(true);
 
   useEffect(() => {
@@ -672,8 +672,8 @@ export default function Home() {
           <br />
           Fifteen brains.
         </h1>
-        <p className="text-white/35 text-sm font-mono tracking-[0.7em] uppercase">
-          Agentic AI ? Swedish Tax Agency ? Google
+        <p className="text-white/70 text-base md:text-lg font-mono tracking-[0.2em] uppercase [text-shadow:0_1px_10px_rgba(0,0,0,0.9)]">
+          Agentic AI · Swedish Tax Agency · Google
         </p>
       </PresentationSection>
 
@@ -688,7 +688,7 @@ export default function Home() {
         videoUrl={LOCAL_VIDEOS[1]}
         fallbackImageUrl={PlaceHolderImages.find((img) => img.id === "tax-agency-bg")?.imageUrl ?? ""}
         contentClassName="space-y-10"
-        overlayGradientClassName="from-black/88 via-black/42 to-black/91"
+        overlayGradientClassName="from-black/92 via-black/55 to-black/93"
         videoLoadedOpacityClassName="opacity-[0.58]"
         midgroundOverlayClassName="bg-[radial-gradient(ellipse_100%_72%_at_50%_48%,rgba(0,0,0,0.5),transparent_74%)]"
       >
@@ -707,7 +707,7 @@ export default function Home() {
           to solve real problems{"\u2014"}{" "}
           in just two days, without prior preparation?
         </p>
-        <p className="mx-auto max-w-3xl rounded-lg border border-white/10 bg-black/45 px-5 py-3 text-[10px] font-mono uppercase leading-relaxed tracking-[0.35em] text-white/55 backdrop-blur-sm md:text-[11px] md:tracking-[0.4em] [text-shadow:0_1px_8px_rgba(0,0,0,0.95)]">
+        <p className="mx-auto max-w-3xl rounded-lg border border-white/10 bg-black/55 px-5 py-3 text-sm font-mono leading-relaxed tracking-[0.08em] text-white/75 backdrop-blur-sm md:text-base md:tracking-[0.1em] [text-shadow:0_1px_8px_rgba(0,0,0,0.95)]">
           We weren{"\u2019"}t building for perfection. We were building to understand.
         </p>
       </PresentationSection>
@@ -731,7 +731,7 @@ export default function Home() {
         midgroundOverlayClassName="bg-[radial-gradient(ellipse_100%_65%_at_50%_34%,rgba(0,0,0,0.62),transparent_70%)]"
       >
         <header className="space-y-4">
-          <div className="inline-block px-4 py-1 bg-white/5 border border-white/10 text-accent text-[10px] font-bold uppercase tracking-[0.4em] shadow-[0_4px_24px_rgba(0,0,0,0.65)]">
+          <div className="inline-block px-4 py-1 bg-white/5 border border-white/10 text-accent text-xs md:text-sm font-bold uppercase tracking-[0.2em] shadow-[0_4px_24px_rgba(0,0,0,0.65)]">
             Case Study ? Team Alpha
           </div>
           <h2 className="text-4xl md:text-7xl font-black text-white tracking-tighter [text-shadow:0_2px_4px_rgba(0,0,0,0.9),0_8px_40px_rgba(0,0,0,0.75)]">
@@ -744,7 +744,7 @@ export default function Home() {
             <span className="block text-5xl font-black text-accent [text-shadow:0_2px_16px_rgba(0,0,0,0.95)]">
               10,000+
             </span>
-            <span className="text-[10px] uppercase tracking-widest text-white/45 font-bold mt-1 block [text-shadow:0_1px_8px_rgba(0,0,0,0.9)]">
+            <span className="text-xs md:text-sm uppercase tracking-[0.14em] text-white/70 font-bold mt-1 block [text-shadow:0_1px_8px_rgba(0,0,0,0.9)]">
               Influencers in Sweden
             </span>
           </div>
@@ -753,7 +753,7 @@ export default function Home() {
             <span className="block text-5xl font-black text-white [text-shadow:0_2px_16px_rgba(0,0,0,0.95)]">
               48h
             </span>
-            <span className="text-[10px] uppercase tracking-widest text-white/45 font-bold mt-1 block [text-shadow:0_1px_8px_rgba(0,0,0,0.9)]">
+            <span className="text-xs md:text-sm uppercase tracking-[0.14em] text-white/70 font-bold mt-1 block [text-shadow:0_1px_8px_rgba(0,0,0,0.9)]">
               Build Time
             </span>
           </div>
@@ -762,7 +762,7 @@ export default function Home() {
             <span className="block text-5xl font-black text-accent [text-shadow:0_2px_16px_rgba(0,0,0,0.95)]">
               5
             </span>
-            <span className="text-[10px] uppercase tracking-widest text-white/45 font-bold mt-1 block [text-shadow:0_1px_8px_rgba(0,0,0,0.9)]">
+            <span className="text-xs md:text-sm uppercase tracking-[0.14em] text-white/70 font-bold mt-1 block [text-shadow:0_1px_8px_rgba(0,0,0,0.9)]">
               Agents in the Swarm
             </span>
           </div>
@@ -793,10 +793,10 @@ export default function Home() {
                 card.accent ? "border-t-accent border-t-2" : "border-t-white/25 border-t-2"
               )}
             >
-              <h3 className="text-white font-bold mb-2 tracking-widest uppercase text-xs [text-shadow:0_1px_6px_rgba(0,0,0,0.85)]">
+              <h3 className="text-white font-bold mb-2 tracking-[0.12em] uppercase text-sm md:text-base [text-shadow:0_1px_6px_rgba(0,0,0,0.85)]">
                 {card.title}
               </h3>
-              <p className="text-white/65 text-xs leading-relaxed">{card.desc}</p>
+              <p className="text-white/82 text-base md:text-lg leading-relaxed">{card.desc}</p>
             </div>
           ))}
         </div>
@@ -828,15 +828,15 @@ export default function Home() {
         videoUrl={LOCAL_VIDEOS[3]}
         fallbackImageUrl={PlaceHolderImages.find((img) => img.id === "bravo-bg")?.imageUrl ?? ""}
         contentClassName="space-y-8 md:space-y-10 w-full max-w-5xl mx-auto px-6 pt-14"
-        overlayGradientClassName="from-black/91 via-black/54 to-black/93"
+        overlayGradientClassName="from-black/94 via-black/60 to-black/94"
         videoLoadedOpacityClassName="opacity-[0.52]"
         midgroundOverlayClassName="bg-[radial-gradient(ellipse_100%_68%_at_50%_42%,rgba(0,0,0,0.56),transparent_72%)]"
       >
         <div className="space-y-3 text-center">
-          <div className="inline-block px-4 py-1.5 bg-black/50 backdrop-blur-sm border border-white/15 text-accent text-[10px] font-bold uppercase tracking-[0.4em] shadow-[0_4px_24px_rgba(0,0,0,0.5)]">
+          <div className="inline-block px-4 py-1.5 bg-black/50 backdrop-blur-sm border border-white/15 text-accent text-xs md:text-sm font-bold uppercase tracking-[0.2em] shadow-[0_4px_24px_rgba(0,0,0,0.5)]">
             Case Study{"\u2014"} Team Bravo
           </div>
-          <p className="text-[11px] md:text-xs font-mono uppercase tracking-[0.32em] text-white/60 [text-shadow:0_1px_8px_rgba(0,0,0,0.9)]">
+          <p className="text-sm md:text-base font-mono uppercase tracking-[0.16em] text-white/75 [text-shadow:0_1px_8px_rgba(0,0,0,0.9)]">
             Skatti 2.0{"\u00b7"} Tax Information Service
           </p>
           <h2 className="text-4xl md:text-7xl font-black text-white tracking-tighter [text-shadow:0_2px_24px_rgba(0,0,0,0.85)]">
@@ -851,7 +851,7 @@ export default function Home() {
               <span className="text-accent font-bold">&ldquo;trained&rdquo;</span>{" "}
               agent often performed worse than a plain language model.
             </blockquote>
-            <figcaption className="text-[10px] font-mono font-semibold uppercase tracking-[0.22em] text-accent [text-shadow:0_1px_10px_rgba(0,0,0,0.85)] md:text-[11px] md:tracking-[0.26em]">
+            <figcaption className="text-sm font-mono font-semibold uppercase tracking-[0.12em] text-accent [text-shadow:0_1px_10px_rgba(0,0,0,0.85)] md:text-base md:tracking-[0.14em]">
               Unexpected result{"\u00b7"} then we looked for why
             </figcaption>
           </div>
@@ -859,20 +859,20 @@ export default function Home() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-px bg-white/10 w-full rounded-lg md:rounded-none overflow-hidden md:overflow-visible">
           <div className="p-8 md:p-11 bg-black/60 backdrop-blur-md text-center border border-white/10 md:border-white/5 rounded-lg md:rounded-none">
-            <span className="text-accent font-mono text-[11px] md:text-xs uppercase tracking-[0.28em] mb-4 block font-bold [text-shadow:0_0_20px_hsl(var(--accent)/0.25)]">
+            <span className="text-accent font-mono text-sm md:text-base uppercase tracking-[0.14em] mb-4 block font-bold [text-shadow:0_0_20px_hsl(var(--accent)/0.25)]">
               Authoritative &ldquo;what&rdquo;
             </span>
             <h3 className="text-2xl md:text-3xl font-bold text-white mb-4 [text-shadow:0_2px_12px_rgba(0,0,0,0.9)]">
               Structured official knowledge
             </h3>
-            <p className="text-white/80 text-base md:text-lg leading-relaxed font-normal max-w-prose mx-auto [text-shadow:0_1px_10px_rgba(0,0,0,0.85)]">
+              <p className="text-white/85 text-xl md:text-2xl leading-relaxed font-normal max-w-prose mx-auto [text-shadow:0_1px_10px_rgba(0,0,0,0.85)]">
               Statutes and official channels spell out what you must do{"\u2014"}{" "}
               yet turning that into
               reliably correct automated legal answers stayed out of reach.
             </p>
             <div className="mt-8 inline-flex items-center gap-2.5 px-4 py-2 bg-green-500/15 border border-green-500/30">
               <div className="w-2 h-2 rounded-full bg-green-400" />
-              <span className="text-[10px] md:text-[11px] text-green-300 uppercase tracking-[0.2em] font-bold">
+              <span className="text-sm md:text-base text-green-300 uppercase tracking-[0.12em] font-bold">
                 Ground truth{"\u00b7"} expert precision
               </span>
             </div>
@@ -881,33 +881,26 @@ export default function Home() {
             <div className="absolute top-4 right-4">
               <AlertTriangle className="text-red-500 h-5 w-5 animate-pulse [filter:drop-shadow(0_0_8px_rgba(239,68,68,0.5))]" aria-hidden="true" />
             </div>
-            <span className="text-accent font-mono text-[11px] md:text-xs uppercase tracking-[0.28em] mb-4 block font-bold [text-shadow:0_0_20px_hsl(var(--accent)/0.25)]">
+            <span className="text-accent font-mono text-sm md:text-base uppercase tracking-[0.14em] mb-4 block font-bold [text-shadow:0_0_20px_hsl(var(--accent)/0.25)]">
               Everyday &ldquo;how&rdquo;
             </span>
             <h3 className="text-2xl md:text-3xl font-bold text-white mb-4 [text-shadow:0_2px_12px_rgba(0,0,0,0.9)]">
               Guidance &amp; pedagogy
             </h3>
-            <p className="text-white/80 text-base md:text-lg leading-relaxed font-normal max-w-prose mx-auto [text-shadow:0_1px_10px_rgba(0,0,0,0.85)]">
+              <p className="text-white/85 text-xl md:text-2xl leading-relaxed font-normal max-w-prose mx-auto [text-shadow:0_1px_10px_rgba(0,0,0,0.85)]">
               The open web explains how people try to comply{"\u2014"}{" "}
               invaluable for reasoning and teaching{"\u2014"}{" "}
               alongside sources that are confidently wrong.
             </p>
             <div className="mt-8 inline-flex items-center gap-2.5 px-4 py-2 bg-red-500/15 border border-red-500/30">
               <div className="w-2 h-2 rounded-full bg-red-400 animate-pulse" />
-              <span className="text-[10px] md:text-[11px] text-red-300 uppercase tracking-[0.2em] font-bold">
+              <span className="text-sm md:text-base text-red-300 uppercase tracking-[0.12em] font-bold">
                 Verify always
               </span>
             </div>
           </div>
         </div>
 
-        <p className="text-3xl md:text-[2.75rem] font-light text-white italic max-w-3xl mx-auto leading-snug [text-wrap:balance] [text-shadow:0_2px_24px_rgba(0,0,0,0.95),0_1px_3px_rgba(0,0,0,0.9)]">
-          {"\u201cSkatti\u2026 you\u2019re actually "}
-          <span className="text-accent font-bold underline decoration-accent/30 underline-offset-8">
-            making that up.
-          </span>
-          {"\u201d"}
-        </p>
       </PresentationSection>
 
       {/* ????????????????????????????????????????????????????????????????????????
@@ -926,7 +919,7 @@ export default function Home() {
         midgroundOverlayClassName="bg-[radial-gradient(ellipse_95%_70%_at_50%_42%,rgba(0,0,0,0.58),transparent_72%)]"
       >
         <div className="space-y-3">
-          <div className="inline-block px-4 py-1 bg-black/50 backdrop-blur-sm border border-white/15 text-accent text-[10px] font-bold uppercase tracking-[0.4em] shadow-[0_4px_24px_rgba(0,0,0,0.6)]">
+          <div className="inline-block px-4 py-1 bg-black/50 backdrop-blur-sm border border-white/15 text-accent text-xs md:text-sm font-bold uppercase tracking-[0.2em] shadow-[0_4px_24px_rgba(0,0,0,0.6)]">
             Case Study ? Team Delta
           </div>
           <h2 className="text-4xl md:text-7xl font-black text-white tracking-tighter [text-shadow:0_2px_4px_rgba(0,0,0,0.95),0_10px_48px_rgba(0,0,0,0.8)]">
@@ -948,7 +941,7 @@ export default function Home() {
                 className="h-7 w-7 text-accent mb-4 mx-auto [filter:drop-shadow(0_2px_8px_rgba(0,0,0,0.9))]"
                 aria-hidden="true"
               />
-              <span className="text-[11px] text-white/90 uppercase tracking-[0.28em] font-bold [text-shadow:0_1px_8px_rgba(0,0,0,0.95)]">
+              <span className="text-sm md:text-base text-white/90 uppercase tracking-[0.14em] font-bold [text-shadow:0_1px_8px_rgba(0,0,0,0.95)]">
                 {label}
               </span>
             </div>
@@ -956,13 +949,16 @@ export default function Home() {
         </div>
 
         <div className="w-full px-8 py-9 md:px-10 md:py-10 bg-black/55 backdrop-blur-md border border-white/20 space-y-6 shadow-[0_12px_48px_rgba(0,0,0,0.55)]">
+          <p className="text-center text-white/85 text-sm md:text-base leading-relaxed max-w-4xl mx-auto [text-shadow:0_1px_10px_rgba(0,0,0,0.9)]">
+            Today, specialists spend substantial time gathering data, so only a subset of companies can be reviewed deeply. With the swarm, we can run a <span className="text-accent font-semibold">first-pass risk analysis at scale</span> across far more companies.
+          </p>
           <div className="flex flex-col md:flex-row items-center gap-8">
             <div className="flex-1 space-y-2 w-full">
               <div className="flex justify-between items-end gap-3">
-                <span className="text-[10px] uppercase tracking-[0.2em] text-white/80 font-bold [text-shadow:0_1px_6px_rgba(0,0,0,0.9)]">
+                <span className="text-xs md:text-sm uppercase tracking-[0.12em] text-white/85 font-bold [text-shadow:0_1px_6px_rgba(0,0,0,0.9)]">
                   Human Analyst
                 </span>
-                <span className="text-xs font-mono text-white/75 shrink-0 [text-shadow:0_1px_6px_rgba(0,0,0,0.9)]">
+                <span className="text-sm font-mono text-white/80 shrink-0 [text-shadow:0_1px_6px_rgba(0,0,0,0.9)]">
                   Days of manual work
                 </span>
               </div>
@@ -970,23 +966,23 @@ export default function Home() {
             </div>
             <div className="flex flex-col items-center shrink-0 gap-1">
               <Clock className="h-6 w-6 text-accent [filter:drop-shadow(0_0_10px_hsl(var(--accent)/0.5))]" aria-hidden="true" />
-              <span className="text-[9px] uppercase tracking-[0.35em] text-accent font-black [text-shadow:0_0_12px_hsl(var(--accent)/0.45)]">
+              <span className="text-xs md:text-sm uppercase tracking-[0.16em] text-accent font-black [text-shadow:0_0_12px_hsl(var(--accent)/0.45)]">
                 VS
               </span>
             </div>
             <div className="flex-1 space-y-2 w-full">
               <div className="flex justify-between items-end gap-3">
-                <span className="text-[10px] uppercase tracking-[0.2em] text-accent font-bold [text-shadow:0_0_12px_hsl(var(--accent)/0.35)]">
+                <span className="text-xs md:text-sm uppercase tracking-[0.12em] text-accent font-bold [text-shadow:0_0_12px_hsl(var(--accent)/0.35)]">
                   Agent Swarm
                 </span>
-                <span className="text-xs font-mono text-accent font-medium shrink-0 [text-shadow:0_0_14px_hsl(var(--accent)/0.4)]">
+                <span className="text-sm font-mono text-accent font-medium shrink-0 [text-shadow:0_0_14px_hsl(var(--accent)/0.4)]">
                   Minutes of AI reasoning
                 </span>
               </div>
               <Progress value={3} className="h-1.5 bg-white/15" />
             </div>
           </div>
-          <p className="text-center text-white/55 text-[10px] md:text-[11px] uppercase tracking-[0.35em] font-mono font-medium border-t border-white/15 pt-5 [text-shadow:0_1px_10px_rgba(0,0,0,0.95)]">
+          <p className="text-center text-white/70 text-sm md:text-base uppercase tracking-[0.12em] font-mono font-medium border-t border-white/15 pt-5 [text-shadow:0_1px_10px_rgba(0,0,0,0.95)]">
             Serial + parallel agent execution{"\u2014"}{" "}
             callback orchestration
           </p>
@@ -1022,6 +1018,7 @@ export default function Home() {
             [
               {
                 team: "Team Alpha",
+                anchor: "Influencer Risk Swarm",
                 head: "Many agents, one clear picture.",
                 body: (
                   <>
@@ -1032,6 +1029,7 @@ export default function Home() {
               },
               {
                 team: "Team Delta",
+                anchor: "Company Risk Analysis Swarm",
                 head: "Less copy-paste work.",
                 body: (
                   <>
@@ -1041,6 +1039,7 @@ export default function Home() {
               },
               {
                 team: "Team Bravo",
+                anchor: "Skatti 2.0",
                 head: (
                   <>
                     Great for exploring{"\u2014"}not for{"\u201c"}the final legal answer.
@@ -1059,20 +1058,23 @@ export default function Home() {
               key={item.team}
               className="flex flex-col rounded-xl border border-white/15 bg-black/55 p-6 text-left shadow-[0_12px_40px_rgba(0,0,0,0.45)] backdrop-blur-md md:p-7 md:text-center"
             >
-              <span className="text-accent text-[10px] font-bold uppercase tracking-[0.35em]">
+              <span className="text-accent text-xs md:text-sm font-bold uppercase tracking-[0.16em]">
                 {item.team}
               </span>
+              <p className="mt-2 text-xs md:text-sm uppercase tracking-[0.12em] text-white/75 font-semibold">
+                {item.anchor}
+              </p>
               <h3 className="mt-3 text-lg font-bold leading-snug text-white md:text-xl [text-shadow:0_1px_10px_rgba(0,0,0,0.85)]">
                 {item.head}
               </h3>
-              <p className="mt-2 text-sm leading-relaxed text-white/78 md:text-base [text-shadow:0_1px_8px_rgba(0,0,0,0.8)]">
+              <p className="mt-2 text-base leading-relaxed text-white/82 md:text-lg [text-shadow:0_1px_8px_rgba(0,0,0,0.8)]">
                 {item.body}
               </p>
             </div>
           ))}
         </div>
 
-        <p className="mx-auto max-w-2xl text-center text-[10px] font-mono uppercase leading-relaxed tracking-[0.2em] text-white/45 md:text-[11px] md:tracking-[0.22em] [text-shadow:0_1px_8px_rgba(0,0,0,0.9)]">
+        <p className="mx-auto max-w-2xl text-center text-sm font-mono uppercase leading-relaxed tracking-[0.1em] text-white/65 md:text-base md:tracking-[0.12em] [text-shadow:0_1px_8px_rgba(0,0,0,0.9)]">
           The jury highlighted Team Alpha{"\u2019"}s demo{"\u2014"}
           every team taught us something useful.
         </p>
@@ -1094,10 +1096,10 @@ export default function Home() {
         midgroundOverlayClassName="bg-[radial-gradient(ellipse_110%_75%_at_50%_55%,rgba(0,0,0,0.45),transparent_75%)]"
       >
         <div className="space-y-4">
-          <span className="text-accent text-[10px] font-bold uppercase tracking-[1em] font-mono">
+          <span className="text-accent text-xs md:text-sm font-bold uppercase tracking-[0.24em] font-mono">
             The Core Insight
           </span>
-          <p className="text-3xl md:text-5xl font-light text-white italic leading-tight [text-wrap:balance]">
+          <p className="text-3xl md:text-5xl font-light text-white leading-tight [text-wrap:balance]">
             "Agents are not just technology.
             <br />
             They're{" "}
@@ -1110,7 +1112,7 @@ export default function Home() {
         </div>
 
         <div className="w-full pt-6 md:pt-8 border-t border-white/15">
-          <p className="mb-5 text-center text-[10px] font-mono font-semibold uppercase tracking-[0.35em] text-white/55 md:text-[11px] md:tracking-[0.4em] [text-shadow:0_1px_10px_rgba(0,0,0,0.9)]">
+          <p className="mb-5 text-center text-sm font-mono font-semibold uppercase tracking-[0.12em] text-white/70 md:text-base md:tracking-[0.14em] [text-shadow:0_1px_10px_rgba(0,0,0,0.9)]">
             The progression we are on
           </p>
           <div className="flex w-full flex-col items-stretch justify-center gap-3 md:flex-row md:items-center md:gap-2 lg:gap-3">
@@ -1119,7 +1121,7 @@ export default function Home() {
               <span className="block text-lg font-semibold text-white md:text-xl [text-shadow:0_1px_10px_rgba(0,0,0,0.85)]">
                 AI Chat
               </span>
-              <span className="mt-2 block text-[11px] font-medium uppercase tracking-[0.2em] text-white/70 md:text-xs md:tracking-[0.22em] [text-shadow:0_1px_8px_rgba(0,0,0,0.9)]">
+              <span className="mt-2 block text-sm md:text-base font-medium uppercase tracking-[0.1em] text-white/80 [text-shadow:0_1px_8px_rgba(0,0,0,0.9)]">
                 Reactive Q&amp;A
               </span>
             </div>
@@ -1127,14 +1129,14 @@ export default function Home() {
               <ArrowRight className="h-6 w-6 text-accent/70 rotate-90 md:rotate-0 [filter:drop-shadow(0_0_8px_hsl(var(--accent)/0.35))]" aria-hidden="true" />
             </div>
             <div className="evolution-step relative flex-1 rounded-xl border-2 border-accent/50 bg-black/60 p-6 text-center shadow-[0_12px_44px_rgba(0,0,0,0.55)] backdrop-blur-md md:p-7 ring-1 ring-accent/25">
-              <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 rounded px-2.5 py-1 bg-accent text-[9px] font-bold uppercase tracking-widest text-black shadow-md">
+              <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 rounded px-2.5 py-1 bg-accent text-xs font-bold uppercase tracking-[0.12em] text-black shadow-md">
                 Now
               </div>
               <Cpu className="mx-auto mb-3 h-6 w-6 text-accent [filter:drop-shadow(0_0_12px_hsl(var(--accent)/0.45))]" aria-hidden="true" />
               <span className="block text-lg font-bold text-white md:text-xl [text-shadow:0_1px_10px_rgba(0,0,0,0.85)]">
                 AI Assistants
               </span>
-              <span className="mt-2 block text-[11px] font-semibold uppercase tracking-[0.2em] text-accent/90 md:text-xs md:tracking-[0.22em] [text-shadow:0_1px_12px_rgba(0,0,0,0.85)]">
+              <span className="mt-2 block text-sm md:text-base font-semibold uppercase tracking-[0.1em] text-accent/90 [text-shadow:0_1px_12px_rgba(0,0,0,0.85)]">
                 Context-aware help
               </span>
             </div>
@@ -1143,10 +1145,10 @@ export default function Home() {
             </div>
             <div className="evolution-step flex-1 rounded-xl border-2 border-white/35 bg-black/55 p-6 text-center shadow-[0_12px_40px_rgba(0,0,0,0.5)] backdrop-blur-md md:p-7">
               <Rocket className="mx-auto mb-3 h-6 w-6 text-white [filter:drop-shadow(0_1px_8px_rgba(0,0,0,0.85))]" aria-hidden="true" />
-              <span className="block text-lg font-black italic tracking-tight text-white md:text-xl [text-shadow:0_1px_10px_rgba(0,0,0,0.85)]">
+              <span className="block text-lg font-black tracking-tight text-white md:text-xl [text-shadow:0_1px_10px_rgba(0,0,0,0.85)]">
                 AI Coworkers
               </span>
-              <span className="mt-2 block text-[11px] font-semibold uppercase tracking-[0.2em] text-white/75 md:text-xs md:tracking-[0.22em] [text-shadow:0_1px_8px_rgba(0,0,0,0.9)]">
+              <span className="mt-2 block text-sm md:text-base font-semibold uppercase tracking-[0.1em] text-white/80 [text-shadow:0_1px_8px_rgba(0,0,0,0.9)]">
                 Autonomous {"&"} orchestrated
               </span>
             </div>
@@ -1167,17 +1169,17 @@ export default function Home() {
         videoUrl={LOCAL_VIDEOS[7]}
         fallbackImageUrl={PlaceHolderImages.find((img) => img.id === "hero-bg")?.imageUrl ?? ""}
         contentClassName="w-full max-w-5xl mx-auto space-y-8 md:space-y-10 px-6"
-        overlayGradientClassName="from-black/88 via-black/38 to-black/90"
+        overlayGradientClassName="from-black/92 via-black/52 to-black/93"
         videoLoadedOpacityClassName="opacity-[0.55]"
         midgroundOverlayClassName="bg-[radial-gradient(ellipse_100%_72%_at_50%_46%,rgba(0,0,0,0.48),transparent_74%)]"
       >
         <div className="text-center space-y-3 md:space-y-5">
-          <p className="text-2xl font-light text-white/80 italic tracking-tight md:text-4xl [text-shadow:0_2px_20px_rgba(0,0,0,0.9)] [text-wrap:balance]">
+          <p className="text-2xl font-light text-white/88 tracking-tight md:text-4xl [text-shadow:0_2px_20px_rgba(0,0,0,0.9)] [text-wrap:balance]">
             We walked in with a question.
           </p>
           <h2 className="text-4xl font-black text-white tracking-tighter md:text-7xl [text-shadow:0_2px_24px_rgba(0,0,0,0.9)]">
             We walked out with{" "}
-            <span className="text-accent italic">proof.</span>
+            <span className="text-accent">proof.</span>
           </h2>
         </div>
 
@@ -1196,16 +1198,16 @@ export default function Home() {
           ))}
         </div>
 
-        <p className="mx-auto max-w-2xl text-center text-lg font-light italic text-white/75 md:text-2xl [text-shadow:0_2px_18px_rgba(0,0,0,0.9)] [text-wrap:balance]">
+        <p className="mx-auto max-w-2xl text-center text-lg font-light text-white/85 md:text-2xl [text-shadow:0_2px_18px_rgba(0,0,0,0.9)] [text-wrap:balance]">
           Two days. A room. A few curious people. That{"\u2019"}s all it took.
         </p>
 
         <footer className="mx-auto max-w-xl space-y-1 pt-4 text-center">
-          <p className="text-xs font-light italic text-white/45 md:text-sm [text-shadow:0_1px_10px_rgba(0,0,0,0.85)]">
+          <p className="text-sm font-light text-white/65 md:text-base [text-shadow:0_1px_10px_rgba(0,0,0,0.85)]">
             {"\u201c"}The future is already here{"\u2014"}{" "}
             it{"\u2019"}s just not evenly distributed.{"\u201d"}
           </p>
-          <p className="text-[10px] font-mono uppercase tracking-[0.35em] text-white/30 md:text-[11px]">
+          <p className="text-xs font-mono uppercase tracking-[0.12em] text-white/45 md:text-sm">
             {"\u2014"} William Gibson
           </p>
         </footer>
