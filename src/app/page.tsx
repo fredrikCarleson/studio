@@ -771,18 +771,18 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-5xl mx-auto w-full">
           {[
             {
-              title: "Multi-Modal Scraper",
-              desc: "Scans social feeds across platforms to surface undeclared collaborations and gifts.",
+              title: "Social Media Scanner",
+              desc: "Scans public social feeds across platforms to surface possible collaborations and gifted products.",
               accent: true,
             },
             {
               title: "Valuation Agent",
-              desc: "Identifies luxury items in video content and estimates real market value.",
+              desc: "Identifies visible luxury items and estimates their market value.",
               accent: false,
             },
             {
               title: "Risk Profiler",
-              desc: "Consolidates data into human-ready compliance profiles with recommended actions.",
+              desc: "Turns the evidence into a risk report with recommended actions.",
               accent: false,
             },
           ].map((card) => (
@@ -846,57 +846,58 @@ export default function Home() {
 
         <figure className="mx-auto flex w-full max-w-5xl flex-col items-center rounded-xl border border-accent/40 bg-black/60 px-7 py-8 text-center shadow-[0_16px_56px_rgba(0,0,0,0.55)] backdrop-blur-md md:px-14 md:py-11">
           <div className="w-full max-w-[34rem] md:max-w-[40rem] space-y-5">
-            <blockquote className="text-xl font-medium leading-snug text-white [text-wrap:balance] [text-shadow:0_2px_16px_rgba(0,0,0,0.9)] md:text-[1.65rem] md:leading-[1.35]">
-              The{" "}
-              <span className="text-accent font-bold">&ldquo;trained&rdquo;</span>{" "}
-              agent often performed worse than a plain language model.
-            </blockquote>
             <figcaption className="text-sm font-mono font-semibold uppercase tracking-[0.12em] text-accent [text-shadow:0_1px_10px_rgba(0,0,0,0.85)] md:text-base md:tracking-[0.14em]">
-              Unexpected result{"\u00b7"} then we looked for why
+              Our Surprise
             </figcaption>
+            <blockquote className="text-xl font-medium leading-snug text-white [text-wrap:balance] [text-shadow:0_2px_16px_rgba(0,0,0,0.9)] md:text-[1.65rem] md:leading-[1.35]">
+              Specialization failed. The agent trained on official data was less accurate than the base model.
+            </blockquote>
+            <p className="text-sm font-mono font-semibold uppercase tracking-[0.12em] text-white/70 [text-shadow:0_1px_10px_rgba(0,0,0,0.85)] md:text-base md:tracking-[0.14em]">
+              The Lesson: AI understands patterns, not truth
+            </p>
           </div>
         </figure>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-px bg-white/10 w-full rounded-lg md:rounded-none overflow-hidden md:overflow-visible">
-          <div className="p-8 md:p-11 bg-black/60 backdrop-blur-md text-center border border-white/10 md:border-white/5 rounded-lg md:rounded-none">
+          <div className="p-8 md:p-11 bg-black/60 backdrop-blur-md text-center border border-white/10 md:border-white/5 rounded-lg md:rounded-none flex flex-col">
             <span className="text-accent font-mono text-sm md:text-base uppercase tracking-[0.14em] mb-4 block font-bold [text-shadow:0_0_20px_hsl(var(--accent)/0.25)]">
-              Authoritative &ldquo;what&rdquo;
+              The Rigid &ldquo;What&rdquo;
             </span>
             <h3 className="text-2xl md:text-3xl font-bold text-white mb-4 [text-shadow:0_2px_12px_rgba(0,0,0,0.9)]">
-              Structured official knowledge
+              Official Channels.
             </h3>
               <p className="text-white/85 text-xl md:text-2xl leading-relaxed font-normal max-w-prose mx-auto [text-shadow:0_1px_10px_rgba(0,0,0,0.85)]">
-              Statutes and official channels spell out what you must do{"\u2014"}{" "}
-              yet turning that into
-              reliably correct automated legal answers stayed out of reach.
+              Official data defines the rules but lacks the &ldquo;how-to&rdquo; context required for the AI to provide expert precision in its answers.
             </p>
-            <div className="mt-8 inline-flex items-center gap-2.5 px-4 py-2 bg-green-500/15 border border-green-500/30">
-              <div className="w-2 h-2 rounded-full bg-green-400" />
-              <span className="text-sm md:text-base text-green-300 uppercase tracking-[0.12em] font-bold">
-                Ground truth{"\u00b7"} expert precision
-              </span>
+            <div className="mt-auto pt-8">
+              <div className="inline-flex items-center gap-2.5 px-4 py-2 bg-green-500/15 border border-green-500/30">
+                <div className="w-2 h-2 rounded-full bg-green-400" />
+                <span className="text-sm md:text-base text-green-300 uppercase tracking-[0.12em] font-bold">
+                  Rule-Based Knowledge.
+                </span>
+              </div>
             </div>
           </div>
-          <div className="p-8 md:p-11 bg-black/60 backdrop-blur-md text-center relative overflow-hidden border border-white/10 md:border-white/5 rounded-lg md:rounded-none">
+          <div className="p-8 md:p-11 bg-black/60 backdrop-blur-md text-center relative overflow-hidden border border-white/10 md:border-white/5 rounded-lg md:rounded-none flex flex-col">
             <div className="absolute top-4 right-4">
               <AlertTriangle className="text-red-500 h-5 w-5 animate-pulse [filter:drop-shadow(0_0_8px_rgba(239,68,68,0.5))]" aria-hidden="true" />
             </div>
             <span className="text-accent font-mono text-sm md:text-base uppercase tracking-[0.14em] mb-4 block font-bold [text-shadow:0_0_20px_hsl(var(--accent)/0.25)]">
-              Everyday &ldquo;how&rdquo;
+              The Messy &ldquo;How&rdquo;
             </span>
             <h3 className="text-2xl md:text-3xl font-bold text-white mb-4 [text-shadow:0_2px_12px_rgba(0,0,0,0.9)]">
-              Guidance &amp; pedagogy
+              Guidance &amp; Application.
             </h3>
               <p className="text-white/85 text-xl md:text-2xl leading-relaxed font-normal max-w-prose mx-auto [text-shadow:0_1px_10px_rgba(0,0,0,0.85)]">
-              The open web explains how people try to comply{"\u2014"}{" "}
-              invaluable for reasoning and teaching{"\u2014"}{" "}
-              alongside sources that are confidently wrong.
+              Practical reasoning comes from the messy &ldquo;how-to&rdquo; found on the web. Without this pedagogical data, legal precision remains out of reach.
             </p>
-            <div className="mt-8 inline-flex items-center gap-2.5 px-4 py-2 bg-red-500/15 border border-red-500/30">
-              <div className="w-2 h-2 rounded-full bg-red-400 animate-pulse" />
-              <span className="text-sm md:text-base text-red-300 uppercase tracking-[0.12em] font-bold">
-                Verify always
-              </span>
+            <div className="mt-auto pt-8">
+              <div className="inline-flex items-center gap-2.5 px-4 py-2 bg-red-500/15 border border-red-500/30">
+                <div className="w-2 h-2 rounded-full bg-red-400 animate-pulse" />
+                <span className="text-sm md:text-base text-red-300 uppercase tracking-[0.12em] font-bold">
+                  Always needs verification
+                </span>
+              </div>
             </div>
           </div>
         </div>
