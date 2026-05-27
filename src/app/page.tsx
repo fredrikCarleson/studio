@@ -25,6 +25,10 @@ import {
   Rocket,
   ArrowRight,
   Keyboard,
+  ShieldCheck,
+  Compass,
+  Lightbulb,
+  TrendingUp,
 } from "lucide-react";
 import { PresentationSection } from "@/components/PresentationSection";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
@@ -707,7 +711,7 @@ export default function Home() {
           to solve real problems{"\u2014"}{" "}
           in just two days, without prior preparation?
         </p>
-        <p className="mx-auto max-w-3xl rounded-lg border border-white/10 bg-black/55 px-5 py-3 text-sm font-mono leading-relaxed tracking-[0.08em] text-white/75 backdrop-blur-sm md:text-base md:tracking-[0.1em] [text-shadow:0_1px_8px_rgba(0,0,0,0.95)]">
+        <p className="mx-auto max-w-4xl text-xl md:text-3xl font-light italic leading-snug text-white/95 [text-wrap:balance] [text-shadow:0_2px_14px_rgba(0,0,0,0.95),0_1px_4px_rgba(0,0,0,0.85)]">
           We weren{"\u2019"}t building for perfection. We were building to understand.
         </p>
       </PresentationSection>
@@ -731,7 +735,7 @@ export default function Home() {
         midgroundOverlayClassName="bg-[radial-gradient(ellipse_100%_65%_at_50%_34%,rgba(0,0,0,0.62),transparent_70%)]"
       >
         <header className="space-y-4">
-          <div className="inline-block px-4 py-1 bg-white/5 border border-white/10 text-accent text-xs md:text-sm font-bold uppercase tracking-[0.2em] shadow-[0_4px_24px_rgba(0,0,0,0.65)]">
+          <div className="inline-block px-4 py-1.5 bg-white/5 border border-white/10 text-accent text-base md:text-lg font-bold uppercase tracking-[0.14em] shadow-[0_4px_24px_rgba(0,0,0,0.65)]">
             Case Study ? Team Alpha
           </div>
           <h2 className="text-4xl md:text-7xl font-black text-white tracking-tighter [text-shadow:0_2px_4px_rgba(0,0,0,0.9),0_8px_40px_rgba(0,0,0,0.75)]">
@@ -827,74 +831,74 @@ export default function Home() {
         onSectionActiveChange={handleSectionActiveChange}
         videoUrl={LOCAL_VIDEOS[3]}
         fallbackImageUrl={PlaceHolderImages.find((img) => img.id === "bravo-bg")?.imageUrl ?? ""}
-        contentClassName="space-y-8 md:space-y-10 w-full max-w-5xl mx-auto px-6 pt-14"
+        contentClassName="space-y-5 md:space-y-6 w-full max-w-5xl mx-auto px-6 pt-10"
         overlayGradientClassName="from-black/94 via-black/60 to-black/94"
         videoLoadedOpacityClassName="opacity-[0.52]"
         midgroundOverlayClassName="bg-[radial-gradient(ellipse_100%_68%_at_50%_42%,rgba(0,0,0,0.56),transparent_72%)]"
       >
-        <div className="space-y-3 text-center">
-          <div className="inline-block px-4 py-1.5 bg-black/50 backdrop-blur-sm border border-white/15 text-accent text-xs md:text-sm font-bold uppercase tracking-[0.2em] shadow-[0_4px_24px_rgba(0,0,0,0.5)]">
+        <div className="space-y-2 text-center">
+          <div className="inline-block px-4 py-1.5 bg-black/50 backdrop-blur-sm border border-white/15 text-accent text-sm md:text-base font-bold uppercase tracking-[0.16em] shadow-[0_4px_24px_rgba(0,0,0,0.5)]">
             Case Study{"\u2014"} Team Bravo
           </div>
-          <p className="text-sm md:text-base font-mono uppercase tracking-[0.16em] text-white/75 [text-shadow:0_1px_8px_rgba(0,0,0,0.9)]">
+          <p className="text-base md:text-lg font-mono uppercase tracking-[0.12em] text-white/85 [text-shadow:0_1px_8px_rgba(0,0,0,0.9)]">
             Skatti 2.0{"\u00b7"} Tax Information Service
           </p>
-          <h2 className="text-4xl md:text-7xl font-black text-white tracking-tighter [text-shadow:0_2px_24px_rgba(0,0,0,0.85)]">
+          <h2 className="text-4xl md:text-6xl font-black text-white tracking-tighter [text-shadow:0_2px_24px_rgba(0,0,0,0.85)]">
             The Knowledge Split
           </h2>
         </div>
 
-        <figure className="mx-auto flex w-full max-w-5xl flex-col items-center rounded-xl border border-accent/40 bg-black/60 px-7 py-8 text-center shadow-[0_16px_56px_rgba(0,0,0,0.55)] backdrop-blur-md md:px-14 md:py-11">
-          <div className="w-full max-w-[34rem] md:max-w-[40rem] space-y-5">
-            <figcaption className="text-sm font-mono font-semibold uppercase tracking-[0.12em] text-accent [text-shadow:0_1px_10px_rgba(0,0,0,0.85)] md:text-base md:tracking-[0.14em]">
+        <figure className="mx-auto flex w-full max-w-5xl flex-col items-center rounded-xl border border-accent/40 bg-black/60 px-7 py-6 text-center shadow-[0_16px_56px_rgba(0,0,0,0.55)] backdrop-blur-md md:px-14 md:py-8">
+          <div className="w-full max-w-[34rem] md:max-w-[42rem] space-y-3">
+            <figcaption className="text-base font-mono font-semibold uppercase tracking-[0.1em] text-accent [text-shadow:0_1px_10px_rgba(0,0,0,0.85)] md:text-lg md:tracking-[0.12em]">
               Our Surprise
             </figcaption>
-            <blockquote className="text-xl font-medium leading-snug text-white [text-wrap:balance] [text-shadow:0_2px_16px_rgba(0,0,0,0.9)] md:text-[1.65rem] md:leading-[1.35]">
+            <blockquote className="text-xl font-medium leading-snug text-white [text-wrap:balance] [text-shadow:0_2px_16px_rgba(0,0,0,0.9)] md:text-[1.5rem] md:leading-[1.3]">
               Specialization failed. The agent trained on official data was less accurate than the base model.
             </blockquote>
-            <p className="text-sm font-mono font-semibold uppercase tracking-[0.12em] text-white/70 [text-shadow:0_1px_10px_rgba(0,0,0,0.85)] md:text-base md:tracking-[0.14em]">
+            <p className="text-base font-mono font-semibold uppercase tracking-[0.1em] text-white/85 [text-shadow:0_1px_10px_rgba(0,0,0,0.85)] md:text-lg md:tracking-[0.12em]">
               The Lesson: AI understands patterns, not truth
             </p>
           </div>
         </figure>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-px bg-white/10 w-full rounded-lg md:rounded-none overflow-hidden md:overflow-visible">
-          <div className="p-8 md:p-11 bg-black/60 backdrop-blur-md text-center border border-white/10 md:border-white/5 rounded-lg md:rounded-none flex flex-col">
-            <span className="text-accent font-mono text-sm md:text-base uppercase tracking-[0.14em] mb-4 block font-bold [text-shadow:0_0_20px_hsl(var(--accent)/0.25)]">
+          <div className="p-5 md:p-7 bg-black/60 backdrop-blur-md text-center border border-white/10 md:border-white/5 rounded-lg md:rounded-none flex flex-col">
+            <span className="text-accent font-mono text-base md:text-lg uppercase tracking-[0.1em] mb-3 block font-bold [text-shadow:0_0_20px_hsl(var(--accent)/0.25)]">
               The Rigid &ldquo;What&rdquo;
             </span>
-            <h3 className="text-2xl md:text-3xl font-bold text-white mb-4 [text-shadow:0_2px_12px_rgba(0,0,0,0.9)]">
+            <h3 className="text-2xl md:text-3xl font-bold text-white mb-3 [text-shadow:0_2px_12px_rgba(0,0,0,0.9)]">
               Official Channels.
             </h3>
-              <p className="text-white/85 text-xl md:text-2xl leading-relaxed font-normal max-w-prose mx-auto [text-shadow:0_1px_10px_rgba(0,0,0,0.85)]">
+              <p className="text-white/90 text-lg md:text-xl leading-snug font-normal max-w-prose mx-auto [text-shadow:0_1px_10px_rgba(0,0,0,0.85)]">
               Official data defines the rules but lacks the &ldquo;how-to&rdquo; context required for the AI to provide expert precision in its answers.
             </p>
-            <div className="mt-auto pt-8">
+            <div className="mt-auto pt-5">
               <div className="inline-flex items-center gap-2.5 px-4 py-2 bg-green-500/15 border border-green-500/30">
                 <div className="w-2 h-2 rounded-full bg-green-400" />
-                <span className="text-sm md:text-base text-green-300 uppercase tracking-[0.12em] font-bold">
+                <span className="text-base md:text-lg text-green-300 uppercase tracking-[0.1em] font-bold">
                   Rule-Based Knowledge.
                 </span>
               </div>
             </div>
           </div>
-          <div className="p-8 md:p-11 bg-black/60 backdrop-blur-md text-center relative overflow-hidden border border-white/10 md:border-white/5 rounded-lg md:rounded-none flex flex-col">
+          <div className="p-5 md:p-7 bg-black/60 backdrop-blur-md text-center relative overflow-hidden border border-white/10 md:border-white/5 rounded-lg md:rounded-none flex flex-col">
             <div className="absolute top-4 right-4">
               <AlertTriangle className="text-red-500 h-5 w-5 animate-pulse [filter:drop-shadow(0_0_8px_rgba(239,68,68,0.5))]" aria-hidden="true" />
             </div>
-            <span className="text-accent font-mono text-sm md:text-base uppercase tracking-[0.14em] mb-4 block font-bold [text-shadow:0_0_20px_hsl(var(--accent)/0.25)]">
+            <span className="text-accent font-mono text-base md:text-lg uppercase tracking-[0.1em] mb-3 block font-bold [text-shadow:0_0_20px_hsl(var(--accent)/0.25)]">
               The Messy &ldquo;How&rdquo;
             </span>
-            <h3 className="text-2xl md:text-3xl font-bold text-white mb-4 [text-shadow:0_2px_12px_rgba(0,0,0,0.9)]">
+            <h3 className="text-2xl md:text-3xl font-bold text-white mb-3 [text-shadow:0_2px_12px_rgba(0,0,0,0.9)]">
               Guidance &amp; Application.
             </h3>
-              <p className="text-white/85 text-xl md:text-2xl leading-relaxed font-normal max-w-prose mx-auto [text-shadow:0_1px_10px_rgba(0,0,0,0.85)]">
+              <p className="text-white/90 text-lg md:text-xl leading-snug font-normal max-w-prose mx-auto [text-shadow:0_1px_10px_rgba(0,0,0,0.85)]">
               Practical reasoning comes from the messy &ldquo;how-to&rdquo; found on the web. Without this pedagogical data, legal precision remains out of reach.
             </p>
-            <div className="mt-auto pt-8">
+            <div className="mt-auto pt-5">
               <div className="inline-flex items-center gap-2.5 px-4 py-2 bg-red-500/15 border border-red-500/30">
                 <div className="w-2 h-2 rounded-full bg-red-400 animate-pulse" />
-                <span className="text-sm md:text-base text-red-300 uppercase tracking-[0.12em] font-bold">
+                <span className="text-base md:text-lg text-red-300 uppercase tracking-[0.1em] font-bold">
                   Always needs verification
                 </span>
               </div>
@@ -920,7 +924,7 @@ export default function Home() {
         midgroundOverlayClassName="bg-[radial-gradient(ellipse_95%_70%_at_50%_42%,rgba(0,0,0,0.58),transparent_72%)]"
       >
         <div className="space-y-3">
-          <div className="inline-block px-4 py-1 bg-black/50 backdrop-blur-sm border border-white/15 text-accent text-xs md:text-sm font-bold uppercase tracking-[0.2em] shadow-[0_4px_24px_rgba(0,0,0,0.6)]">
+          <div className="inline-block px-4 py-1.5 bg-black/50 backdrop-blur-sm border border-white/15 text-accent text-base md:text-lg font-bold uppercase tracking-[0.14em] shadow-[0_4px_24px_rgba(0,0,0,0.6)]">
             Case Study ? Team Delta
           </div>
           <h2 className="text-4xl md:text-7xl font-black text-white tracking-tighter [text-shadow:0_2px_4px_rgba(0,0,0,0.95),0_10px_48px_rgba(0,0,0,0.8)]">
@@ -950,16 +954,16 @@ export default function Home() {
         </div>
 
         <div className="w-full px-8 py-9 md:px-10 md:py-10 bg-black/55 backdrop-blur-md border border-white/20 space-y-6 shadow-[0_12px_48px_rgba(0,0,0,0.55)]">
-          <p className="text-center text-white/85 text-sm md:text-base leading-relaxed max-w-4xl mx-auto [text-shadow:0_1px_10px_rgba(0,0,0,0.9)]">
+          <p className="text-center text-white/95 text-lg md:text-2xl leading-snug max-w-4xl mx-auto [text-wrap:balance] [text-shadow:0_1px_10px_rgba(0,0,0,0.9)]">
             Today, specialists spend substantial time gathering data, so only a subset of companies can be reviewed deeply. With the swarm, we can run a <span className="text-accent font-semibold">first-pass risk analysis at scale</span> across far more companies.
           </p>
           <div className="flex flex-col md:flex-row items-center gap-8">
             <div className="flex-1 space-y-2 w-full">
               <div className="flex justify-between items-end gap-3">
-                <span className="text-xs md:text-sm uppercase tracking-[0.12em] text-white/85 font-bold [text-shadow:0_1px_6px_rgba(0,0,0,0.9)]">
+                <span className="text-base md:text-lg uppercase tracking-[0.1em] text-white/95 font-bold [text-shadow:0_1px_6px_rgba(0,0,0,0.9)]">
                   Human Analyst
                 </span>
-                <span className="text-sm font-mono text-white/80 shrink-0 [text-shadow:0_1px_6px_rgba(0,0,0,0.9)]">
+                <span className="text-base md:text-lg font-mono text-white/90 shrink-0 [text-shadow:0_1px_6px_rgba(0,0,0,0.9)]">
                   Days of manual work
                 </span>
               </div>
@@ -967,23 +971,23 @@ export default function Home() {
             </div>
             <div className="flex flex-col items-center shrink-0 gap-1">
               <Clock className="h-6 w-6 text-accent [filter:drop-shadow(0_0_10px_hsl(var(--accent)/0.5))]" aria-hidden="true" />
-              <span className="text-xs md:text-sm uppercase tracking-[0.16em] text-accent font-black [text-shadow:0_0_12px_hsl(var(--accent)/0.45)]">
+              <span className="text-sm md:text-base uppercase tracking-[0.14em] text-accent font-black [text-shadow:0_0_12px_hsl(var(--accent)/0.45)]">
                 VS
               </span>
             </div>
             <div className="flex-1 space-y-2 w-full">
               <div className="flex justify-between items-end gap-3">
-                <span className="text-xs md:text-sm uppercase tracking-[0.12em] text-accent font-bold [text-shadow:0_0_12px_hsl(var(--accent)/0.35)]">
+                <span className="text-base md:text-lg uppercase tracking-[0.1em] text-accent font-bold [text-shadow:0_0_12px_hsl(var(--accent)/0.35)]">
                   Agent Swarm
                 </span>
-                <span className="text-sm font-mono text-accent font-medium shrink-0 [text-shadow:0_0_14px_hsl(var(--accent)/0.4)]">
+                <span className="text-base md:text-lg font-mono text-accent font-medium shrink-0 [text-shadow:0_0_14px_hsl(var(--accent)/0.4)]">
                   Minutes of AI reasoning
                 </span>
               </div>
               <Progress value={3} className="h-1.5 bg-white/15" />
             </div>
           </div>
-          <p className="text-center text-white/70 text-sm md:text-base uppercase tracking-[0.12em] font-mono font-medium border-t border-white/15 pt-5 [text-shadow:0_1px_10px_rgba(0,0,0,0.95)]">
+          <p className="text-center text-white/90 text-base md:text-lg uppercase tracking-[0.1em] font-mono font-medium border-t border-white/15 pt-5 [text-shadow:0_1px_10px_rgba(0,0,0,0.95)]">
             Serial + parallel agent execution{"\u2014"}{" "}
             callback orchestration
           </p>
@@ -1020,21 +1024,10 @@ export default function Home() {
               {
                 team: "Team Alpha",
                 anchor: "Influencer Risk Swarm",
-                head: "Many agents, one clear picture.",
+                head: "Agents bring order to unstructured data.",
                 body: (
                   <>
-                    They help us see more, earlier{"\u2014"}
-                    before small issues grow.
-                  </>
-                ),
-              },
-              {
-                team: "Team Delta",
-                anchor: "Company Risk Analysis Swarm",
-                head: "Less copy-paste work.",
-                body: (
-                  <>
-                    They take care of heavy, boring steps so people can focus on judgment.
+                    A swarm of agents searches massive amounts of unstructured social media data at high speed, making complex signals understandable and surfacing possible tax risks.
                   </>
                 ),
               },
@@ -1043,13 +1036,22 @@ export default function Home() {
                 anchor: "Skatti 2.0",
                 head: (
                   <>
-                    Great for exploring{"\u2014"}not for{"\u201c"}the final legal answer.
-                    {"\u201d"}
+                    Legal precision needs both {"\u201c"}what{"\u201d"} and {"\u201c"}how{"\u201d"}.
                   </>
                 ),
                 body: (
                   <>
-                    Strong for ideas and guidance. Humans still decide when it must be exact.
+                    We learned that context and structure matter. The official{"\u201c"}what{"\u201d"} was not enough. LLMs recognise patterns, not truth, so legal answers also need the pedagogical{"\u201c"}how{"\u201d"}.
+                  </>
+                ),
+              },
+              {
+                team: "Team Delta",
+                anchor: "Company Risk Analysis Swarm",
+                head: "From gathering data to analysing it.",
+                body: (
+                  <>
+                    A swarm gathers large amounts of data fast, freeing experts from collecting information so they can focus on analysis.
                   </>
                 ),
               },
@@ -1057,7 +1059,7 @@ export default function Home() {
           ).map((item) => (
             <div
               key={item.team}
-              className="flex flex-col rounded-xl border border-white/15 bg-black/55 p-6 text-left shadow-[0_12px_40px_rgba(0,0,0,0.45)] backdrop-blur-md md:p-7 md:text-center"
+              className="flex flex-col rounded-xl border border-white/15 bg-black/55 p-4 text-left shadow-[0_12px_40px_rgba(0,0,0,0.45)] backdrop-blur-md md:p-7 md:text-center"
             >
               <span className="text-accent text-xs md:text-sm font-bold uppercase tracking-[0.16em]">
                 {item.team}
@@ -1065,19 +1067,15 @@ export default function Home() {
               <p className="mt-2 text-xs md:text-sm uppercase tracking-[0.12em] text-white/75 font-semibold">
                 {item.anchor}
               </p>
-              <h3 className="mt-3 text-lg font-bold leading-snug text-white md:text-xl [text-shadow:0_1px_10px_rgba(0,0,0,0.85)]">
+              <h3 className="mt-3 text-base font-bold leading-snug text-white md:text-2xl [text-shadow:0_1px_10px_rgba(0,0,0,0.85)]">
                 {item.head}
               </h3>
-              <p className="mt-2 text-base leading-relaxed text-white/82 md:text-lg [text-shadow:0_1px_8px_rgba(0,0,0,0.8)]">
-                {item.body}
-              </p>
             </div>
           ))}
         </div>
 
-        <p className="mx-auto max-w-2xl text-center text-sm font-mono uppercase leading-relaxed tracking-[0.1em] text-white/65 md:text-base md:tracking-[0.12em] [text-shadow:0_1px_8px_rgba(0,0,0,0.9)]">
-          The jury highlighted Team Alpha{"\u2019"}s demo{"\u2014"}
-          every team taught us something useful.
+        <p className="mx-auto max-w-3xl text-center text-base md:text-lg font-medium leading-relaxed tracking-tight text-white/90 [text-shadow:0_1px_8px_rgba(0,0,0,0.9)]">
+          Code is no longer the bottleneck...
         </p>
       </PresentationSection>
 
@@ -1096,64 +1094,55 @@ export default function Home() {
         videoLoadedOpacityClassName="opacity-[0.58]"
         midgroundOverlayClassName="bg-[radial-gradient(ellipse_110%_75%_at_50%_55%,rgba(0,0,0,0.45),transparent_75%)]"
       >
-        <div className="space-y-4">
-          <span className="text-accent text-xs md:text-sm font-bold uppercase tracking-[0.24em] font-mono">
+        <div className="space-y-5 text-center">
+          <span className="text-accent text-base md:text-xl font-bold uppercase tracking-[0.14em] font-mono">
             The Core Insight
           </span>
-          <p className="text-3xl md:text-5xl font-light text-white leading-tight [text-wrap:balance]">
-            "Agents are not just technology.
-            <br />
-            They're{" "}
-            <span className="text-accent font-bold not-italic">
-              teammates without judgment.
+          <p className="text-2xl md:text-4xl font-light text-white leading-tight [text-wrap:balance] [text-shadow:0_2px_18px_rgba(0,0,0,0.9)]">
+            {"\u201c"}Agents are{" "}
+            <span className="text-accent font-semibold not-italic">
+              all-knowing trainees with superpowers
             </span>
-            <br />
-            They need boundaries, orchestration, and patience."
+            {"\u2014"} fast and capable, but without judgment.{"\u201d"}
           </p>
         </div>
 
         <div className="w-full pt-6 md:pt-8 border-t border-white/15">
-          <p className="mb-5 text-center text-sm font-mono font-semibold uppercase tracking-[0.12em] text-white/70 md:text-base md:tracking-[0.14em] [text-shadow:0_1px_10px_rgba(0,0,0,0.9)]">
-            The progression we are on
+          <p className="mb-5 text-center text-base md:text-lg font-mono font-semibold uppercase tracking-[0.1em] text-white/90 [text-shadow:0_1px_10px_rgba(0,0,0,0.9)]">
+            WHAT MULTIPLE AGENTS NEED
           </p>
-          <div className="flex w-full flex-col items-stretch justify-center gap-3 md:flex-row md:items-center md:gap-2 lg:gap-3">
-            <div className="evolution-step flex-1 rounded-xl border border-white/20 bg-black/55 p-6 text-center shadow-[0_12px_40px_rgba(0,0,0,0.5)] backdrop-blur-md md:p-7">
-              <MessageSquare className="mx-auto mb-3 h-6 w-6 text-white/70 [filter:drop-shadow(0_1px_6px_rgba(0,0,0,0.8))]" aria-hidden="true" />
-              <span className="block text-lg font-semibold text-white md:text-xl [text-shadow:0_1px_10px_rgba(0,0,0,0.85)]">
-                AI Chat
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 w-full">
+            <div className="rounded-xl border border-white/20 bg-black/55 p-6 text-center shadow-[0_12px_40px_rgba(0,0,0,0.5)] backdrop-blur-md md:p-7">
+              <ShieldCheck className="mx-auto mb-3 h-7 w-7 text-accent [filter:drop-shadow(0_0_12px_hsl(var(--accent)/0.45))]" aria-hidden="true" />
+              <span className="block text-xl md:text-2xl font-bold text-white [text-shadow:0_1px_10px_rgba(0,0,0,0.85)]">
+                Boundaries
               </span>
-              <span className="mt-2 block text-sm md:text-base font-medium uppercase tracking-[0.1em] text-white/80 [text-shadow:0_1px_8px_rgba(0,0,0,0.9)]">
-                Reactive Q&amp;A
-              </span>
-            </div>
-            <div className="evolution-step flex items-center justify-center px-2 md:px-1">
-              <ArrowRight className="h-6 w-6 text-accent/70 rotate-90 md:rotate-0 [filter:drop-shadow(0_0_8px_hsl(var(--accent)/0.35))]" aria-hidden="true" />
-            </div>
-            <div className="evolution-step relative flex-1 rounded-xl border-2 border-accent/50 bg-black/60 p-6 text-center shadow-[0_12px_44px_rgba(0,0,0,0.55)] backdrop-blur-md md:p-7 ring-1 ring-accent/25">
-              <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 rounded px-2.5 py-1 bg-accent text-xs font-bold uppercase tracking-[0.12em] text-black shadow-md">
-                Now
-              </div>
-              <Cpu className="mx-auto mb-3 h-6 w-6 text-accent [filter:drop-shadow(0_0_12px_hsl(var(--accent)/0.45))]" aria-hidden="true" />
-              <span className="block text-lg font-bold text-white md:text-xl [text-shadow:0_1px_10px_rgba(0,0,0,0.85)]">
-                AI Assistants
-              </span>
-              <span className="mt-2 block text-sm md:text-base font-semibold uppercase tracking-[0.1em] text-accent/90 [text-shadow:0_1px_12px_rgba(0,0,0,0.85)]">
-                Context-aware help
+              <span className="mt-2 block text-base md:text-lg font-medium text-white/90 leading-snug [text-shadow:0_1px_8px_rgba(0,0,0,0.9)]">
+                Define what each agent may decide on its own.
               </span>
             </div>
-            <div className="evolution-step flex items-center justify-center px-2 md:px-1">
-              <ArrowRight className="h-6 w-6 text-accent [filter:drop-shadow(0_0_10px_hsl(var(--accent)/0.4))]" aria-hidden="true" />
-            </div>
-            <div className="evolution-step flex-1 rounded-xl border-2 border-white/35 bg-black/55 p-6 text-center shadow-[0_12px_40px_rgba(0,0,0,0.5)] backdrop-blur-md md:p-7">
-              <Rocket className="mx-auto mb-3 h-6 w-6 text-white [filter:drop-shadow(0_1px_8px_rgba(0,0,0,0.85))]" aria-hidden="true" />
-              <span className="block text-lg font-black tracking-tight text-white md:text-xl [text-shadow:0_1px_10px_rgba(0,0,0,0.85)]">
-                AI Coworkers
+            <div className="rounded-xl border border-white/20 bg-black/55 p-6 text-center shadow-[0_12px_40px_rgba(0,0,0,0.5)] backdrop-blur-md md:p-7">
+              <Workflow className="mx-auto mb-3 h-7 w-7 text-accent [filter:drop-shadow(0_0_12px_hsl(var(--accent)/0.45))]" aria-hidden="true" />
+              <span className="block text-xl md:text-2xl font-bold text-white [text-shadow:0_1px_10px_rgba(0,0,0,0.85)]">
+                Orchestration
               </span>
-              <span className="mt-2 block text-sm md:text-base font-semibold uppercase tracking-[0.1em] text-white/80 [text-shadow:0_1px_8px_rgba(0,0,0,0.9)]">
-                Autonomous {"&"} orchestrated
+              <span className="mt-2 block text-base md:text-lg font-medium text-white/90 leading-snug [text-shadow:0_1px_8px_rgba(0,0,0,0.9)]">
+                Who passes what to whom{"\u2014"}and when.
+              </span>
+            </div>
+            <div className="rounded-xl border border-white/20 bg-black/55 p-6 text-center shadow-[0_12px_40px_rgba(0,0,0,0.5)] backdrop-blur-md md:p-7">
+              <Compass className="mx-auto mb-3 h-7 w-7 text-accent [filter:drop-shadow(0_0_12px_hsl(var(--accent)/0.45))]" aria-hidden="true" />
+              <span className="block text-xl md:text-2xl font-bold text-white [text-shadow:0_1px_10px_rgba(0,0,0,0.85)]">
+                Direction
+              </span>
+              <span className="mt-2 block text-base md:text-lg font-medium text-white/90 leading-snug [text-shadow:0_1px_8px_rgba(0,0,0,0.9)]">
+                Set the goal. Then have the patience to let them learn.
               </span>
             </div>
           </div>
+          <p className="mt-6 text-center text-base md:text-lg font-mono uppercase tracking-[0.1em] text-white/85 [text-shadow:0_1px_10px_rgba(0,0,0,0.9)]">
+            Less software thinking {"\u00b7"} more design team thinking.
+          </p>
         </div>
       </PresentationSection>
 
@@ -1169,46 +1158,63 @@ export default function Home() {
         onSectionActiveChange={handleSectionActiveChange}
         videoUrl={LOCAL_VIDEOS[7]}
         fallbackImageUrl={PlaceHolderImages.find((img) => img.id === "hero-bg")?.imageUrl ?? ""}
-        contentClassName="w-full max-w-5xl mx-auto space-y-8 md:space-y-10 px-6"
+        contentClassName="w-full max-w-5xl mx-auto space-y-5 md:space-y-6 px-6 pt-6"
         overlayGradientClassName="from-black/92 via-black/52 to-black/93"
         videoLoadedOpacityClassName="opacity-[0.55]"
         midgroundOverlayClassName="bg-[radial-gradient(ellipse_100%_72%_at_50%_46%,rgba(0,0,0,0.48),transparent_74%)]"
       >
-        <div className="text-center space-y-3 md:space-y-5">
-          <p className="text-2xl font-light text-white/88 tracking-tight md:text-4xl [text-shadow:0_2px_20px_rgba(0,0,0,0.9)] [text-wrap:balance]">
-            We walked in with a question.
+        <div className="text-center space-y-2 md:space-y-3">
+          <p className="text-2xl font-light text-white/90 tracking-tight md:text-4xl [text-shadow:0_2px_20px_rgba(0,0,0,0.9)] [text-wrap:balance]">
+            We walked in with questions.
           </p>
           <h2 className="text-4xl font-black text-white tracking-tighter md:text-7xl [text-shadow:0_2px_24px_rgba(0,0,0,0.9)]">
             We walked out with{" "}
-            <span className="text-accent">proof.</span>
+            <span className="text-accent">answers.</span>
           </h2>
         </div>
 
-        <div className="mx-auto flex max-w-3xl flex-col gap-3 md:gap-4">
-          {[
-            "Agents that see what humans can\u2019t\u2014at scale.",
-            "Prototypes that already work\u2014not slide decks.",
-            "A team that now knows how to build the next one.",
-          ].map((line, i) => (
-            <p
-              key={i}
-              className="text-base font-medium leading-relaxed text-white/85 md:text-xl [text-shadow:0_1px_12px_rgba(0,0,0,0.85)] [text-wrap:balance] text-center"
-            >
-              {line}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5 w-full">
+          <div className="rounded-xl border border-white/15 bg-black/55 p-6 md:p-7 backdrop-blur-md shadow-[0_12px_40px_rgba(0,0,0,0.5)]">
+            <div className="flex items-center gap-3 mb-3">
+              <Lightbulb className="h-6 w-6 text-accent [filter:drop-shadow(0_0_10px_hsl(var(--accent)/0.45))]" aria-hidden="true" />
+              <span className="text-base md:text-lg font-mono font-bold uppercase tracking-[0.12em] text-accent [text-shadow:0_1px_10px_rgba(0,0,0,0.85)]">
+                Reflection 01
+              </span>
+            </div>
+            <p className="text-lg md:text-2xl font-medium leading-snug text-white/95 [text-wrap:balance] [text-shadow:0_1px_10px_rgba(0,0,0,0.85)]">
+              Speed is no longer the limit. Knowing what is{" "}
+              <span className="text-accent font-semibold">valuable</span> is.
             </p>
-          ))}
+          </div>
+          <div className="rounded-xl border border-white/15 bg-black/55 p-6 md:p-7 backdrop-blur-md shadow-[0_12px_40px_rgba(0,0,0,0.5)]">
+            <div className="flex items-center gap-3 mb-3">
+              <TrendingUp className="h-6 w-6 text-accent [filter:drop-shadow(0_0_10px_hsl(var(--accent)/0.45))]" aria-hidden="true" />
+              <span className="text-base md:text-lg font-mono font-bold uppercase tracking-[0.12em] text-accent [text-shadow:0_1px_10px_rgba(0,0,0,0.85)]">
+                Reflection 02
+              </span>
+            </div>
+            <p className="text-lg md:text-2xl font-medium leading-snug text-white/95 [text-wrap:balance] [text-shadow:0_1px_10px_rgba(0,0,0,0.85)]">
+              The distance between an idea and the software has{" "}
+              <span className="text-accent font-semibold">collapsed</span>.
+            </p>
+          </div>
         </div>
 
-        <p className="mx-auto max-w-2xl text-center text-lg font-light text-white/85 md:text-2xl [text-shadow:0_2px_18px_rgba(0,0,0,0.9)] [text-wrap:balance]">
-          Two days. A room. A few curious people. That{"\u2019"}s all it took.
+        <p className="mx-auto max-w-4xl text-center text-xl md:text-3xl font-semibold leading-snug text-white [text-wrap:balance] [text-shadow:0_2px_18px_rgba(0,0,0,0.9)]">
+          The winning team isn{"\u2019"}t the one that ships the most code.{" "}
+          <span className="text-accent">It{"\u2019"}s the one that learns fastest.</span>
         </p>
 
-        <footer className="mx-auto max-w-xl space-y-1 pt-4 text-center">
-          <p className="text-sm font-light text-white/65 md:text-base [text-shadow:0_1px_10px_rgba(0,0,0,0.85)]">
+        <p className="mx-auto max-w-2xl text-center text-lg font-light text-white/90 md:text-2xl [text-shadow:0_2px_18px_rgba(0,0,0,0.9)] [text-wrap:balance]">
+          Two days. One room. A few curious people. That{"\u2019"}s all it took.
+        </p>
+
+        <footer className="mx-auto max-w-2xl space-y-1.5 pt-4 text-center">
+          <p className="text-base italic font-light text-white/90 md:text-xl [text-shadow:0_1px_10px_rgba(0,0,0,0.85)] [text-wrap:balance]">
             {"\u201c"}The future is already here{"\u2014"}{" "}
             it{"\u2019"}s just not evenly distributed.{"\u201d"}
           </p>
-          <p className="text-xs font-mono uppercase tracking-[0.12em] text-white/45 md:text-sm">
+          <p className="text-sm font-mono uppercase tracking-[0.1em] text-white/75 md:text-base">
             {"\u2014"} William Gibson
           </p>
         </footer>
