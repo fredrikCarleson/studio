@@ -2,6 +2,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
+import { LanguageProvider } from '@/context/LanguageContext';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -23,7 +24,9 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className={inter.variable}>
       <body className="font-body antialiased bg-background text-foreground" suppressHydrationWarning>
-        {children}
+        <LanguageProvider>
+          {children}
+        </LanguageProvider>
       </body>
     </html>
   );
