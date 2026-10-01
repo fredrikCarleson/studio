@@ -55,24 +55,32 @@ const LOCAL_VIDEOS = [
 ] as const;
 
 /**
- * Pre-generated MP3 for bulletproof stage playback.
- * Falls back to live TTS only if this file is missing.
+ * Pre-generated MP3 for bulletproof stage playback (English & Swedish).
+ * Falls back to live TTS only if these files are missing.
  */
-const BLUEPRINT_AUDIO_URL = "/audio/blueprint-narration.mp3";
+const BLUEPRINT_AUDIO_URL_EN = "/audio/blueprint-narration.mp3";
+const BLUEPRINT_AUDIO_URL_SV = "/audio/blueprint-narration-sv.mp3";
 
 /** Simulated “agent thinks, then replies” after you release push-to-talk */
 const BLUEPRINT_NARRATION_DELAY_MS = 1600;
 
 /**
  * When each phase is discussed in the blueprint narration MP3 (seconds).
- * Adjust if audio is re-generated.
  */
-const PHASE_TIMESTAMPS: { start: number; end: number }[] = [
+const PHASE_TIMESTAMPS_EN: { start: number; end: number }[] = [
   { start: 8,  end: 19 }, // Phase 1 — Data Gathering
   { start: 19, end: 32 }, // Phase 2 — Parallel Research
   { start: 32, end: 42 }, // Phase 3 — Risk Assessment
   { start: 42, end: 57 }, // Phase 4 — Follow-up Investigation
   { start: 57, end: 69 }, // Phase 5 — Compliance Report
+];
+
+const PHASE_TIMESTAMPS_SV: { start: number; end: number }[] = [
+  { start: 8.5, end: 21.2 }, // Fas 1 — Datainsamling
+  { start: 21.2, end: 33.6 }, // Fas 2 — Parallell Research
+  { start: 33.6, end: 43.8 }, // Fas 3 — Riskbedömning
+  { start: 43.8, end: 56.6 }, // Fas 4 — Uppföljande Undersökning
+  { start: 56.6, end: 65.0 }, // Fas 5 — Revisionsrapport
 ];
 
 /**
@@ -493,13 +501,13 @@ export default function Home() {
     audio.onended = () => setIsSpeaking(false);
     audio.onerror = () => setIsSpeaking(false);
 
-    audio.src = BLUEPRINT_AUDIO_URL;
+    audio.src = language === "sv" ? BLUEPRINT_AUDIO_URL_SV : BLUEPRINT_AUDIO_URL_EN;
     try {
       await audio.play();
     } catch {
       try {
         const { generateAssistantSpeech } = await import("@/ai/flows/tts-flow");
-        const NARRATION =
+        const NARRATION_EN =
           "Hi Fredrik. Of course I can explain the diagram for you. " +
           "This is the five-phase swarm architecture we built during the hackathon. " +
           "Phase one starts with a parallel multi-modal scraper — the channel mapper and Instagram scraper agent pull social data at scale. " +
@@ -508,14 +516,25 @@ export default function Home() {
           "Phase four is where it gets interesting. A follow-up planner creates a JSON task plan, and a dynamic parallel research executor spawns Worker 1 through Worker N on demand. " +
           "And finally, phase five — the report synthesizer produces a complete Swedish compliance report with proper citations. " +
           "What used to take analysts days now happens in minutes.";
-        const response = await generateAssistantSpeech({ text: NARRATION });
+        const NARRATION_SV =
+          "Hej Fredrik. Självklart kan jag förklara diagrammet för dig. " +
+          "Det här är den femfasiga svärmarkitektur som vi byggde under hackathonet. " +
+          "Fas ett inleds med datainsamling i stor skala — kanal-analytikern och Instagram-scrapern samlar in publik social data i hög hastighet. " +
+          "Fas två grenar ut i parallell research. En värderingsagent prissätter produkter, medan agenter för affiliates, byteshandel och gåvor analyserar flödet parallellt. " +
+          "Fas tre är riskbedömningen. Den analyserar alla samlade fynd helt utan sökverktyg — ren slutledningsförmåga över vad de andra agenterna upptäckt. " +
+          "I fas fyra blir det riktigt intressant. En uppföljande planerare skapar en JSON-uppgiftsplan, och den dynamiska forskningsmotorn startar upp specialiserade agenter efter behov — Worker 1 till Worker N. " +
+          "Och slutligen, fas fem — rapportsyntetiseraren skapar en komplett svensk revisionsrapport med verifierade källhänvisningar. " +
+          "Det som tidigare tog utredare flera dagar sker nu på några få minuter.";
+        const response = await generateAssistantSpeech({
+          text: language === "sv" ? NARRATION_SV : NARRATION_EN,
+        });
         audio.src = response.mediaUrl;
         await audio.play();
       } catch {
         setIsSpeaking(false);
       }
     }
-  }, []);
+  }, [language]);
 
   const openBlueprintOverlay = useCallback(() => {
     clearNarrationDelay();
@@ -600,11 +619,13 @@ export default function Home() {
       return;
     }
 
+    const timestamps = language === "sv" ? PHASE_TIMESTAMPS_SV : PHASE_TIMESTAMPS_EN;
+
     const tick = () => {
       const tSec = audio.currentTime;
       let phase = -1;
-      for (let i = 0; i < PHASE_TIMESTAMPS.length; i++) {
-        if (tSec >= PHASE_TIMESTAMPS[i].start && tSec < PHASE_TIMESTAMPS[i].end) {
+      for (let i = 0; i < timestamps.length; i++) {
+        if (tSec >= timestamps[i].start && tSec < timestamps[i].end) {
           phase = i;
           break;
         }
@@ -620,7 +641,7 @@ export default function Home() {
         animFrameRef.current = null;
       }
     };
-  }, [isSpeaking]);
+  }, [isSpeaking, language]);
 
   // ─── Mouse-idle HUD auto-hide ──────────────────────────────────────────────
 
