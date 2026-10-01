@@ -135,29 +135,49 @@ const SessionTimer = memo(() => {
 
   const isUrgent = timeLeft < 300;
 
+  const handleReset = useCallback(() => {
+    setTimeLeft(900);
+    setIsRunning(false);
+  }, []);
+
   return (
-    <div className="flex items-center gap-5 px-5 py-3 bg-black/60 backdrop-blur-md border border-white/10 shadow-2xl">
-      <div className="flex flex-col items-end border-r border-white/10 pr-5">
+    <div className="flex items-center gap-3 md:gap-5 px-4 md:px-5 py-3 bg-black/60 backdrop-blur-md border border-white/10 shadow-2xl">
+      <div
+        className="flex flex-col items-end border-r border-white/10 pr-4 md:pr-5 cursor-pointer select-none"
+        onDoubleClick={handleReset}
+        title="Double-click to reset (15m)"
+      >
         <span className="text-[8px] font-mono uppercase tracking-[0.3em] text-white/30">
           Session Timer
         </span>
         <span
           className={cn(
-            "font-mono text-2xl font-light tracking-tighter",
+            "font-mono text-xl md:text-2xl font-light tracking-tighter",
             isUrgent ? "text-red-500 animate-pulse" : "text-white"
           )}
         >
           {formatted}
         </span>
       </div>
-      <button
-        type="button"
-        onClick={() => setIsRunning((r) => !r)}
-        className="h-9 w-9 flex items-center justify-center border border-white/10 text-white/40 hover:text-accent hover:border-accent/40 transition-colors duration-200 rounded-sm text-sm font-mono"
-        aria-label={isRunning ? "Pause timer" : "Resume timer"}
-      >
-        {isRunning ? "\u23F8" : "\u25B6"}
-      </button>
+      <div className="flex items-center gap-1.5">
+        <button
+          type="button"
+          onClick={() => setIsRunning((r) => !r)}
+          className="h-8 w-8 md:h-9 md:w-9 flex items-center justify-center border border-white/10 text-white/40 hover:text-accent hover:border-accent/40 transition-colors duration-200 rounded-sm text-sm font-mono cursor-pointer"
+          aria-label={isRunning ? "Pause timer" : "Resume timer"}
+        >
+          {isRunning ? "\u23F8" : "\u25B6"}
+        </button>
+        <button
+          type="button"
+          onClick={handleReset}
+          title="Reset timer to 15:00"
+          className="h-8 w-8 md:h-9 md:w-9 flex items-center justify-center border border-white/10 text-white/25 hover:text-white hover:border-white/30 transition-colors duration-200 rounded-sm text-xs font-mono cursor-pointer"
+          aria-label="Reset timer to 15:00"
+        >
+          {"\u21BA"}
+        </button>
+      </div>
     </div>
   );
 });
@@ -169,9 +189,10 @@ type HUDProps = {
   currentIndex: number;
   progressValue: number;
   isHidden: boolean;
+  onToggleKeyboard: () => void;
 };
 
-const PresentationHUD = memo(({ currentIndex, progressValue, isHidden }: HUDProps) => (
+const PresentationHUD = memo(({ currentIndex, progressValue, isHidden, onToggleKeyboard }: HUDProps) => (
   <div
     className={cn(
       "fixed top-0 left-0 w-full z-[80] p-8 flex justify-between items-start transition-[opacity,transform] duration-500 ease-out",
@@ -207,11 +228,16 @@ const PresentationHUD = memo(({ currentIndex, progressValue, isHidden }: HUDProp
             BETA 1.0
           </span>
         </div>
-        <div className="px-3 py-1 bg-white/5 border border-white/10">
-          <span className="text-[9px] font-mono text-white/20 uppercase tracking-widest">
+        <button
+          type="button"
+          onClick={onToggleKeyboard}
+          className="px-3 py-1 bg-white/5 border border-white/10 hover:border-accent/40 hover:bg-white/10 transition-colors cursor-pointer"
+          aria-label="Toggle keyboard shortcuts"
+        >
+          <span className="text-[9px] font-mono text-white/35 hover:text-accent uppercase tracking-widest">
             [?] Keys
           </span>
-        </div>
+        </button>
       </div>
     </div>
   </div>
@@ -348,7 +374,12 @@ export default function Home() {
     if (index < 0 || index >= CHAPTERS.length) return;
     const container = containerRef.current;
     if (container) {
-      container.scrollTo({ top: index * window.innerHeight, behavior: "smooth" });
+      const sections = container.querySelectorAll<HTMLElement>(".snap-section");
+      if (sections[index]) {
+        sections[index].scrollIntoView({ behavior: "smooth" });
+      } else {
+        container.scrollTo({ top: index * container.clientHeight, behavior: "smooth" });
+      }
     }
   }, []);
 
@@ -581,13 +612,19 @@ export default function Home() {
           break;
 
         case "Escape":
-          if (isDeepDiveActive) handleCloseDeepDive();
+          if (isDeepDiveActive) {
+            handleCloseDeepDive();
+          } else if (subStep > 0) {
+            setSubStep(0);
+          }
           if (showKeyboard) setShowKeyboard(false);
           break;
 
         case "b":
         case "B":
-          if (!isDeepDiveActive && currentIndex === 2) {
+          if (isDeepDiveActive) {
+            handleCloseDeepDive();
+          } else if (currentIndex === 2) {
             setShowKeyboard(false);
             openBlueprintOverlay();
           }
@@ -643,6 +680,7 @@ export default function Home() {
         currentIndex={currentIndex}
         progressValue={progressValue}
         isHidden={hudHidden}
+        onToggleKeyboard={() => setShowKeyboard((prev) => !prev)}
       />
 
       <NavigationTimeline
@@ -1227,21 +1265,31 @@ export default function Home() {
         and z-index stacking on all browsers.
     ?????????????????????????????????????????????????????????????????????? */}
 
-    {/* Evidence card ? centered, ~80vw when revealed on Swarm slide */}
+    {/* Evidence card — centered, ~80vw when revealed on Swarm slide */}
     <div
       className={cn(
-        "fixed inset-0 z-[90] flex items-center justify-center p-4 md:p-10 transition-opacity duration-700 ease-out",
+        "fixed inset-0 z-[90] flex items-center justify-center p-4 md:p-10 transition-opacity duration-700 ease-out bg-black/60 backdrop-blur-sm",
         showEvidence ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
       )}
+      onClick={() => setSubStep(0)}
       aria-hidden={!showEvidence}
     >
       <aside
+        onClick={(e) => e.stopPropagation()}
         className={cn(
-          "w-[80vw] max-w-7xl rounded-xl border border-white/10 bg-card/95 backdrop-blur-md p-5 md:p-8 shadow-2xl transition-[transform] duration-700 ease-out will-change-transform",
+          "relative w-[80vw] max-w-7xl rounded-xl border border-white/10 bg-card/95 backdrop-blur-md p-5 md:p-8 shadow-2xl transition-[transform] duration-700 ease-out will-change-transform",
           showEvidence ? "scale-100 translate-y-0" : "scale-[0.97] translate-y-6"
         )}
         aria-label="Case evidence card"
       >
+        <button
+          type="button"
+          onClick={() => setSubStep(0)}
+          className="absolute top-4 right-4 z-10 p-2 text-white/50 hover:text-white bg-black/40 hover:bg-black/60 border border-white/10 rounded-sm transition-colors cursor-pointer"
+          aria-label="Close evidence card (Esc)"
+        >
+          <X className="h-4 w-4" />
+        </button>
         <div className="relative w-full min-h-[min(42vh,520px)] max-h-[55vh] overflow-hidden rounded-lg bg-muted">
           <img
             src="/images/influencerJail.png"
