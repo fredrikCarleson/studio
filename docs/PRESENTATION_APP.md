@@ -19,9 +19,9 @@ The presentation recounts the story of a 48-hour hackathon at Google's Stockholm
 
 ---
 
-## 2. Narrative Structure: The 8 Chapters
+## 2. Narrative Structure: The 10 Chapters
 
-The application consists of 8 full-screen (`100vh`) slides with CSS vertical scroll snapping (`scroll-snap-type: y mandatory`):
+The application consists of 10 full-screen (`100vh`) slides with CSS vertical scroll snapping (`scroll-snap-type: y mandatory`):
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
@@ -33,6 +33,8 @@ The application consists of 8 full-screen (`100vh`) slides with CSS vertical scr
 │ Chapter 6: The Verdict       — Key Takeaways & Lessons       │
 │ Chapter 7: The Wisdom        — The Core Insight (Boundaries) │
 │ Chapter 8: The Future        — Closing Reflections & Gibson  │
+│ Chapter 9: Arbetssätt & Styrning — Flaskhalsen har flyttats  │
+│ Chapter 10: Thank You        — The Calm Horizon              │
 └──────────────────────────────────────────────────────────────┘
 ```
 
@@ -85,6 +87,20 @@ The application consists of 8 full-screen (`100vh`) slides with CSS vertical scr
    - *Headline:* "We walked in with questions. We walked out with answers."
    - Reflection: Speed is no longer the limit; knowing what is valuable is. The distance between idea and software has collapsed.
    - Closes with William Gibson's aphorism: *"The future is already here — it's just not evenly distributed."*
+
+9. **Arbetssätt & Styrning (`/videos/slide-9-the-calm.mp4`)**
+   - *Headline:* "Flaskhalsen har flyttats"
+   - *Subtitle:* Ekonomin bakom utveckling har förändrats.
+   - Interactive 5-step operational model:
+     - *1. Paradigmskiftet:* När utveckling är dyrt vs när AI gör prototyping snabb och billig.
+     - *2. De 4 Stadierna:* Labb $\rightarrow$ PoC $\rightarrow$ Pilot $\rightarrow$ Fullskala.
+     - *3. Gradvis Styrning:* Styrningen ökar i takt med risk. "Det spelar ingen roll att prototypen tar 3 timmar om tillståndet tar 4 veckor."
+     - *4. Portföljens Nya Roll:* Portföljen avgör inte vilka idéer som testas — utan vilka som ska skalas.
+     - *5. Helhetsbilden:* 4 harmoniserade pelare med direktkopplad styrning och möjliggörande plattform/infrastruktur.
+
+10. **Thank You (`/videos/slide-9-the-calm-2.mp4`)**
+    - *Headline:* "Thank you"
+    - Clean, impactful centered closing slide over tranquil calm horizon footage.
 
 ---
 

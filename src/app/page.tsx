@@ -31,6 +31,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 import { PresentationSection } from "@/components/PresentationSection";
+import { OperatingModelDiagram } from "@/components/OperatingModelDiagram";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
@@ -47,17 +48,21 @@ const CHAPTERS = [
   "The Verdict",
   "The Wisdom",
   "The Future",
+  "Arbetssätt & Styrning",
+  "Thank You",
 ] as const;
 
 const LOCAL_VIDEOS = [
-  "/videos/Sunrise_over_Stockholm_202604071643.mp4",          // 1 ? Prologue
-  "/videos/Modern_tech_office_202604071647.mp4",               // 2 ? The Vision
-  "/videos/slide-3-the-swarm.mp4",                             // 3 ? The Swarm
-  "/videos/slide-4-the-knowledge-splitv2.mp4",                  // 4 ? The Pedagogy
-  "/videos/slide-5-the-automation.mp4",                        // 5 ? The Automation
-  "/videos/slide-6-the-verdict.mp4",                           // 6 ? The Verdict
-  "/videos/slide-7-the-wisdom.mp4",                            // 7 ? The Wisdom
+  "/videos/Sunrise_over_Stockholm_202604071643.mp4",          // 1 — Prologue
+  "/videos/Modern_tech_office_202604071647.mp4",               // 2 — The Vision
+  "/videos/slide-3-the-swarm.mp4",                             // 3 — The Swarm
+  "/videos/slide-4-the-knowledge-splitv2.mp4",                  // 4 — The Pedagogy
+  "/videos/slide-5-the-automation.mp4",                        // 5 — The Automation
+  "/videos/slide-6-the-verdict.mp4",                           // 6 — The Verdict
+  "/videos/slide-7-the-wisdom.mp4",                            // 7 — The Wisdom
   "/videos/slide-8-the-future.mp4",                            // 8 - The Future
+  "/videos/slide-9-the-calm.mp4",                              // 9 - Arbetssätt & Styrning
+  "/videos/slide-9-the-calm-2.mp4",                            // 10 - Thank You
 ] as const;
 
 /**
@@ -96,9 +101,11 @@ const PHASE_REGIONS: { x: number; y: number; w: number; h: number }[] = [
  * Slides with sub-steps: pressing "next" cycles through sub-steps
  * before advancing to the next slide. value = number of extra steps.
  * Slide 3 (index 2): step 0 = slide content, step 1 = evidence card.
+ * Slide 9 (index 8): step 0 = Förr vs Nu, step 1 = 4 Stadier, step 2 = Gradvis Styrning, step 3 = Portföljens roll, step 4 = Helhetsbilden.
  */
 const SLIDE_SUB_STEPS: Record<number, number> = {
   2: 1,
+  8: 4,
 };
 
 // ??? Keyboard Reference ????????????????????????????????????????????????????????
@@ -116,7 +123,8 @@ const KEYS = [
 // ??? SessionTimer (isolated to avoid full-page re-renders on tick) ?????????????
 
 const SessionTimer = memo(() => {
-  const [timeLeft, setTimeLeft] = useState(900);
+  const [totalSeconds, setTotalSeconds] = useState(1800); // 30 min default for SoftwareOne
+  const [timeLeft, setTimeLeft] = useState(1800);
   const [isRunning, setIsRunning] = useState(true);
 
   useEffect(() => {
@@ -136,8 +144,17 @@ const SessionTimer = memo(() => {
   const isUrgent = timeLeft < 300;
 
   const handleReset = useCallback(() => {
-    setTimeLeft(900);
+    setTimeLeft(totalSeconds);
     setIsRunning(false);
+  }, [totalSeconds]);
+
+  const toggleDuration = useCallback(() => {
+    setTotalSeconds((prev) => {
+      const next = prev === 900 ? 1800 : 900;
+      setTimeLeft(next);
+      setIsRunning(false);
+      return next;
+    });
   }, []);
 
   return (
@@ -145,10 +162,10 @@ const SessionTimer = memo(() => {
       <div
         className="flex flex-col items-end border-r border-white/10 pr-4 md:pr-5 cursor-pointer select-none"
         onDoubleClick={handleReset}
-        title="Double-click to reset (15m)"
+        title="Double-click to reset"
       >
         <span className="text-[8px] font-mono uppercase tracking-[0.3em] text-white/30">
-          Session Timer
+          Session ({Math.round(totalSeconds / 60)}m)
         </span>
         <span
           className={cn(
@@ -162,6 +179,14 @@ const SessionTimer = memo(() => {
       <div className="flex items-center gap-1.5">
         <button
           type="button"
+          onClick={toggleDuration}
+          title="Toggle 15m / 30m duration"
+          className="h-8 px-2 flex items-center justify-center border border-white/10 text-white/50 hover:text-accent hover:border-accent/40 transition-colors duration-200 rounded-sm text-[10px] font-mono cursor-pointer"
+        >
+          {totalSeconds === 1800 ? "30m" : "15m"}
+        </button>
+        <button
+          type="button"
           onClick={() => setIsRunning((r) => !r)}
           className="h-8 w-8 md:h-9 md:w-9 flex items-center justify-center border border-white/10 text-white/40 hover:text-accent hover:border-accent/40 transition-colors duration-200 rounded-sm text-sm font-mono cursor-pointer"
           aria-label={isRunning ? "Pause timer" : "Resume timer"}
@@ -171,9 +196,9 @@ const SessionTimer = memo(() => {
         <button
           type="button"
           onClick={handleReset}
-          title="Reset timer to 15:00"
+          title={`Reset timer to ${Math.round(totalSeconds / 60)}:00`}
           className="h-8 w-8 md:h-9 md:w-9 flex items-center justify-center border border-white/10 text-white/25 hover:text-white hover:border-white/30 transition-colors duration-200 rounded-sm text-xs font-mono cursor-pointer"
-          aria-label="Reset timer to 15:00"
+          aria-label={`Reset timer to ${Math.round(totalSeconds / 60)}:00`}
         >
           {"\u21BA"}
         </button>
@@ -1256,6 +1281,59 @@ export default function Home() {
             {"\u2014"} William Gibson
           </p>
         </footer>
+      </PresentationSection>
+
+      {/* ????????????????????????????????????????????????????????????????????????
+          SLIDE 9 ? ARBETSSÄTT & STYRNING (THE OPERATING MODEL)
+          Interactive 4-step delivery in Swedish for SoftwareOne presentation.
+      ???????????????????????????????????????????????????????????????????????? */}
+      <PresentationSection
+        sectionIndex={8}
+        chapterName="Arbetssätt & Styrning"
+        scrollRootRef={containerRef}
+        onSectionActiveChange={handleSectionActiveChange}
+        videoUrl={LOCAL_VIDEOS[8]}
+        fallbackImageUrl={PlaceHolderImages.find((img) => img.id === "hero-bg")?.imageUrl ?? ""}
+        className="!items-start pt-12 md:pt-16"
+        contentClassName="w-full max-w-7xl mx-auto space-y-5 px-4 !justify-start"
+        overlayGradientClassName="from-black/92 via-black/55 to-black/92"
+        videoLoadedOpacityClassName="opacity-[0.55]"
+        midgroundOverlayClassName="bg-[radial-gradient(ellipse_100%_72%_at_50%_46%,rgba(0,0,0,0.5),transparent_75%)]"
+      >
+        <div className="text-center space-y-2 md:space-y-3">
+          <h2 className="text-4xl md:text-6xl font-black text-white tracking-tight [text-shadow:0_2px_24px_rgba(0,0,0,0.9)]">
+            Flaskhalsen har <span className="text-accent">flyttats</span>
+          </h2>
+          <p className="font-mono text-xs md:text-sm uppercase tracking-[0.22em] text-white/60 font-semibold">
+            Ekonomin bakom utveckling har förändrats
+          </p>
+        </div>
+
+        <OperatingModelDiagram subStep={currentIndex === 8 ? subStep : 0} />
+      </PresentationSection>
+
+      {/* ────────────────────────────────────────────────────────────────────────
+          SLIDE 10 — THANK YOU
+          Ending slide with centered headline over serene calm-2 footage.
+      ──────────────────────────────────────────────────────────────────────── */}
+      <PresentationSection
+        sectionIndex={9}
+        chapterName="Thank You"
+        scrollRootRef={containerRef}
+        onSectionActiveChange={handleSectionActiveChange}
+        videoUrl={LOCAL_VIDEOS[9]}
+        fallbackImageUrl={PlaceHolderImages.find((img) => img.id === "hero-bg")?.imageUrl ?? ""}
+        className="flex items-center justify-center"
+        contentClassName="w-full max-w-5xl mx-auto flex flex-col items-center justify-center text-center px-4"
+        overlayGradientClassName="from-black/85 via-black/35 to-black/85"
+        videoLoadedOpacityClassName="opacity-[0.70]"
+        midgroundOverlayClassName="bg-[radial-gradient(ellipse_100%_72%_at_50%_50%,rgba(0,0,0,0.4),transparent_70%)]"
+      >
+        <div className="flex flex-col items-center justify-center space-y-4">
+          <h2 className="text-7xl md:text-9xl font-black text-white tracking-tight [text-shadow:0_4px_36px_rgba(0,0,0,0.9)] animate-in fade-in zoom-in-95 duration-1000">
+            Thank you
+          </h2>
+        </div>
       </PresentationSection>
     </main>
 

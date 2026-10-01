@@ -135,7 +135,9 @@ const PresentationSectionBase: FC<PresentationSectionProps> = ({
       >
         {shouldLoadVideo && (
           <video
+            key={videoUrl}
             ref={videoRef}
+            src={videoUrl}
             loop
             muted
             playsInline
