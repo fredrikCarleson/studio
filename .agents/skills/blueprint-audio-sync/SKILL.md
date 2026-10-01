@@ -45,11 +45,11 @@ Both `<img className="... object-contain" />` and `<svg preserveAspectRatio="xMi
 
 ```typescript
 const PHASE_REGIONS: { x: number; y: number; w: number; h: number }[] = [
-  { x: 5,    y: 5,   w: 630,  h: 680 }, // Phase 1 — Data Gathering
-  { x: 445,  y: 5,   w: 975,  h: 590 }, // Phase 2 — Parallel Research
-  { x: 1345, y: 245, w: 570,  h: 390 }, // Phase 3 — Risk Assessment
-  { x: 445,  y: 590, w: 1470, h: 385 }, // Phase 4 — Follow-up Investigator
-  { x: 690,  y: 835, w: 1225, h: 240 }, // Phase 5 — Compliance Report
+  { x: 5,    y: 5,   w: 620, h: 360 }, // Phase 1 — Data Gathering
+  { x: 610,  y: 68,  w: 725, h: 385 }, // Phase 2 — Parallel Research
+  { x: 1345, y: 255, w: 570, h: 175 }, // Phase 3 — Risk Assessment
+  { x: 975,  y: 505, w: 940, h: 320 }, // Phase 4 — Follow-up Investigator
+  { x: 975,  y: 845, w: 940, h: 215 }, // Phase 5 — Compliance Report
 ];
 ```
 
