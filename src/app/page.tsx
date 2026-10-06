@@ -1264,10 +1264,6 @@ export default function Home() {
             <span className="text-accent">{t.slide8.leadQuote.highlight}</span>
           </p>
 
-          <p className="mx-auto max-w-2xl text-center text-lg font-light text-white/90 md:text-2xl [text-shadow:0_2px_18px_rgba(0,0,0,0.9)] [text-wrap:balance]">
-            {t.slide8.twoDaysNote}
-          </p>
-
           <footer className="mx-auto max-w-2xl space-y-1.5 pt-4 text-center">
             <p className="text-base italic font-light text-white/90 md:text-xl [text-shadow:0_1px_10px_rgba(0,0,0,0.85)] [text-wrap:balance]">
               {t.slide8.gibsonQuote}
@@ -1323,9 +1319,14 @@ export default function Home() {
           videoLoadedOpacityClassName="opacity-[0.70]"
           midgroundOverlayClassName="bg-[radial-gradient(ellipse_100%_72%_at_50%_50%,rgba(0,0,0,0.4),transparent_70%)]"
         >
-          <div className="flex flex-col items-center justify-center space-y-4">
-            <h2 className="text-7xl md:text-9xl font-black text-white tracking-tight [text-shadow:0_4px_36px_rgba(0,0,0,0.9)] animate-in fade-in zoom-in-95 duration-1000">
-              {t.slide10.headline}
+          <div className="flex flex-col items-center justify-center space-y-4 max-w-5xl mx-auto">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light text-white tracking-tight leading-snug md:leading-[1.25] [text-wrap:balance] [text-shadow:0_4px_32px_rgba(0,0,0,0.95)] animate-in fade-in zoom-in-95 duration-1000">
+              <span className="block text-white/95 font-light">
+                {t.slide10.prefix}
+              </span>
+              <span className="block mt-4 md:mt-6 text-accent font-semibold tracking-tight [filter:drop-shadow(0_0_24px_hsl(var(--accent)/0.35))]">
+                {t.slide10.highlight}
+              </span>
             </h2>
           </div>
         </PresentationSection>

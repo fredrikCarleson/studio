@@ -56,7 +56,7 @@ export const OperatingModelDiagram = memo(({ subStep }: OperatingModelDiagramPro
               </div>
 
               {/* Flödeskedja: Track 1 */}
-              <div className="flex flex-wrap md:flex-nowrap items-center justify-between gap-3 pt-1">
+              <div className="flex flex-wrap md:flex-nowrap items-center justify-between gap-3 pt-3.5 md:pt-4">
                 {/* 1. 20 Idéer */}
                 <div className="flex flex-col items-center text-center w-28 md:w-36 shrink-0">
                   <div className="h-16 w-16 md:h-18 md:w-18 rounded-2xl bg-amber-400/15 border border-amber-400/35 flex items-center justify-center mb-3 shadow-[0_0_20px_rgba(251,191,36,0.15)]">
@@ -108,9 +108,16 @@ export const OperatingModelDiagram = memo(({ subStep }: OperatingModelDiagramPro
 
                 <ArrowRight className="h-6 w-6 text-white/30 shrink-0 hidden md:block" />
 
-                {/* 5. Bygger länge */}
-                <div className="flex flex-col items-center text-center w-32 md:w-36 shrink-0">
-                  <div className="h-16 w-16 md:h-18 md:w-18 rounded-2xl bg-orange-500/15 border border-orange-400/35 flex items-center justify-center mb-3 shadow-[0_0_20px_rgba(251,146,60,0.15)]">
+                {/* 5. Bygger — Flaskhals */}
+                <div className="relative flex flex-col items-center text-center w-32 md:w-36 shrink-0">
+                  {/* Flaskhals-markör */}
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap z-10 pointer-events-none">
+                    <span className="px-2.5 py-0.5 rounded-full bg-orange-500/25 text-orange-200 font-mono text-[9px] md:text-[10px] font-bold uppercase tracking-wider border border-orange-400/40 shadow-[0_2px_8px_rgba(0,0,0,0.5)]">
+                      {m.step0.track1BottleneckTag}
+                    </span>
+                  </div>
+
+                  <div className="h-16 w-16 md:h-18 md:w-18 rounded-2xl bg-orange-500/15 border-2 border-orange-400/50 flex items-center justify-center mb-3 shadow-[0_0_20px_rgba(251,146,60,0.2)]">
                     <Clock className="h-8 w-8 text-orange-400" />
                   </div>
                   <span className="font-mono text-sm md:text-base font-black text-white uppercase tracking-tight">

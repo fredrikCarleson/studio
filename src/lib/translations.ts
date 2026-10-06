@@ -169,6 +169,7 @@ export interface Translations {
     step0: {
       track1Tag: string;
       track1Nodes: string[];
+      track1BottleneckTag: string;
       track2Tag: string;
       track2Nodes: { label: string; sub?: string }[];
       quote: {
@@ -229,9 +230,11 @@ export interface Translations {
     };
   };
 
-  // Slide 10 — Thank You
+  // Slide 10 — Ending
   slide10: {
     headline: string;
+    prefix: string;
+    highlight: string;
   };
 }
 
@@ -460,9 +463,10 @@ export const translations: Record<Language, Translations> = {
           "BUSINESS CASE",
           "PRIORITERING",
           "VÄLJER 2",
-          "BYGGER LÄNGE",
+          "BYGGER",
           "VERIFIERA ROI",
         ],
+        track1BottleneckTag: "FLASKHALS",
         track2Tag: "NÄR AI GÖR PROTOTYPING SNABB OCH BILLIG",
         track2Nodes: [
           { label: "20 IDÉER" },
@@ -585,7 +589,9 @@ export const translations: Record<Language, Translations> = {
       },
     },
     slide10: {
-      headline: "Tack",
+      headline: "Två dagar. Ett rum. Några nyfikna människor. Det var allt som krävdes.",
+      prefix: "Två dagar. Ett rum. Några nyfikna människor.",
+      highlight: "Det var allt som krävdes.",
     },
   },
 
@@ -813,9 +819,10 @@ export const translations: Record<Language, Translations> = {
           "BUSINESS CASE",
           "PRIORITIZATION",
           "SELECT 2",
-          "BUILD LONG",
+          "BUILD",
           "VERIFY ROI",
         ],
+        track1BottleneckTag: "BOTTLENECK",
         track2Tag: "WHEN AI MAKES PROTOTYPING FAST & CHEAP",
         track2Nodes: [
           { label: "20 IDEAS" },
@@ -938,7 +945,9 @@ export const translations: Record<Language, Translations> = {
       },
     },
     slide10: {
-      headline: "Thank you",
+      headline: "Two days. One room. A few curious people. That was all it took.",
+      prefix: "Two days. One room. A few curious people.",
+      highlight: "That was all it took.",
     },
   },
 };
